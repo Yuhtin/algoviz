@@ -86,8 +86,8 @@ export function BubbleSortVisualizer() {
             const isSorted = step.sortedIndices.includes(idx)
             const isSwapping = step.swapping && isComparing
 
-            let bgColor = colors.surfaceLight
-            let borderColor = colors.border
+            let bgColor: string = colors.surfaceLight
+            let borderColor: string = colors.border
 
             if (isSwapping) {
               bgColor = `${colors.warning}44`
