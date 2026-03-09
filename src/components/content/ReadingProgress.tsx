@@ -13,6 +13,10 @@ export function ReadingProgress({ readingTime }: ReadingProgressProps) {
   useEffect(() => {
     const handleScroll = () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      if (scrollHeight <= 0) {
+        setProgress(100)
+        return
+      }
       const scrolled = window.scrollY
       const percentage = Math.round((scrolled / scrollHeight) * 100)
       setProgress(Math.min(100, Math.max(0, percentage)))
@@ -39,6 +43,7 @@ export function ReadingProgress({ readingTime }: ReadingProgressProps) {
       <div
         className="absolute top-2 right-4 text-xs font-medium px-2 py-1 rounded"
         style={{ background: colors.surface, color: colors.textMuted }}
+        aria-label={`Tempo de leitura: ${readingTime} minutos`}
       >
         {readingTime} min
       </div>
