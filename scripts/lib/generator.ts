@@ -13,6 +13,50 @@ function escapeString(str: string): string {
     .replace(/\$/g, '\\$')
 }
 
+interface RawRubricItem {
+  point: string
+  required: boolean
+}
+
+interface RawInterviewQuestion {
+  id: string
+  question: string
+  difficulty: string
+  companies?: string[]
+  tip?: string
+  followUp?: string
+  rubric: RawRubricItem[]
+  idealAnswer: string
+}
+
+interface ProcessedRubricItem {
+  id: string
+  point: string
+  required: boolean
+}
+
+interface ProcessedInterviewQuestion {
+  id: string
+  question: string
+  difficulty: string
+  companies?: string[]
+  tip?: string
+  followUp?: string
+  rubric: ProcessedRubricItem[]
+  idealAnswer: string
+}
+
+function processInterviewQuestions(questions: RawInterviewQuestion[]): ProcessedInterviewQuestion[] {
+  return questions.map((q) => ({
+    ...q,
+    rubric: q.rubric.map((r, index) => ({
+      id: `${q.id}-rubric-${index + 1}`,
+      point: r.point,
+      required: r.required,
+    })),
+  }))
+}
+
 interface GenerateOptions {
   yaml: RawAlgorithmYaml
   pythonCode: string
@@ -93,7 +137,7 @@ export const ${varName}: AlgorithmDefinition = {
   },
 
   interview: {
-    questions: ${JSON.stringify(yaml.interview || [], null, 2)},
+    questions: ${JSON.stringify(processInterviewQuestions(yaml.interview || []), null, 2)},
   },
 }
 `
