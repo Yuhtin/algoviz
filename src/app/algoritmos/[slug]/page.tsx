@@ -1,10 +1,10 @@
 // src/app/algoritmos/[slug]/page.tsx
 import { notFound } from 'next/navigation'
 import { getAlgorithm, getAllAlgorithms } from '@/lib/algorithms'
-import { AlgorithmLayout } from '@/components/layout/AlgorithmLayout'
-import { SingleCycleVisualizer } from '@/algorithms/single-cycle/Visualizer'
-import { BubbleSortVisualizer } from '@/algorithms/bubble-sort/Visualizer'
-import { TwoSumVisualizer } from '@/algorithms/two-sum/Visualizer'
+import { BubbleSortFullPage } from '@/algorithms/bubble-sort/FullPage'
+import { BucketSortFullPage } from '@/algorithms/bucket-sort/FullPage'
+import { SingleCycleFullPage } from '@/algorithms/single-cycle/FullPage'
+import { TwoSumFullPage } from '@/algorithms/two-sum/FullPage'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -27,10 +27,11 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-const visualizers: Record<string, React.ComponentType> = {
-  'single-cycle-check': SingleCycleVisualizer,
-  'bubble-sort': BubbleSortVisualizer,
-  'two-sum': TwoSumVisualizer,
+const fullPages: Record<string, React.ComponentType> = {
+  'bubble-sort': BubbleSortFullPage,
+  'bucket-sort': BucketSortFullPage,
+  'single-cycle-check': SingleCycleFullPage,
+  'two-sum': TwoSumFullPage,
 }
 
 export default async function AlgorithmPage({ params }: PageProps) {
@@ -41,17 +42,10 @@ export default async function AlgorithmPage({ params }: PageProps) {
     notFound()
   }
 
-  const Visualizer = visualizers[slug]
+  const FullPage = fullPages[slug]
+  if (!FullPage) {
+    notFound()
+  }
 
-  return (
-    <AlgorithmLayout
-      name={algorithm.name}
-      description={algorithm.description}
-      difficulty={algorithm.difficulty}
-      complexity={algorithm.complexity}
-      tags={algorithm.tags}
-    >
-      <Visualizer />
-    </AlgorithmLayout>
-  )
+  return <FullPage />
 }

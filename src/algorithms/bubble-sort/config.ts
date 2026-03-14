@@ -4,6 +4,7 @@ import type { PresetOption } from '@/components/controls/Presets'
 export const config = {
   slug: 'bubble-sort',
   name: 'Bubble Sort',
+  category: 'Ordenacao' as const,
   description: 'Algoritmo de ordenacao que compara elementos adjacentes e troca se estiverem fora de ordem.',
   difficulty: 'Facil' as const,
   complexity: {

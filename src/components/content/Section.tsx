@@ -24,14 +24,14 @@ export function Section({ id, title, icon, variant = 'default', children }: Sect
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5 }}
-      className="py-12 px-6 rounded-lg my-8"
+      className="py-6 px-6 rounded-lg my-4"
       style={variantStyles[variant]}
     >
-      <h2 className="text-2xl font-bold mb-6 flex items-center gap-3" style={{ color: colors.text }}>
+      <h2 className="text-2xl font-bold mb-4 flex items-center gap-3" style={{ color: colors.text }}>
         {icon && <span>{icon}</span>}
         {title}
       </h2>
-      <div className="prose prose-invert max-w-none" style={{ color: colors.text, lineHeight: 1.75 }}>
+      <div className="prose prose-invert max-w-none text-base" style={{ color: colors.text, lineHeight: 1.75 }}>
         {children}
       </div>
     </motion.section>

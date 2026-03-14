@@ -9,6 +9,7 @@ export interface TwoSumInput {
 export const config = {
   slug: 'two-sum',
   name: 'Two Sum',
+  category: 'Arrays' as const,
   description: 'Encontra dois numeros no array que somam ao target usando hash map.',
   difficulty: 'Facil' as const,
   complexity: {

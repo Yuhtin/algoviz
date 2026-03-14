@@ -1,12 +1,26 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState, useRef, useCallback } from 'react'
 
 export function useScrollSpy(sectionIds: string[], options?: { updateUrl?: boolean }) {
   const [activeSection, setActiveSection] = useState(sectionIds[0] || '')
-  const router = useRouter()
-  const searchParams = useSearchParams()
+  const lastUpdateRef = useRef<string>('')
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const updateUrl = useCallback((id: string) => {
+    if (options?.updateUrl && lastUpdateRef.current !== id) {
+      // Debounce URL updates to prevent flickering
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+      timeoutRef.current = setTimeout(() => {
+        lastUpdateRef.current = id
+        const url = new URL(window.location.href)
+        url.searchParams.set('section', id)
+        window.history.replaceState(null, '', url.toString())
+      }, 150)
+    }
+  }, [options?.updateUrl])
 
   useEffect(() => {
     const observers: IntersectionObserver[] = []
@@ -20,11 +34,7 @@ export function useScrollSpy(sectionIds: string[], options?: { updateUrl?: boole
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setActiveSection(id)
-              if (options?.updateUrl) {
-                const newParams = new URLSearchParams(searchParams.toString())
-                newParams.set('section', id)
-                router.replace(`?${newParams.toString()}`, { scroll: false })
-              }
+              updateUrl(id)
             }
           })
         },
@@ -37,8 +47,11 @@ export function useScrollSpy(sectionIds: string[], options?: { updateUrl?: boole
 
     return () => {
       observers.forEach((observer) => observer.disconnect())
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
     }
-  }, [sectionIds, options?.updateUrl, router, searchParams])
+  }, [sectionIds, updateUrl])
 
   return activeSection
 }

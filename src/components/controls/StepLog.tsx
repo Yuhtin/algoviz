@@ -20,7 +20,17 @@ export function StepLog({ entries, currentStep }: StepLogProps) {
 
   useEffect(() => {
     if (currentRef.current && containerRef.current) {
-      currentRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      const container = containerRef.current
+      const element = currentRef.current
+      const containerRect = container.getBoundingClientRect()
+      const elementRect = element.getBoundingClientRect()
+
+      // Only scroll within the container, not the page
+      if (elementRect.bottom > containerRect.bottom) {
+        container.scrollTop += elementRect.bottom - containerRect.bottom + 10
+      } else if (elementRect.top < containerRect.top) {
+        container.scrollTop -= containerRect.top - elementRect.top + 10
+      }
     }
   }, [currentStep])
 

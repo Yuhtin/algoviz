@@ -25,9 +25,9 @@ export function TableOfContents({ sections, activeSection, onNavigate }: TableOf
   }
 
   return (
-    <nav className="sticky top-24 w-48 hidden lg:block">
+    <nav className="sticky top-24 w-48 hidden lg:block self-start h-fit">
       <div className="text-xs uppercase tracking-widest mb-4" style={{ color: colors.textMuted }}>
-        Nesta página
+        Nesta pagina
       </div>
       <ul className="space-y-2">
         {sections.map((section) => {

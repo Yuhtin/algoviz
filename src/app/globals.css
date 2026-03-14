@@ -1,6 +1,5 @@
 /* src/app/globals.css */
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
   --bg: #0a0a0f;
@@ -35,10 +34,12 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 }
 
 body {
@@ -68,4 +69,22 @@ body {
 @keyframes glow {
   0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
   50% { box-shadow: 0 0 40px var(--accent-glow), 0 0 60px var(--accent-glow); }
+}
+
+/* Shiki syntax highlighting */
+.shiki-line {
+  white-space: pre;
+  tab-size: 4;
+}
+
+.shiki-line span {
+  /* Inherits colors from Shiki's inline styles */
+}
+
+/* Code block styling */
+pre code {
+  font-feature-settings: 'liga' 1, 'calt' 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

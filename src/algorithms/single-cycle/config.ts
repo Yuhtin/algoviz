@@ -4,6 +4,7 @@ import type { PresetOption } from '@/components/controls/Presets'
 export const config = {
   slug: 'single-cycle-check',
   name: 'Ciclo Unico em Array',
+  category: 'Arrays' as const,
   description: 'Verifica se e possivel percorrer todos os elementos do array exatamente uma vez e retornar ao inicio.',
   difficulty: 'Media' as const,
   complexity: {

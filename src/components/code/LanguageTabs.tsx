@@ -1,13 +1,17 @@
 'use client'
 import { colors } from '@/lib/colors'
 
-type Language = 'python' | 'rust' | 'typescript'
+export type Language = 'python' | 'rust' | 'typescript'
 const languageLabels: Record<Language, string> = { python: 'Python', rust: 'Rust', typescript: 'TypeScript' }
 const languageIcons: Record<Language, string> = { python: '🐍', rust: '🦀', typescript: '📘' }
 
-interface LanguageTabsProps { languages: Language[]; active: Language; onChange: (lang: Language) => void }
+interface LanguageTabsProps<T extends Language> {
+  languages: T[]
+  active: T
+  onChange: (lang: T) => void
+}
 
-export function LanguageTabs({ languages, active, onChange }: LanguageTabsProps) {
+export function LanguageTabs<T extends Language>({ languages, active, onChange }: LanguageTabsProps<T>) {
   return (
     <div className="flex gap-1 p-1 rounded-lg" style={{ background: colors.surface }}>
       {languages.map((lang) => {
