@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AlgoViz
 
-## Getting Started
+**Visualize. Entenda. Implemente.**
 
-First, run the development server:
+[algorithms.daviduarte.com.br](https://algorithms.daviduarte.com.br)
+
+---
+
+## Por que esse projeto existe?
+
+Quando estudava para entrevistas técnicas, me frustrava ter que pular entre várias abas: uma para ver a animação do algoritmo, outra para entender a complexidade, outra para copiar o código, outra para ver que tipo de pergunta cai em entrevista.
+
+Não encontrei nenhum lugar que juntasse tudo isso de forma clara e em português. Então construí o AlgoViz.
+
+Cada algoritmo tem:
+
+- **Visualização interativa** — pause, avance passo a passo, volte, mude a velocidade
+- **Explicação técnica** — como funciona, análise de complexidade, comparação com alternativas
+- **Código pronto** — Python e Rust com syntax highlighting
+- **Perguntas de entrevista** — o que costuma cair e como responder
+
+## Rodando localmente
 
 ```bash
+# Instalar dependências
+npm install
+
+# Rodar em desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build de produção
+npm run build
+
+# Rodar testes
+npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O servidor local roda em `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS 4
+- Framer Motion (animações)
+- D3.js (visualização de grafos)
+- Vitest (testes)
 
-## Learn More
+## Algoritmos disponíveis
 
-To learn more about Next.js, take a look at the following resources:
+| Algoritmo | Categoria | Dificuldade |
+|-----------|-----------|-------------|
+| Bubble Sort | Ordenação | Fácil |
+| Bucket Sort | Ordenação | Média |
+| Two Sum | Arrays | Fácil |
+| Single Cycle Check | Grafos | Média |
+| Dijkstra | Grafos | Média |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contribuindo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Quer adicionar um algoritmo? O sistema usa YAML para definir conteúdo:
 
-## Deploy on Vercel
+```
+src/content/algorithms/{slug}/
+├── algorithm.yml   # Configuração, teoria, perguntas
+├── code.py         # Implementação Python
+└── code.rs         # Implementação Rust
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Rode `npm run generate` para gerar os tipos TypeScript a partir do YAML.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Licença
+
+MIT
