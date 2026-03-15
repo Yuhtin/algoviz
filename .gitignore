@@ -42,3 +42,7 @@ next-env.d.ts
 
 # generated
 /src/generated/
+
+# docs and plans (sensitive)
+/docs/
+AlgoViz_Plano_Estrategico.docx
