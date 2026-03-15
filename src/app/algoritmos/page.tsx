@@ -11,9 +11,9 @@ import { getAllAlgorithms, getAlgorithmsByCategory, categoryInfo, type Category 
 import { colors } from '@/lib/colors'
 
 const difficultyColors = {
-  Facil: colors.accent,
-  Media: colors.current,
-  Dificil: colors.warning,
+  'Fácil': colors.accent,
+  'Média': colors.current,
+  'Difícil': colors.warning,
 }
 
 const fadeIn = {
@@ -229,7 +229,7 @@ interface AlgorithmCardProps {
     slug: string
     name: string
     description: string
-    difficulty: 'Facil' | 'Media' | 'Dificil'
+    difficulty: 'Fácil' | 'Média' | 'Difícil'
     complexity: { time: string }
   }
 }

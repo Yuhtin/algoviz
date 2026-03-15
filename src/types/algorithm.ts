@@ -2,8 +2,8 @@
 import type { CodeFile } from './code'
 import type { InterviewData } from './interview'
 
-export type Difficulty = 'Facil' | 'Media' | 'Dificil'
-export type Category = 'Ordenacao' | 'Busca' | 'Grafos' | 'Arrays' | 'Strings' | 'Linked Lists'
+export type Difficulty = 'Fácil' | 'Média' | 'Difícil'
+export type Category = 'Ordenação' | 'Busca' | 'Grafos' | 'Arrays' | 'Strings' | 'Linked Lists' | 'Árvores' | 'Hash'
 
 export interface Complexity {
   time: string

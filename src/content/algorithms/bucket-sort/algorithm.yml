@@ -1,16 +1,16 @@
 slug: bucket-sort
 name: Bucket Sort
-category: Ordenacao
-description: Algoritmo de ordenacao distributiva que divide elementos em buckets e ordena cada bucket individualmente.
-difficulty: Media
-tags: [Sorting, Distributivo, Linear]
+category: Ordenação
+description: Algoritmo distributivo que divide elementos em buckets, ordena cada um, e concatena o resultado.
+difficulty: Média
+tags: [Ordenação, Distributivo, Linear]
 
 complexity:
   time: O(n+k)
   space: O(n+k)
 
 presets:
-  - label: Distribuido
+  - label: Distribuído
     data: [0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]
   - label: Concentrado
     data: [0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27]
@@ -21,57 +21,68 @@ presets:
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Funcao que ordena um array de numeros entre 0 e 1.
+    label: Definição
+    explanation: Ordena um array de números entre 0 e 1.
   empty-check:
     label: Caso Base
-    explanation: Verifica se o array esta vazio para evitar divisao por zero.
+    explanation: Verifica se o array está vazio para evitar divisão por zero.
   buckets-init:
-    label: Inicializacao
-    explanation: Cria n buckets vazios, onde n e o tamanho do array.
+    label: Inicialização
+    explanation: Cria n buckets vazios, onde n é o tamanho do array.
   distribution:
-    label: Distribuicao
-    explanation: Distribui cada elemento para o bucket apropriado baseado em seu valor.
+    label: Distribuição
+    explanation: Coloca cada elemento no bucket apropriado baseado no seu valor.
   bucket-sort:
-    label: Ordenacao
-    explanation: Ordena cada bucket individualmente usando o sort nativo.
+    label: Ordenação
+    explanation: Ordena cada bucket individualmente com o sort nativo.
   concatenation:
-    label: Concatenacao
-    explanation: Concatena todos os buckets para formar o resultado final.
+    label: Concatenação
+    explanation: Junta todos os buckets em ordem para formar o resultado.
 
 theory:
   howItWorks:
-    title: Como o Bucket Sort Funciona
+    title: Como Funciona
     content: |
-      Bucket Sort e um algoritmo de ordenacao distributiva que funciona dividindo o array em varios "buckets" (baldes). Cada bucket armazena uma faixa de valores, e apos distribuir todos os elementos, cada bucket e ordenado individualmente (geralmente com insertion sort). Finalmente, os buckets sao concatenados para formar o array ordenado.
-    steps:
-      - Criar n buckets vazios (onde n e o tamanho do array)
-      - Distribuir cada elemento para o bucket apropriado baseado em seu valor
-      - Ordenar cada bucket individualmente
-      - Concatenar todos os buckets em ordem para obter o resultado final
+      Bucket Sort é um algoritmo de ordenação que não compara elementos diretamente.
+      Em vez disso, distribui os elementos em "baldes" baseado nos seus valores,
+      ordena cada balde, e concatena tudo.
 
-  keyInsight: Bucket Sort e mais eficiente quando os dados estao uniformemente distribuidos no intervalo. E particularmente util para ordenar numeros de ponto flutuante entre 0 e 1.
+      A magia acontece quando os elementos estão bem distribuídos. Se cada bucket
+      tem poucos elementos, ordenar cada um é rápido. O resultado final é quase
+      linear.
+
+      O algoritmo brilha para números de ponto flutuante entre 0 e 1 com distribuição
+      uniforme. Fora desse cenário, pode degradar para O(n²) se todos os elementos
+      caírem no mesmo bucket.
+    steps:
+      - Cria n buckets vazios (n = tamanho do array)
+      - Para cada elemento, calcula o bucket de destino (valor × n)
+      - Coloca o elemento no bucket correspondente
+      - Ordena cada bucket individualmente
+      - Concatena os buckets em ordem
+
+  keyInsight: Bucket Sort é O(n) quando os dados estão uniformemente distribuídos. É perfeito para floats entre 0 e 1.
 
   commonMistakes:
-    - Assumir que sempre sera O(n) - depende da distribuicao dos dados
-    - Usar poucos buckets, causando muitos elementos por bucket
-    - Nao considerar o custo do algoritmo de ordenacao interno
-    - Aplicar em dados nao uniformemente distribuidos sem ajustar os buckets
+    - Assumir que sempre é O(n) — depende da distribuição
+    - Usar poucos buckets, sobrecarregando alguns deles
+    - Ignorar o custo do algoritmo de ordenação interno
+    - Aplicar em dados não uniformes sem ajustar os buckets
 
   bigO:
     time:
       notation: O(n + k)
-      explanation: No caso medio, quando os elementos estao uniformemente distribuidos, o tempo e linear. n e o numero de elementos e k e o numero de buckets.
-      proof: Distribuicao O(n) para colocar elementos nos buckets. Ordenacao O(n/k * log(n/k)) por bucket, totalizando O(n) quando bem distribuido. Concatenacao O(k).
+      explanation: n é o número de elementos, k é o número de buckets. Linear quando bem distribuído.
+      proof: Distribuição O(n). Ordenação de cada bucket O(n/k × log(n/k)), totalizando O(n) quando uniforme. Concatenação O(k).
     space:
       notation: O(n + k)
-      explanation: Precisamos de espaco para os n elementos distribuidos em k buckets.
+      explanation: Precisa de espaço para os n elementos distribuídos em k buckets.
     bestCase:
       notation: O(n + k)
-      explanation: Quando elementos estao uniformemente distribuidos entre os buckets.
+      explanation: Elementos uniformemente distribuídos entre os buckets.
     worstCase:
       notation: O(n²)
-      explanation: Quando todos os elementos vao para o mesmo bucket, degradando para o algoritmo de ordenacao interno.
+      explanation: Todos os elementos no mesmo bucket. Degrada para o sort interno.
 
   comparisons:
     - name: Bucket Sort
@@ -79,7 +90,7 @@ theory:
       time: O(n+k)
       space: O(n+k)
       stable: true
-      bestFor: Dados uniformemente distribuidos
+      bestFor: Floats uniformemente distribuídos
     - name: Bubble Sort
       slug: bubble-sort
       time: O(n²)
@@ -92,123 +103,115 @@ theory:
       stable: true
       bestFor: Inteiros em faixa conhecida
     - name: Radix Sort
-      time: O(d*n)
+      time: O(d×n)
       space: O(n+k)
       stable: true
-      bestFor: Inteiros com digitos fixos
+      bestFor: Inteiros com número fixo de dígitos
 
 interview:
   - id: bucket-sort-q1
-    question: Explique como o Bucket Sort funciona e quando voce o usaria.
+    question: Explique o Bucket Sort e quando você o usaria.
     difficulty: medium
     companies: [Google, Amazon, Microsoft]
     tip: Pense em como dividir o problema em partes menores.
     rubric:
-      - point: Explica que distribui elementos em buckets baseado em seu valor
+      - point: Distribui elementos em buckets baseado no valor
         required: true
-      - point: Menciona que cada bucket e ordenado individualmente
+      - point: Ordena cada bucket individualmente
         required: true
-      - point: Explica a concatenacao dos buckets para formar o resultado
+      - point: Concatena os buckets para formar o resultado
         required: true
-      - point: Menciona que funciona melhor com dados uniformemente distribuidos
+      - point: Funciona melhor com dados uniformemente distribuídos
         required: true
-      - point: Complexidade O(n+k) no caso medio
+      - point: Complexidade O(n+k) no caso médio
         required: false
     idealAnswer: |
-      O Bucket Sort e um algoritmo de ordenacao distributiva que funciona da seguinte forma:
+      Bucket Sort é um algoritmo distributivo:
 
-      1. Criar buckets: Divide o intervalo de valores em n buckets (geralmente o mesmo numero de elementos do array).
+      1. Cria buckets: divide o intervalo de valores em n buckets.
 
-      2. Distribuir elementos: Cada elemento e colocado no bucket apropriado baseado em seu valor. Para numeros entre 0 e 1, o indice do bucket e calculado como floor(valor * n).
+      2. Distribui elementos: cada elemento vai para o bucket apropriado.
+         Para floats entre 0 e 1, índice = floor(valor × n).
 
-      3. Ordenar buckets: Cada bucket e ordenado individualmente usando outro algoritmo (geralmente Insertion Sort).
+      3. Ordena buckets: cada bucket é ordenado (geralmente com Insertion Sort).
 
-      4. Concatenar: Os buckets sao concatenados em ordem para formar o array ordenado.
+      4. Concatena: junta os buckets em ordem.
 
       Quando usar:
-      - Dados uniformemente distribuidos em um intervalo conhecido
-      - Numeros de ponto flutuante entre 0 e 1
-      - Quando a distribuicao permite poucos elementos por bucket
+      - Floats entre 0 e 1
+      - Dados uniformemente distribuídos
+      - Quando a distribuição permite poucos elementos por bucket
 
-      Complexidade:
-      - Tempo: O(n + k) no caso medio (n elementos, k buckets)
-      - Espaco: O(n + k) para armazenar os buckets
+      Tempo: O(n+k) no caso médio. Espaço: O(n+k).
 
   - id: bucket-sort-q2
-    question: Por que o Bucket Sort pode ter O(n) no caso medio mas O(n²) no pior caso?
+    question: Por que Bucket Sort pode ser O(n) no médio mas O(n²) no pior caso?
     difficulty: medium
-    companies: [Facebook, Apple]
-    tip: O que acontece quando todos os elementos vao para o mesmo bucket?
-    followUp: Como voce poderia mitigar o pior caso?
+    companies: [Meta, Apple]
+    tip: O que acontece quando todos os elementos vão para o mesmo bucket?
+    followUp: Como mitigar o pior caso?
     rubric:
-      - point: Explica que o caso medio assume distribuicao uniforme
+      - point: Caso médio assume distribuição uniforme
         required: true
-      - point: Menciona que no pior caso todos os elementos vao para o mesmo bucket
+      - point: Pior caso — todos os elementos no mesmo bucket
         required: true
-      - point: Explica que a ordenacao interna do bucket domina a complexidade
+      - point: Ordenação interna domina a complexidade
         required: true
-      - point: Sugere formas de mitigar (mais buckets, algoritmo interno melhor)
+      - point: Sugere mitigações (mais buckets, sort interno O(n log n))
         required: false
     idealAnswer: |
-      Por que O(n) no caso medio:
-      - Com distribuicao uniforme, cada bucket tem aproximadamente n/k elementos
+      Por que O(n) no caso médio:
+      - Com distribuição uniforme, cada bucket tem ~n/k elementos
       - Ordenar cada bucket com Insertion Sort: O((n/k)²)
       - Com k = n buckets, cada bucket tem ~1 elemento
-      - Tempo total: O(n) para distribuir + O(k) para concatenar = O(n + k) = O(n)
+      - Tempo total: O(n) para distribuir + O(k) para concatenar = O(n)
 
       Por que O(n²) no pior caso:
-      - Se todos os elementos vao para o mesmo bucket (dados nao uniformes)
-      - Um bucket com n elementos precisa ser ordenado com Insertion Sort
+      - Todos os elementos no mesmo bucket (dados não uniformes)
+      - Um bucket com n elementos precisa ser ordenado
       - Insertion Sort no pior caso: O(n²)
-      - Exemplo: array [0.11, 0.12, 0.13, 0.14, 0.15] com 5 buckets - todos vao para bucket 0
+      - Exemplo: [0.11, 0.12, 0.13, 0.14, 0.15] com 5 buckets — todos no bucket 0
 
-      Mitigacoes:
-      1. Usar mais buckets se a distribuicao for desconhecida
-      2. Usar algoritmo O(n log n) para ordenar buckets (como Merge Sort)
-      3. Analisar a distribuicao dos dados antes de escolher o algoritmo
+      Mitigações:
+      1. Usar mais buckets se a distribuição for desconhecida
+      2. Usar algoritmo O(n log n) para ordenar buckets
+      3. Analisar a distribuição antes de escolher o algoritmo
 
   - id: bucket-sort-q3
-    question: Compare Bucket Sort com Counting Sort e Radix Sort. Quando usar cada um?
+    question: Compare Bucket Sort, Counting Sort e Radix Sort. Quando usar cada um?
     difficulty: hard
     companies: [Google, Microsoft, Uber]
-    tip: Pense no tipo de dados que cada algoritmo manipula.
+    tip: Cada um funciona melhor para um tipo específico de dado.
     rubric:
-      - point: Counting Sort - inteiros em faixa limitada
+      - point: Counting Sort — inteiros em faixa limitada
         required: true
-      - point: Radix Sort - inteiros ou strings com digitos/caracteres fixos
+      - point: Radix Sort — inteiros ou strings com dígitos/caracteres fixos
         required: true
-      - point: Bucket Sort - numeros de ponto flutuante uniformemente distribuidos
+      - point: Bucket Sort — floats uniformemente distribuídos
         required: true
       - point: Compara complexidades corretamente
         required: true
-      - point: Menciona estabilidade dos algoritmos
+      - point: Menciona estabilidade
         required: false
     idealAnswer: |
-      Comparacao:
-
-      | Aspecto | Bucket Sort | Counting Sort | Radix Sort |
-      |---------|-------------|---------------|------------|
-      | Tipo de dados | Floats uniformes | Inteiros limitados | Inteiros/strings |
-      | Complexidade tempo | O(n + k) | O(n + k) | O(d * (n + k)) |
-      | Complexidade espaco | O(n + k) | O(k) | O(n + k) |
-      | Estavel | Sim* | Sim | Sim |
-
-      Quando usar cada um:
+      Comparação:
 
       Counting Sort:
-      - Inteiros em faixa conhecida e pequena (ex: idades 0-150)
-      - k (range) nao e muito maior que n
-      - Precisa de estabilidade
-      - Melhor quando k = O(n)
+      - Tipo: inteiros em faixa conhecida e pequena
+      - Tempo: O(n + k), Espaço: O(k)
+      - Quando: idades 0-150, notas 0-100
+      - Precisa: k (range) não muito maior que n
 
       Radix Sort:
-      - Inteiros com numero fixo de digitos
-      - Strings de tamanho fixo
-      - Quando d (digitos) e pequeno e constante
-      - CPFs, telefones, datas
+      - Tipo: inteiros com número fixo de dígitos, strings de tamanho fixo
+      - Tempo: O(d × n), Espaço: O(n + k)
+      - Quando: CPFs, telefones, datas
+      - Precisa: d (dígitos) pequeno e constante
 
       Bucket Sort:
-      - Numeros de ponto flutuante entre 0 e 1
-      - Dados uniformemente distribuidos
-      - Quando a distribuicao e conhecida
-      - Pode ser adaptado para ranges arbitrarios
+      - Tipo: floats entre 0 e 1
+      - Tempo: O(n + k), Espaço: O(n + k)
+      - Quando: dados uniformemente distribuídos
+      - Pode adaptar para ranges arbitrários
+
+      Todos são estáveis quando implementados corretamente.

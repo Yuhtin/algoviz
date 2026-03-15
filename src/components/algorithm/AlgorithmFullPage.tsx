@@ -37,7 +37,7 @@ interface AlgorithmConfig {
   slug: string
   name: string
   description: string
-  difficulty: 'Facil' | 'Media' | 'Dificil'
+  difficulty: 'Fácil' | 'Média' | 'Difícil'
   complexity: { time: string; space: string }
   tags: string[]
 }
@@ -86,9 +86,9 @@ const ALL_SECTIONS: TocSection[] = [
 ]
 
 const difficultyColors = {
-  Facil: colors.accent,
-  Media: colors.current,
-  Dificil: colors.warning,
+  'Fácil': colors.accent,
+  'Média': colors.current,
+  'Difícil': colors.warning,
 }
 
 export function AlgorithmFullPage({

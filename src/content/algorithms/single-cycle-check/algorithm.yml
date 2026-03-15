@@ -1,18 +1,18 @@
 slug: single-cycle-check
-name: Ciclo Unico em Array
+name: Ciclo Único em Array
 category: Arrays
-description: Verifica se e possivel percorrer todos os elementos do array exatamente uma vez e retornar ao inicio.
-difficulty: Media
-tags: [Array, Modulo, Ciclo]
+description: Verifica se é possível visitar todos os elementos exatamente uma vez e retornar ao início.
+difficulty: Média
+tags: [Array, Módulo, Ciclo]
 
 complexity:
   time: O(n)
   space: O(1)
 
 presets:
-  - label: Ciclo Unico (True)
+  - label: Ciclo Único (True)
     data: [2, 3, 1, -4, -4, 2]
-  - label: Sem Ciclo Unico (False)
+  - label: Sem Ciclo (False)
     data: [1, 1, 1, 1, 2]
   - label: Negativos (True)
     data: [1, -1, 2, -2]
@@ -21,77 +21,81 @@ presets:
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Recebe um array de inteiros e retorna True se forma um ciclo unico.
+    label: Definição
+    explanation: Recebe um array de inteiros e retorna True se forma um ciclo único.
   init:
-    label: Inicializacao
-    explanation: Comeca no indice 0 e conta elementos visitados.
+    label: Inicialização
+    explanation: Começa no índice 0 e conta quantos elementos visitou.
   main-loop:
     label: Loop Principal
-    explanation: Executa exatamente n vezes para visitar todos os elementos.
+    explanation: Executa exatamente n vezes para garantir que visita todos os elementos.
   direction-check:
-    label: Verificacao de Direcao
-    explanation: Garante que todos os saltos sao na mesma direcao (todos positivos ou todos negativos).
+    label: Verificação de Direção
+    explanation: Todos os saltos devem ser na mesma direção (todos positivos ou todos negativos).
   next-index:
-    label: Proximo Indice
-    explanation: Calcula o proximo indice usando modulo para tratar o array como circular.
+    label: Próximo Índice
+    explanation: Calcula o próximo índice usando módulo para tratar o array como circular.
   increment:
     label: Incremento
     explanation: Conta mais um elemento visitado.
   return:
     label: Retorno
-    explanation: Retorna True se visitou todos os elementos e voltou ao indice 0.
+    explanation: Retorna True se visitou todos os elementos e terminou no índice 0.
   modulo-rust:
-    label: Modulo em Rust
-    explanation: Rust usa resto com sinal, entao precisamos de ((x % n) + n) % n para garantir positivo.
+    label: Módulo em Rust
+    explanation: Rust retorna resto com sinal. Usamos ((x % n) + n) % n para garantir positivo.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      O algoritmo de Ciclo Unico verifica se e possivel visitar todos os elementos de um array
-      exatamente uma vez, seguindo os saltos indicados por cada elemento, e retornar ao indice inicial.
+      Imagine um array onde cada elemento diz quantas posições pular. Valores positivos
+      vão para a direita, negativos para a esquerda. O array é circular — se passar do
+      final, volta ao início.
 
-      Cada elemento do array representa o numero de posicoes para saltar (positivo = direita, negativo = esquerda).
-      O array e circular, entao saltos alem do final voltam ao inicio.
+      A pergunta: começando no índice 0, consigo visitar todos os elementos exatamente
+      uma vez e voltar ao índice 0?
+
+      Parece complicado, mas a solução é direta. Siga os saltos, conte quantos elementos
+      visitou, e verifique se terminou onde começou após n saltos.
     steps:
-      - Comeca no indice 0
-      - Salta o numero de posicoes indicado pelo elemento atual
-      - Usa modulo para tratar o array como circular
-      - Marca cada posicao visitada
-      - Repete ate visitar n elementos
-      - Verifica se terminou no indice 0
-      - Retorna true se visitou todos exatamente uma vez e voltou ao inicio
+      - Começa no índice 0
+      - Salta o número de posições indicado pelo elemento atual
+      - Usa módulo para manter o índice dentro do array
+      - Conta cada posição visitada
+      - Repete até dar n saltos
+      - Verifica se terminou no índice 0
+      - Retorna true se visitou todos exatamente uma vez
 
-  keyInsight: A chave e garantir que visitamos EXATAMENTE n elementos e terminamos no indice 0.
+  keyInsight: O truque é perceber que não precisa marcar posições visitadas. Se der n saltos e voltar ao 0, visitou todos.
 
   commonMistakes:
-    - Esquecer de tratar indices negativos no calculo do modulo
-    - Nao verificar se voltou ao indice 0 no final
-    - Usar estrutura de dados extra (set) quando nao e necessario
-    - Confundir deteccao de ciclo com verificacao de ciclo unico
+    - Esquecer de tratar módulo negativo (em linguagens que retornam resto negativo)
+    - Não verificar se terminou no índice 0
+    - Usar set para marcar visitados quando não precisa
+    - Confundir detecção de ciclo com verificação de ciclo único
 
   bigO:
     time:
       notation: O(n)
-      explanation: Visita cada elemento no maximo uma vez.
-      proof: Loop executa exatamente n iteracoes, cada operacao e O(1).
+      explanation: Faz exatamente n saltos, cada um em O(1).
+      proof: n iterações × O(1) por iteração = O(n).
     space:
       notation: O(1)
-      explanation: Usa apenas variaveis auxiliares, sem estruturas adicionais.
+      explanation: Só usa variáveis auxiliares. Sem estruturas extras.
     bestCase:
       notation: O(n)
       explanation: Sempre precisa verificar todos os elementos.
     worstCase:
       notation: O(n)
-      explanation: Complexidade constante independente do input.
+      explanation: A complexidade não muda com o input.
 
   comparisons:
-    - name: Ciclo Unico
+    - name: Ciclo Único
       slug: single-cycle-check
       time: O(n)
       space: O(1)
-      bestFor: Verificar ciclo hamiltoniano em array
+      bestFor: Verificar ciclo hamiltoniano em array circular
     - name: Floyd Cycle Detection
       slug: floyd-cycle
       time: O(n)
@@ -105,82 +109,96 @@ theory:
 
 interview:
   - id: single-cycle-q1
-    question: Explique o que significa um "ciclo unico" em um array e como verificar se um array possui essa propriedade.
+    question: O que é um "ciclo único" em um array e como verificar se existe?
     difficulty: easy
-    companies: [Google, Facebook, Amazon]
-    tip: Pense no array como circular e no que significa visitar cada elemento exatamente uma vez.
+    companies: [Google, Meta, Amazon]
+    tip: Pense no array como circular. O que significa visitar cada elemento uma vez?
     rubric:
-      - point: Define ciclo unico - visitar todos os elementos exatamente uma vez e retornar ao inicio
+      - point: Define ciclo único — visitar todos exatamente uma vez e voltar ao início
         required: true
-      - point: Explica que cada elemento indica quantas posicoes saltar
+      - point: Cada elemento indica quantas posições pular
         required: true
-      - point: Menciona que o array e tratado como circular (usando modulo)
+      - point: Array é circular (usa módulo)
         required: true
-      - point: Complexidade O(n) tempo e O(1) espaco
+      - point: Complexidade O(n) tempo e O(1) espaço
         required: false
     idealAnswer: |
-      Um ciclo unico em um array significa que, comecando do indice 0 e seguindo os saltos indicados por cada elemento, conseguimos visitar todos os elementos exatamente uma vez e retornar ao indice 0.
+      Ciclo único significa que, começando do índice 0 e seguindo os saltos indicados
+      por cada elemento, visitamos todos os elementos exatamente uma vez e voltamos
+      ao índice 0.
 
-      Cada elemento do array representa o numero de posicoes para saltar: valores positivos saltam para a direita, negativos para a esquerda. O array e circular, entao saltos alem do final voltam ao inicio.
+      Cada elemento representa quantas posições pular: positivo vai para direita,
+      negativo vai para esquerda. O array é circular — módulo mantém o índice válido.
 
-      Para verificar, mantemos um contador de elementos visitados e o indice atual. A cada iteracao, saltamos para o proximo indice usando modulo. Se visitarmos n elementos e terminarmos no indice 0, temos um ciclo unico.
+      Algoritmo: conta elementos visitados e o índice atual. A cada iteração, salta
+      para o próximo índice usando módulo. Se visitar n elementos e terminar no
+      índice 0, é ciclo único.
 
-      Complexidade: O(n) tempo (visitamos cada elemento uma vez) e O(1) espaco (apenas variaveis auxiliares).
+      Tempo: O(n). Espaço: O(1).
 
   - id: single-cycle-q2
-    question: Como voce trataria indices negativos ao calcular o proximo indice em um array circular?
+    question: Como tratar índices negativos ao calcular o próximo índice circular?
     difficulty: medium
     companies: [Microsoft, Apple, Uber]
-    tip: O operador modulo em algumas linguagens retorna valores negativos para operandos negativos.
-    followUp: Como isso difere entre Python e outras linguagens como Java ou C++?
+    tip: O operador módulo se comporta diferente em linguagens diferentes.
+    followUp: Qual a diferença entre Python e C++/Java/Rust?
     rubric:
-      - point: Identifica que modulo pode retornar negativo em algumas linguagens
+      - point: Módulo pode retornar negativo em algumas linguagens
         required: true
-      - point: Apresenta a formula ((x % n) + n) % n para garantir resultado positivo
+      - point: Fórmula ((x % n) + n) % n garante resultado positivo
         required: true
-      - point: Menciona que Python ja trata isso automaticamente
+      - point: Python já trata automaticamente
         required: false
-      - point: Explica por que indices negativos ocorrem (saltos negativos grandes)
+      - point: Por que índices negativos acontecem (saltos negativos grandes)
         required: false
     idealAnswer: |
-      O operador modulo se comporta diferentemente em varias linguagens quando o operando e negativo.
+      O operador módulo se comporta diferente dependendo da linguagem.
 
-      Em linguagens como C++, Java e Rust, -7 % 5 retorna -2. Isso pode causar indices negativos invalidos.
+      Em C++, Java e Rust: -7 % 5 = -2. Isso gera índice negativo inválido.
 
-      A solucao universal e usar a formula: ((x % n) + n) % n
+      Solução universal: ((x % n) + n) % n
 
-      Por exemplo: ((-7 % 5) + 5) % 5 = (-2 + 5) % 5 = 3
+      Exemplo: ((-7 % 5) + 5) % 5 = (-2 + 5) % 5 = 3
 
-      Em Python, o modulo ja retorna valores positivos para divisores positivos, entao -7 % 5 = 3 diretamente.
+      Em Python, módulo já retorna positivo para divisor positivo: -7 % 5 = 3.
 
-      Indices negativos ocorrem quando temos saltos negativos que ultrapassam o inicio do array, como saltar -10 posicoes a partir do indice 2 em um array de tamanho 5.
+      Índices negativos acontecem com saltos negativos grandes. Por exemplo,
+      saltar -10 posições a partir do índice 2 em um array de tamanho 5.
 
   - id: single-cycle-q3
-    question: Qual a diferenca entre detectar se existe um ciclo e verificar se o ciclo e unico (hamiltoniano)?
+    question: Qual a diferença entre detectar ciclo e verificar ciclo único (hamiltoniano)?
     difficulty: hard
     companies: [Google, Amazon, Bloomberg]
-    tip: Pense em grafos - um ciclo pode existir sem passar por todos os vertices.
-    followUp: Como voce adaptaria o algoritmo de Floyd para este problema?
+    tip: Um ciclo pode existir sem passar por todos os vértices.
+    followUp: Dá para adaptar Floyd para este problema?
     rubric:
-      - point: Distingue deteccao de ciclo (existe loop) vs ciclo hamiltoniano (passa por todos)
+      - point: Detectar ciclo verifica se existe loop; ciclo único verifica se passa por todos
         required: true
-      - point: Menciona que Floyd detecta existencia mas nao garante unicidade
+      - point: Floyd detecta existência mas não garante unicidade
         required: true
-      - point: Explica que ciclo unico requer contar elementos visitados
+      - point: Ciclo único requer contar elementos visitados
         required: true
-      - point: Discute complexidade - ambos O(n) tempo, mas ciclo unico precisa verificar contagem
+      - point: Ambos O(n) tempo, mas ciclo único precisa verificar contagem
         required: false
-      - point: Menciona que problema de ciclo hamiltoniano em grafos gerais e NP-completo
+      - point: Ciclo hamiltoniano em grafos gerais é NP-completo
         required: false
     idealAnswer: |
-      Deteccao de ciclo e verificacao de ciclo unico sao problemas diferentes:
+      São problemas diferentes:
 
-      Deteccao de ciclo: Verifica se existe algum loop na estrutura. O algoritmo de Floyd (tartaruga e lebre) faz isso em O(n) tempo e O(1) espaco usando dois ponteiros em velocidades diferentes.
+      Detecção de ciclo: verifica se existe algum loop. Floyd (tartaruga e lebre)
+      faz isso em O(n) tempo e O(1) espaço com dois ponteiros em velocidades
+      diferentes.
 
-      Ciclo unico (hamiltoniano): Verifica se o ciclo passa por TODOS os elementos exatamente uma vez. Isso requer contar quantos elementos visitamos.
+      Ciclo único (hamiltoniano): verifica se o ciclo passa por TODOS os elementos
+      exatamente uma vez. Precisa contar quantos elementos visitou.
 
-      A diferenca pratica: um array como [2, 2, 2, 2] tem um ciclo (volta ao inicio), mas nao e um ciclo unico pois nao visita todos os elementos.
+      Exemplo: [2, 2, 2, 2] tem ciclo (volta ao início), mas não é ciclo único
+      porque não visita todos os elementos.
 
-      Para adaptar Floyd ao problema de ciclo unico, nao basta detectar que os ponteiros se encontram - precisamos verificar que encontraram apos visitar exatamente n elementos e que terminaram no indice 0.
+      Para adaptar Floyd: não basta detectar que os ponteiros se encontram.
+      Precisa verificar que encontraram após visitar exatamente n elementos
+      e que terminaram no índice 0.
 
-      Nota: Em grafos gerais, encontrar ciclo hamiltoniano e NP-completo. Porem, para arrays com saltos determinados (cada vertice tem exatamente uma aresta de saida), podemos resolver em O(n).
+      Nota: em grafos gerais, ciclo hamiltoniano é NP-completo. Mas em arrays
+      com saltos determinados (cada vértice tem uma aresta de saída), resolve
+      em O(n).

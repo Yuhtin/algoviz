@@ -11,9 +11,9 @@ import { getAllAlgorithms } from '@/lib/algorithms'
 import { colors } from '@/lib/colors'
 
 const difficultyColors = {
-  Facil: colors.accent,
-  Media: colors.current,
-  Dificil: colors.warning,
+  'Fácil': colors.accent,
+  'Média': colors.current,
+  'Difícil': colors.warning,
 }
 
 const fadeIn = {

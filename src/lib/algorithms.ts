@@ -1,28 +1,22 @@
 // src/lib/algorithms.ts
-import { config as singleCycleConfig } from '@/algorithms/single-cycle/config'
-import { config as bubbleSortConfig } from '@/algorithms/bubble-sort/config'
-import { config as bucketSortConfig } from '@/algorithms/bucket-sort/config'
-import { config as twoSumConfig } from '@/algorithms/two-sum/config'
+// Uses auto-generated algorithms from YAML files
+import { algorithms as generatedAlgorithms } from '@/generated/algorithms'
 
-export const categories = ['Arrays', 'Ordenacao', 'Listas', 'Grafos', 'Arvores', 'Hash', 'Strings'] as const
+export const categories = ['Arrays', 'Ordenação', 'Busca', 'Grafos', 'Árvores', 'Hash', 'Strings'] as const
 export type Category = (typeof categories)[number]
 
 export const categoryInfo: Record<Category, { name: string; icon: string; description: string }> = {
-  Arrays: { name: 'Arrays', icon: '[ ]', description: 'Manipulacao e busca em arrays' },
-  Ordenacao: { name: 'Ordenacao', icon: '↕', description: 'Algoritmos de ordenacao' },
-  Listas: { name: 'Listas', icon: '→', description: 'Listas ligadas e estruturas lineares' },
+  Arrays: { name: 'Arrays', icon: '[ ]', description: 'Manipulação e busca em arrays' },
+  Ordenação: { name: 'Ordenação', icon: '↕', description: 'Algoritmos de ordenação' },
+  Busca: { name: 'Busca', icon: '⌕', description: 'Algoritmos de busca' },
   Grafos: { name: 'Grafos', icon: '◉', description: 'Busca e caminhos em grafos' },
-  Arvores: { name: 'Arvores', icon: '△', description: 'Arvores binarias e balanceadas' },
+  Árvores: { name: 'Árvores', icon: '△', description: 'Árvores binárias e balanceadas' },
   Hash: { name: 'Hash', icon: '#', description: 'Tabelas hash e hashing' },
-  Strings: { name: 'Strings', icon: 'Aa', description: 'Manipulacao de strings' },
+  Strings: { name: 'Strings', icon: 'Aa', description: 'Manipulação de strings' },
 }
 
-export const algorithms = {
-  'single-cycle-check': singleCycleConfig,
-  'bubble-sort': bubbleSortConfig,
-  'bucket-sort': bucketSortConfig,
-  'two-sum': twoSumConfig,
-} as const
+// Re-export generated algorithms
+export const algorithms = generatedAlgorithms
 
 export type AlgorithmSlug = keyof typeof algorithms
 
@@ -38,12 +32,12 @@ export function getAlgorithmsByCategory() {
   const allAlgorithms = getAllAlgorithms()
   const grouped: Partial<Record<Category, typeof allAlgorithms>> = {}
 
-  for (const algo of allAlgorithms) {
-    const category = algo.category as Category
-    if (!grouped[category]) {
-      grouped[category] = []
+  // Sort categories by predefined order
+  for (const category of categories) {
+    const algos = allAlgorithms.filter((algo) => algo.category === category)
+    if (algos.length > 0) {
+      grouped[category] = algos
     }
-    grouped[category]!.push(algo)
   }
 
   return grouped

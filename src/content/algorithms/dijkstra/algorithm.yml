@@ -1,0 +1,243 @@
+slug: dijkstra
+name: Dijkstra
+category: Grafos
+description: Algoritmo que calcula a menor distância entre um vértice de origem e todos os outros em grafos com pesos positivos.
+difficulty: Média
+tags: [Grafo, Caminho Mínimo, Greedy, Priority Queue]
+
+complexity:
+  time: O((V + E) log V)
+  space: O(V)
+
+presets:
+  - label: Rede de Cidades
+    data:
+      nodes: ["0", "1", "2", "3", "4", "5", "6"]
+      edges:
+        - ["0", "1", 2]
+        - ["0", "2", 6]
+        - ["1", "3", 5]
+        - ["2", "3", 8]
+        - ["3", "4", 10]
+        - ["3", "5", 15]
+        - ["4", "5", 6]
+        - ["4", "6", 2]
+        - ["5", "6", 6]
+      start: "0"
+  - label: Grafo Completo K5
+    data:
+      nodes: [A, B, C, D, E]
+      edges:
+        - [A, B, 3]
+        - [A, C, 7]
+        - [A, D, 2]
+        - [A, E, 5]
+        - [B, C, 2]
+        - [B, D, 4]
+        - [B, E, 6]
+        - [C, D, 1]
+        - [C, E, 3]
+        - [D, E, 2]
+      start: A
+  - label: Labirinto
+    data:
+      nodes: [S, A, B, C, D, E, F, T]
+      edges:
+        - [S, A, 4]
+        - [S, B, 2]
+        - [A, C, 3]
+        - [A, D, 1]
+        - [B, A, 1]
+        - [B, D, 5]
+        - [C, T, 2]
+        - [D, E, 2]
+        - [D, F, 4]
+        - [E, T, 3]
+        - [F, T, 1]
+      start: S
+
+concepts:
+  import:
+    label: Imports
+    explanation: Importa heapq para a fila de prioridade e defaultdict para o grafo.
+  function-def:
+    label: Definição
+    explanation: Recebe um grafo (lista de adjacência) e o vértice de origem.
+  init-distances:
+    label: Inicialização
+    explanation: Origem recebe distância 0. Todos os outros recebem infinito.
+  priority-queue:
+    label: Fila de Prioridade
+    explanation: Min-heap que sempre retorna o vértice com menor distância conhecida.
+  extract-min:
+    label: Extrair Mínimo
+    explanation: Remove da fila o vértice mais próximo da origem.
+  relax-edge:
+    label: Relaxamento
+    explanation: Verifica se passar pelo vértice atual encurta o caminho até o vizinho.
+  update-distance:
+    label: Atualizar Distância
+    explanation: Se encontrou caminho mais curto, atualiza a distância e adiciona à fila.
+  skip-visited:
+    label: Pular Visitado
+    explanation: Vértices já processados têm distância final. Ignora duplicatas na fila.
+  main-loop:
+    label: Loop Principal
+    explanation: Processa vértices até a fila esvaziar.
+  return-result:
+    label: Retorno
+    explanation: Retorna dicionário com a menor distância para cada vértice.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      Dijkstra resolve um problema que aparece em todo lugar: qual o caminho mais curto
+      entre dois pontos? GPS, roteamento de pacotes, jogos — todos usam alguma variante dele.
+
+      A sacada é simples: se você sempre processar o vértice mais próximo da origem primeiro,
+      a distância dele nunca vai mudar. Por quê? Porque qualquer outro caminho passaria por
+      vértices mais distantes, e com pesos positivos, isso só aumentaria o custo.
+
+      É um algoritmo guloso que funciona. A escolha local (processar o mais próximo) é
+      globalmente ótima.
+    steps:
+      - Marca distância da origem como 0, todas as outras como infinito
+      - Coloca a origem na fila de prioridade
+      - Retira o vértice com menor distância da fila
+      - Para cada vizinho, calcula dist[atual] + peso da aresta
+      - Se for menor que a distância conhecida do vizinho, atualiza e adiciona à fila
+      - Repete até a fila esvaziar
+
+  keyInsight: A mágica está na fila de prioridade. Sem ela, você teria que varrer todos os vértices para achar o mínimo — O(V²) em vez de O(log V).
+
+  commonMistakes:
+    - Usar com pesos negativos (o algoritmo assume que caminhos só ficam mais longos)
+    - Implementar sem heap (funciona, mas fica lento em grafos grandes)
+    - Não tratar vértices duplicados na fila
+    - Confundir "menor distância" com "menos arestas"
+
+  bigO:
+    time:
+      notation: O((V + E) log V)
+      explanation: Cada vértice entra e sai da fila uma vez (V operações de log V). Cada aresta pode causar uma atualização na fila (E operações de log V).
+      proof: Com binary heap, inserção e extração custam O(log V). Temos no máximo V extrações e E atualizações.
+    space:
+      notation: O(V)
+      explanation: Arrays de distâncias e predecessores, mais a fila que pode ter no máximo V elementos.
+    bestCase:
+      notation: O((V + E) log V)
+      explanation: A complexidade não muda com a estrutura do grafo.
+    worstCase:
+      notation: O((V + E) log V)
+      explanation: Mesmo no pior caso, cada aresta é processada uma vez.
+
+  comparisons:
+    - name: Dijkstra
+      slug: dijkstra
+      time: O((V+E) log V)
+      space: O(V)
+      bestFor: Grafos com pesos positivos
+    - name: Bellman-Ford
+      slug: bellman-ford
+      time: O(V × E)
+      space: O(V)
+      bestFor: Grafos com pesos negativos
+    - name: Floyd-Warshall
+      slug: floyd-warshall
+      time: O(V³)
+      space: O(V²)
+      bestFor: Distância entre todos os pares
+    - name: BFS
+      slug: bfs
+      time: O(V + E)
+      space: O(V)
+      bestFor: Grafos sem peso (arestas com custo 1)
+
+interview:
+  - id: dijkstra-q1
+    question: Explique o algoritmo de Dijkstra e por que ele é considerado guloso.
+    difficulty: easy
+    companies: [Google, Amazon, Microsoft, Meta]
+    tip: Foque no critério de seleção — por que sempre escolher o vértice mais próximo funciona?
+    rubric:
+      - point: Explica que sempre processa o vértice com menor distância conhecida
+        required: true
+      - point: Menciona a inicialização (origem = 0, outros = infinito)
+        required: true
+      - point: Descreve o relaxamento das arestas
+        required: true
+      - point: Explica por que a escolha local é globalmente ótima
+        required: false
+    idealAnswer: |
+      Dijkstra encontra o caminho mais curto de um vértice para todos os outros em grafos
+      com pesos não-negativos.
+
+      É guloso porque sempre escolhe o vértice não-visitado com menor distância. Essa escolha
+      local é ótima: como não há pesos negativos, nenhum caminho futuro pode melhorar a
+      distância de um vértice já processado.
+
+      O algoritmo inicializa a origem com 0 e os demais com infinito. A cada iteração, extrai
+      o vértice com menor distância do heap e relaxa suas arestas — se dist[u] + peso < dist[v],
+      atualiza dist[v].
+
+      Complexidade: O((V+E) log V) com heap binário.
+
+  - id: dijkstra-q2
+    question: Por que Dijkstra falha com pesos negativos? O que usar em vez dele?
+    difficulty: medium
+    companies: [Google, Uber, LinkedIn]
+    tip: Construa um contraexemplo simples com 3 vértices.
+    followUp: Funcionaria se houvesse arestas negativas mas nenhum ciclo negativo?
+    rubric:
+      - point: Explica que Dijkstra assume que distâncias só crescem ao adicionar arestas
+        required: true
+      - point: Dá um exemplo concreto de falha
+        required: true
+      - point: Menciona Bellman-Ford como alternativa
+        required: true
+      - point: Discute ciclos negativos
+        required: false
+    idealAnswer: |
+      Dijkstra assume que, uma vez processado, um vértice tem distância final. Pesos negativos
+      quebram essa invariante.
+
+      Exemplo: A→B (peso 1), A→C (peso 5), C→B (peso -10). Dijkstra processa B primeiro com
+      dist=1, mas o caminho A→C→B tem custo 5-10=-5. Como B já foi marcado como visitado,
+      o algoritmo retorna a resposta errada.
+
+      Use Bellman-Ford para grafos com pesos negativos. Ele relaxa todas as arestas V-1 vezes,
+      garantindo encontrar o caminho mínimo (ou detectar ciclos negativos).
+
+      Sobre o follow-up: não. O exemplo acima não tem ciclo negativo e ainda assim Dijkstra falha.
+
+  - id: dijkstra-q3
+    question: Como implementar Dijkstra de forma eficiente? Compare estruturas de dados.
+    difficulty: hard
+    companies: [Google, Amazon, Apple, Bloomberg]
+    tip: Pense em grafos esparsos vs densos.
+    followUp: Como reconstruir o caminho, não só a distância?
+    rubric:
+      - point: Menciona min-heap / priority queue
+        required: true
+      - point: Compara complexidade com e sem heap
+        required: true
+      - point: Menciona Fibonacci heap ou outras alternativas
+        required: false
+      - point: Explica reconstrução do caminho via predecessores
+        required: false
+    idealAnswer: |
+      Três implementações principais:
+
+      1. Array simples: O(V²). Busca linear do mínimo. Competitivo em grafos muito densos
+         onde E ≈ V².
+
+      2. Binary heap: O((V+E) log V). Padrão para grafos esparsos. Fácil de implementar com
+         heapq em Python ou priority_queue em C++.
+
+      3. Fibonacci heap: O(V log V + E). Melhor complexidade teórica, mas overhead alto na
+         prática. Raramente usado fora de competições.
+
+      Para reconstruir o caminho, mantenha um array prev[v] que guarda o predecessor de v
+      no caminho mínimo. Quando relaxar a aresta (u,v), faça prev[v] = u. No final, trace
+      de v até a origem seguindo os predecessores.

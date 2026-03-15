@@ -8,7 +8,7 @@ import { colors } from '@/lib/colors'
 interface AlgorithmLayoutProps {
   name: string
   description: string
-  difficulty: 'Facil' | 'Media' | 'Dificil'
+  difficulty: 'Fácil' | 'Média' | 'Difícil'
   complexity: { time: string; space: string }
   tags: string[]
   children: React.ReactNode
@@ -17,9 +17,9 @@ interface AlgorithmLayoutProps {
 }
 
 const difficultyColors = {
-  Facil: colors.accent,
-  Media: colors.current,
-  Dificil: colors.warning,
+  'Fácil': colors.accent,
+  'Média': colors.current,
+  'Difícil': colors.warning,
 }
 
 export function AlgorithmLayout({

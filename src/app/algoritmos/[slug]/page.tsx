@@ -6,6 +6,7 @@ import { AlgorithmFullPage } from '@/components/algorithm/AlgorithmFullPage'
 // Visualizers (manual - contain animation logic)
 import { BubbleSortVisualizer } from '@/algorithms/bubble-sort/Visualizer'
 import { BucketSortVisualizer } from '@/algorithms/bucket-sort/Visualizer'
+import { DijkstraVisualizer } from '@/algorithms/dijkstra/Visualizer'
 import { SingleCycleVisualizer } from '@/algorithms/single-cycle/Visualizer'
 import { TwoSumVisualizer } from '@/algorithms/two-sum/Visualizer'
 
@@ -17,6 +18,7 @@ interface PageProps {
 const visualizers: Record<string, React.ComponentType> = {
   'bubble-sort': BubbleSortVisualizer,
   'bucket-sort': BucketSortVisualizer,
+  'dijkstra': DijkstraVisualizer,
   'single-cycle-check': SingleCycleVisualizer,
   'two-sum': TwoSumVisualizer,
 }

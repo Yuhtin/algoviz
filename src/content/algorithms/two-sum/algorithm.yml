@@ -1,8 +1,8 @@
 slug: two-sum
 name: Two Sum
 category: Arrays
-description: Encontra dois numeros no array que somam ao target usando hash map.
-difficulty: Facil
+description: Encontra dois números que somam ao valor alvo usando hash map para busca O(1).
+difficulty: Fácil
 tags: [Array, Hash Map, Complemento]
 
 complexity:
@@ -14,96 +14,100 @@ presets:
     data: { array: [2, 7, 11, 15], target: 9 }
   - label: Encontra (target=6)
     data: { array: [3, 2, 4], target: 6 }
-  - label: Nao encontra
+  - label: Não encontra
     data: { array: [1, 2, 3, 4], target: 100 }
   - label: Duplicados (target=6)
     data: { array: [3, 3], target: 6 }
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Recebe array e target, retorna indices dos dois numeros que somam ao target.
+    label: Definição
+    explanation: Recebe array e target, retorna os índices dos dois números que somam ao target.
   hash-map:
     label: Hash Map
-    explanation: Dicionario que mapeia valor -> indice para busca O(1).
+    explanation: Dicionário que mapeia valor para índice. Permite busca em O(1).
   enumerate:
     label: Enumerate
-    explanation: Itera com indice e valor simultaneamente.
+    explanation: Itera pelo array retornando índice e valor ao mesmo tempo.
   complement:
     label: Complemento
-    explanation: Calcula qual numero precisamos encontrar - target - num.
+    explanation: O número que precisamos encontrar — target menos o número atual.
   lookup:
-    label: Busca O(1)
-    explanation: Verifica se o complemento ja foi visto. Hash map permite busca em O(1).
+    label: Busca
+    explanation: Verifica se o complemento já foi visto. Hash map faz isso em O(1).
   store:
-    label: Armazena
-    explanation: Adiciona o numero atual ao hash map para futuras buscas.
+    label: Armazenar
+    explanation: Adiciona o número atual ao hash map para buscas futuras.
   not-found:
-    label: Nao Encontrado
-    explanation: Retorna None se nao existe par que soma ao target.
+    label: Não Encontrado
+    explanation: Retorna None se não existe par que soma ao target.
   import:
     label: Import
-    explanation: Importa HashMap da biblioteca padrao.
+    explanation: Importa HashMap da biblioteca padrão.
   pattern-match:
     label: Pattern Matching
-    explanation: if let Some extrai o valor se existir, elegante e seguro.
+    explanation: if let Some extrai o valor se existir. Elegante e type-safe.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      O Two Sum encontra dois numeros em um array que somam a um valor alvo (target).
-      A solucao otima usa um hash map para armazenar os numeros ja vistos e seus indices.
+      Two Sum é um clássico de entrevistas. O problema: dado um array e um valor alvo,
+      encontre dois números que somam a esse valor.
 
-      Para cada numero, calculamos o complemento (target - numero) e verificamos se ja vimos
-      esse complemento. Se sim, encontramos o par. Se nao, adicionamos o numero atual ao hash map.
+      A solução ingênua usa dois loops — O(n²). Mas com um hash map, resolvemos em O(n).
+
+      A sacada é perceber que, para cada número, sabemos exatamente qual outro número
+      precisamos: o complemento (target - número atual). Em vez de procurar esse
+      complemento com outro loop, guardamos os números já vistos em um hash map.
+      Busca em hash map é O(1).
     steps:
-      - Cria um hash map vazio para armazenar numeros e indices
-      - Para cada numero no array, calcula o complemento (target - numero)
-      - Verifica se o complemento existe no hash map
-      - Se existe, retorna os indices do par encontrado
-      - Se nao existe, adiciona o numero atual ao hash map
-      - Repete ate encontrar ou terminar o array
+      - Cria um hash map vazio
+      - Para cada número, calcula o complemento (target - número)
+      - Verifica se o complemento está no hash map
+      - Se está, encontrou o par — retorna os índices
+      - Se não está, adiciona o número atual ao hash map
+      - Continua até encontrar ou terminar o array
 
-  keyInsight: O hash map transforma uma busca O(n) em O(1), reduzindo a complexidade de O(n²) para O(n).
+  keyInsight: O hash map transforma busca O(n) em O(1). É a diferença entre O(n²) e O(n).
 
   commonMistakes:
-    - Usar o mesmo elemento duas vezes (verificar se os indices sao diferentes)
-    - Esquecer de adicionar o elemento ao hash map antes de verificar o proximo
-    - Retornar os valores em vez dos indices
-    - Nao considerar numeros negativos ou zeros
+    - Usar o mesmo elemento duas vezes (índices precisam ser diferentes)
+    - Adicionar ao hash map antes de verificar (pode causar falso positivo)
+    - Retornar valores em vez de índices
+    - Esquecer que podem existir números negativos e zeros
 
   bigO:
     time:
       notation: O(n)
-      explanation: Percorre o array uma vez, cada lookup no hash map e O(1).
-      proof: n iteracoes x O(1) por iteracao = O(n) total.
+      explanation: Uma passada pelo array. Cada lookup no hash map é O(1).
+      proof: n iterações × O(1) por iteração = O(n).
     space:
       notation: O(n)
-      explanation: Hash map pode armazenar ate n elementos no pior caso.
+      explanation: O hash map pode guardar até n elementos no pior caso.
     bestCase:
       notation: O(1)
       explanation: Se os dois primeiros elementos formam o par.
     worstCase:
       notation: O(n)
-      explanation: Se o par esta no final ou nao existe.
+      explanation: O par está no final ou não existe.
 
   comparisons:
     - name: Two Sum (Hash Map)
       slug: two-sum
       time: O(n)
       space: O(n)
-      bestFor: Array nao ordenado, busca unica
+      bestFor: Array não ordenado
     - name: Two Sum (Dois Ponteiros)
       slug: two-sum-sorted
       time: O(n)
       space: O(1)
-      bestFor: Array ja ordenado
-    - name: Two Sum (Forca Bruta)
+      bestFor: Array já ordenado
+    - name: Two Sum (Força Bruta)
       slug: two-sum-brute
       time: O(n²)
       space: O(1)
-      bestFor: Apenas para entender o problema
+      bestFor: Entender o problema
     - name: Three Sum
       slug: three-sum
       time: O(n²)
@@ -112,96 +116,98 @@ theory:
 
 interview:
   - id: two-sum-q1
-    question: Explique como resolver o Two Sum de forma otima e por que usar um hash map.
+    question: Como resolver Two Sum de forma ótima? Por que usar hash map?
     difficulty: easy
-    companies: [Google, Amazon, Facebook, Microsoft, Apple]
-    tip: Pense em como transformar uma busca linear em busca constante.
+    companies: [Google, Amazon, Meta, Microsoft, Apple]
+    tip: O hash map transforma uma busca linear em busca constante.
     rubric:
-      - point: Explica que precisamos encontrar dois numeros que somam ao target
+      - point: Encontrar dois números que somam ao target
         required: true
-      - point: Usa hash map para armazenar numeros ja vistos
+      - point: Usar hash map para armazenar números já vistos
         required: true
-      - point: Calcula o complemento (target - numero atual)
+      - point: Calcular complemento (target - número atual)
         required: true
-      - point: Complexidade O(n) tempo e O(n) espaco
+      - point: Complexidade O(n) tempo e O(n) espaço
         required: true
-      - point: Compara com solucao de forca bruta O(n²)
+      - point: Comparar com força bruta O(n²)
         required: false
     idealAnswer: |
-      O Two Sum pede para encontrar dois numeros que somam a um valor target.
+      Two Sum pede dois números que somam a um valor alvo.
 
-      A solucao de forca bruta usa dois loops aninhados O(n²), comparando cada par.
+      Força bruta: dois loops aninhados, O(n²).
 
-      A solucao otima usa um hash map:
-      1. Para cada numero, calculamos o complemento (target - numero)
-      2. Verificamos se o complemento ja esta no hash map (O(1))
-      3. Se sim, encontramos o par e retornamos os indices
-      4. Se nao, adicionamos o numero atual ao hash map
+      Solução ótima com hash map:
+      1. Para cada número, calcula o complemento (target - número)
+      2. Verifica se o complemento está no hash map — O(1)
+      3. Se sim, retorna os índices
+      4. Se não, adiciona o número atual ao hash map
 
-      O hash map transforma a busca interna de O(n) para O(1), resultando em O(n) total.
+      O hash map muda a busca interna de O(n) para O(1).
 
-      Complexidade: O(n) tempo (uma passagem pelo array) e O(n) espaco (hash map pode ter ate n elementos).
+      Tempo: O(n). Espaço: O(n) para o hash map.
 
   - id: two-sum-q2
-    question: E se o array estiver ordenado? Voce consegue resolver com O(1) espaco?
+    question: E se o array estiver ordenado? Dá para resolver com O(1) espaço?
     difficulty: medium
     companies: [Amazon, Microsoft, Bloomberg]
-    tip: Dois ponteiros podem ser uteis quando o array esta ordenado.
-    followUp: E se precisarmos retornar todos os pares, nao apenas um?
+    tip: Dois ponteiros funcionam bem em arrays ordenados.
+    followUp: E se precisar retornar todos os pares, não apenas um?
     rubric:
-      - point: Propoe tecnica de dois ponteiros (um no inicio, outro no fim)
+      - point: Técnica de dois ponteiros (início e fim)
         required: true
-      - point: Explica quando mover cada ponteiro baseado na soma
+      - point: Quando mover cada ponteiro baseado na soma
         required: true
-      - point: Identifica complexidade O(n) tempo e O(1) espaco
+      - point: Complexidade O(n) tempo e O(1) espaço
         required: true
-      - point: Menciona que array nao ordenado precisaria ordenar primeiro O(n log n)
+      - point: Array não ordenado precisaria ordenar primeiro — O(n log n)
         required: false
     idealAnswer: |
-      Se o array esta ordenado, podemos usar dois ponteiros:
+      Com array ordenado, dois ponteiros resolve em O(1) espaço:
 
-      1. Ponteiro esquerdo comeca no inicio (menor elemento)
-      2. Ponteiro direito comeca no fim (maior elemento)
-      3. Calculamos a soma dos dois elementos
-      4. Se soma == target: encontramos!
-      5. Se soma < target: movemos ponteiro esquerdo para direita (aumenta soma)
-      6. Se soma > target: movemos ponteiro direito para esquerda (diminui soma)
+      1. Ponteiro esquerdo no início (menor elemento)
+      2. Ponteiro direito no fim (maior elemento)
+      3. Calcula a soma
+      4. Se soma == target: encontrou
+      5. Se soma < target: move esquerdo para direita (aumenta soma)
+      6. Se soma > target: move direito para esquerda (diminui soma)
 
-      Complexidade: O(n) tempo e O(1) espaco!
+      Tempo: O(n). Espaço: O(1).
 
-      Se o array nao esta ordenado, podemos ordenar primeiro em O(n log n), mas ai o hash map pode ser melhor dependendo do caso de uso.
+      Se o array não está ordenado, pode ordenar primeiro em O(n log n).
+      Dependendo do caso, hash map pode ser melhor.
 
-      Para retornar todos os pares, continuamos movendo ponteiros apos encontrar cada par, cuidando para pular duplicatas.
+      Para retornar todos os pares: continue movendo ponteiros após cada match,
+      pulando duplicatas.
 
   - id: two-sum-q3
-    question: Como voce estenderia o Two Sum para Three Sum? E para k-Sum?
+    question: Como estender para Three Sum? E para k-Sum?
     difficulty: hard
-    companies: [Google, Facebook, Uber, LinkedIn]
-    tip: Three Sum pode ser reduzido a multiplos Two Sum.
+    companies: [Google, Meta, Uber, LinkedIn]
+    tip: Three Sum se reduz a múltiplos Two Sum.
     followUp: Como evitar duplicatas no resultado?
     rubric:
-      - point: Three Sum - fixa um elemento e aplica Two Sum no restante
+      - point: Three Sum — fixar um elemento e aplicar Two Sum no resto
         required: true
-      - point: Complexidade do Three Sum - O(n²)
+      - point: Complexidade do Three Sum — O(n²)
         required: true
-      - point: k-Sum generaliza - fixa k-2 elementos e aplica Two Sum
+      - point: k-Sum generaliza — fixar k-2 elementos e aplicar Two Sum
         required: true
-      - point: Para evitar duplicatas - pula elementos iguais consecutivos
+      - point: Para evitar duplicatas — pular elementos iguais consecutivos
         required: true
-      - point: Menciona que ordenar primeiro facilita remocao de duplicatas
+      - point: Ordenar primeiro facilita remover duplicatas
         required: false
     idealAnswer: |
       Three Sum (soma = 0):
-      1. Ordena o array O(n log n)
-      2. Para cada elemento A[i], aplica Two Sum no subarray A[i+1:] com target = -A[i]
+      1. Ordena o array — O(n log n)
+      2. Para cada elemento A[i], aplica Two Sum em A[i+1:] com target = -A[i]
       3. Usa dois ponteiros para o Two Sum interno
       4. Complexidade: O(n²)
 
-      Para evitar duplicatas:
+      Evitar duplicatas:
       - Pula elementos iguais: if i > 0 and A[i] == A[i-1]: continue
-      - Apos encontrar um par, move ambos ponteiros e pula duplicatas
+      - Após encontrar um par, move ambos ponteiros e pula duplicatas
 
       k-Sum generalizado:
-      - Base case: k == 2 - Two Sum com dois ponteiros
-      - Recursao: fixa um elemento, chama (k-1)-Sum no restante
+      - Caso base: k == 2 — Two Sum com dois ponteiros
+      - Recursão: fixa um elemento, chama (k-1)-Sum no resto
       - Complexidade: O(n^(k-1))

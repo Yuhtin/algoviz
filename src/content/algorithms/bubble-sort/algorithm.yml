@@ -1,9 +1,9 @@
 slug: bubble-sort
 name: Bubble Sort
-category: Ordenacao
-description: Algoritmo de ordenacao que compara elementos adjacentes e troca se estiverem fora de ordem.
-difficulty: Facil
-tags: [Sorting, Comparacao, In-place]
+category: Ordenação
+description: Algoritmo de ordenação que compara elementos vizinhos e troca quando estão fora de ordem.
+difficulty: Fácil
+tags: [Ordenação, Comparação, In-place]
 
 complexity:
   time: O(n²)
@@ -16,74 +16,80 @@ presets:
     data: [1, 2, 4, 3, 5]
   - label: Invertido
     data: [5, 4, 3, 2, 1]
-  - label: Ja ordenado
+  - label: Já ordenado
     data: [1, 2, 3, 4, 5]
 
 concepts:
   function-def:
     label: Definição
-    explanation: Recebe um array e o ordena in-place, retornando o mesmo array.
+    explanation: Recebe um array e ordena in-place, retornando o mesmo array modificado.
   outer-loop:
     label: Loop Externo
-    explanation: Executa n-1 vezes. A cada iteração, o maior elemento "flutua" para o final.
+    explanation: Roda n-1 vezes. A cada passada, o maior elemento vai para o final.
   optimization-flag:
     label: Otimização
-    explanation: Flag para early exit. Se nenhuma troca ocorrer, o array já está ordenado.
+    explanation: Flag que detecta quando nenhuma troca aconteceu — array já está ordenado.
   inner-loop:
     label: Loop Interno
-    explanation: Compara pares adjacentes. O range diminui pois os últimos elementos já estão ordenados.
+    explanation: Compara pares vizinhos. O range diminui porque os últimos elementos já estão no lugar certo.
   comparison-swap:
     label: Comparação e Troca
-    explanation: Se o elemento atual for maior que o próximo, troca. Isso "empurra" elementos maiores para o final.
+    explanation: Se o elemento atual for maior que o próximo, troca os dois.
   early-exit:
-    label: Early Exit
-    explanation: Se nenhuma troca ocorreu, o array está ordenado. Otimiza best case para O(n).
+    label: Saída Antecipada
+    explanation: Se nenhuma troca aconteceu, o array está ordenado. Transforma o melhor caso em O(n).
   generic-function:
     label: Generics
-    explanation: Função genérica que funciona com qualquer tipo que implemente Ord (comparável).
+    explanation: Função genérica que funciona com qualquer tipo comparável (Ord em Rust).
   swap-method:
     label: Método swap
-    explanation: Rust tem swap built-in em slices. Mais seguro que manipular índices manualmente.
+    explanation: Rust tem swap nativo em slices. Mais seguro que manipular índices manualmente.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      O Bubble Sort é um algoritmo de ordenação simples que percorre repetidamente a lista,
-      compara elementos adjacentes e os troca se estiverem na ordem errada.
+      O Bubble Sort é provavelmente o primeiro algoritmo de ordenação que você aprende.
+      A ideia é simples: percorra o array comparando vizinhos, e se estiverem fora de
+      ordem, troque.
 
-      O processo é repetido até que a lista esteja ordenada. O nome "bubble" (bolha) vem do
-      fato de que os elementos maiores "flutuam" para o final da lista a cada iteração.
+      O nome vem do comportamento dos elementos maiores, que "borbulham" para o final
+      a cada passada. Depois de uma passada completa, o maior elemento está na última
+      posição. Depois de duas, os dois maiores estão no lugar. E assim por diante.
+
+      Na prática, ninguém usa Bubble Sort em produção. Merge Sort e Quick Sort são
+      ordens de magnitude mais rápidos. Mas entender Bubble Sort ajuda a construir
+      intuição sobre ordenação e complexidade.
     steps:
-      - Começamos do primeiro elemento do array
-      - Comparamos o elemento atual com o próximo
-      - Se o atual for maior, trocamos os dois
-      - Movemos para o próximo par de elementos
-      - Repetimos até o final do array
-      - A cada passagem, o maior elemento "flutua" para o final
-      - Repetimos o processo n-1 vezes
+      - Começa no primeiro elemento
+      - Compara com o vizinho da direita
+      - Se estiver fora de ordem, troca
+      - Avança para o próximo par
+      - Repete até o final do array
+      - O maior elemento agora está na última posição
+      - Repete o processo, ignorando os elementos já ordenados
 
-  keyInsight: O Bubble Sort é didático, mas ineficiente. Na prática, use Merge Sort ou Quick Sort.
+  keyInsight: O Bubble Sort é didático, mas lento. Use Merge Sort ou Quick Sort para qualquer coisa séria.
 
   commonMistakes:
-    - Esquecer de reduzir o range interno a cada iteração (elementos já estão no lugar)
-    - Não implementar a otimização de early exit quando nenhuma troca é feita
-    - Confundir índices ao fazer a troca
+    - Não reduzir o range do loop interno (os últimos elementos já estão ordenados)
+    - Esquecer a otimização de early exit quando não há trocas
+    - Confundir índices na hora da troca
 
   bigO:
     time:
       notation: O(n²)
-      explanation: Dois loops aninhados - o externo roda n-1 vezes, o interno roda em média n/2 vezes.
-      proof: "Total de comparações: (n-1) + (n-2) + ... + 1 = n(n-1)/2 = O(n²)"
+      explanation: Dois loops aninhados. O externo roda n-1 vezes, o interno roda em média n/2.
+      proof: "Comparações: (n-1) + (n-2) + ... + 1 = n(n-1)/2 = O(n²)"
     space:
       notation: O(1)
-      explanation: Ordenação in-place. Usa apenas variáveis auxiliares para troca.
+      explanation: Ordena in-place. Só usa variáveis auxiliares para a troca.
     bestCase:
       notation: O(n)
-      explanation: Quando o array já está ordenado e usamos a otimização de flag.
+      explanation: Array já ordenado + flag de otimização = uma passada sem trocas.
     worstCase:
       notation: O(n²)
-      explanation: Quando o array está em ordem reversa.
+      explanation: Array em ordem reversa. Cada elemento precisa percorrer todo o array.
 
   comparisons:
     - name: Bubble Sort
@@ -91,43 +97,46 @@ theory:
       time: O(n²)
       space: O(1)
       stable: true
-      bestFor: Arrays pequenos, quase ordenados
+      bestFor: Arrays pequenos, fins didáticos
     - name: Merge Sort
       slug: merge-sort
       time: O(n log n)
       space: O(n)
       stable: true
-      bestFor: Grandes datasets, estabilidade necessária
+      bestFor: Grandes datasets, quando estabilidade importa
     - name: Quick Sort
       slug: quick-sort
       time: O(n log n)
       space: O(log n)
       stable: false
-      bestFor: Uso geral, performance média
+      bestFor: Uso geral, boa performance média
     - name: Insertion Sort
       slug: insertion-sort
       time: O(n²)
       space: O(1)
       stable: true
-      bestFor: Arrays pequenos, streaming de dados
+      bestFor: Arrays pequenos, dados chegando em streaming
 
 interview:
   - id: bubble-sort-q1
-    question: Explique como funciona o Bubble Sort e qual sua complexidade de tempo e espaco.
+    question: Explique o Bubble Sort e sua complexidade de tempo e espaço.
     difficulty: easy
     companies: [Google, Amazon, Microsoft]
-    tip: Pense em como os elementos "borbulham" para suas posicoes corretas.
+    tip: Descreva o comportamento de "borbulhar" dos elementos maiores.
     rubric:
-      - point: Explica que compara elementos adjacentes e troca se estiverem fora de ordem
+      - point: Compara elementos vizinhos e troca se estiverem fora de ordem
         required: true
-      - point: Menciona que repete o processo ate que nenhuma troca seja necessaria
+      - point: Repete até não precisar de mais trocas
         required: true
-      - point: "Complexidade de tempo: O(n^2) no pior e medio caso, O(n) no melhor caso"
+      - point: Tempo O(n²) no pior/médio caso, O(n) no melhor com otimização
         required: true
-      - point: "Complexidade de espaco: O(1) - algoritmo in-place"
+      - point: Espaço O(1) — algoritmo in-place
         required: true
     idealAnswer: |
-      O Bubble Sort funciona comparando pares de elementos adjacentes e trocando-os se estiverem na ordem errada.
-      O processo e repetido do inicio ao fim do array multiplas vezes ate que nenhuma troca seja necessaria.
-      Complexidade de tempo: O(n^2) no pior e medio caso, O(n) no melhor caso com otimizacao.
-      Complexidade de espaco: O(1) - algoritmo in-place.
+      O Bubble Sort compara pares de elementos vizinhos e troca quando estão fora de ordem.
+      Cada passada "empurra" o maior elemento para o final, como uma bolha subindo.
+
+      Repete o processo até uma passada completa sem trocas.
+
+      Tempo: O(n²) no pior e médio caso. Com a flag de otimização, O(n) quando já ordenado.
+      Espaço: O(1) — ordena in-place, só usa variáveis para a troca.
