@@ -56,18 +56,42 @@ O servidor local roda em `http://localhost:3000`.
 | Single Cycle Check | Grafos | Média |
 | Dijkstra | Grafos | Média |
 
+## Arquitetura: YAML como fonte de verdade
+
+Um dos problemas de projetos assim é o boilerplate. Cada algoritmo novo significa criar vários arquivos, copiar estruturas, manter tudo sincronizado. Fica tedioso rápido.
+
+A solução foi inverter a lógica: em vez de escrever código que define conteúdo, escrevo conteúdo que gera código.
+
+Cada algoritmo vive em uma pasta com três arquivos:
+
+```
+src/content/algorithms/dijkstra/
+├── algorithm.yml   # Tudo: metadata, teoria, complexidade, perguntas de entrevista
+├── code.py         # Implementação Python com marcadores
+└── code.rs         # Implementação Rust com marcadores
+```
+
+O `algorithm.yml` define tudo que aparece na página: nome, descrição, dificuldade, tags, explicação passo a passo, análise Big-O, comparações com outros algoritmos, e até perguntas de entrevista com rubrica de avaliação.
+
+Os arquivos de código usam marcadores especiais (`# #@conceito`) que conectam linhas específicas com explicações no YAML. Quando você passa o mouse em "loop principal" na explicação, o código destaca as linhas relevantes.
+
+No build, um script lê todos os YAMLs e gera TypeScript tipado:
+
+```bash
+npm run generate
+```
+
+O resultado é que adicionar um algoritmo novo é questão de escrever três arquivos de conteúdo. Sem boilerplate, sem copiar componentes, sem manter estruturas duplicadas. O sistema cuida do resto.
+
 ## Contribuindo
 
-Quer adicionar um algoritmo? O sistema usa YAML para definir conteúdo:
+Quer adicionar um algoritmo?
 
-```
-src/content/algorithms/{slug}/
-├── algorithm.yml   # Configuração, teoria, perguntas
-├── code.py         # Implementação Python
-└── code.rs         # Implementação Rust
-```
-
-Rode `npm run generate` para gerar os tipos TypeScript a partir do YAML.
+1. Crie a pasta em `src/content/algorithms/{slug}/`
+2. Escreva o `algorithm.yml` seguindo o schema dos existentes
+3. Adicione `code.py` e `code.rs` com os marcadores `#@`
+4. Crie o engine e visualizer em `src/algorithms/{slug}/`
+5. Rode `npm run generate` e teste
 
 ## Licença
 
