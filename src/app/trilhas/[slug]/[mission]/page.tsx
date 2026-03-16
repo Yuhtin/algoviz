@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation'
 import { getMission, getTrailBySlug, getNextMission } from '@/lib/trails'
 import { useTrailProgress } from '@/hooks/useTrailProgress'
 import { LessonMission } from '@/components/missions/LessonMission'
+import { QuizMission } from '@/components/missions/QuizMission'
 import { colors } from '@/lib/colors'
 
 interface Props {
@@ -17,7 +18,7 @@ export default function MissionPage({ params }: Props) {
   const { slug, mission: missionSlug } = use(params)
   const trail = getTrailBySlug(slug)
   const mission = getMission(slug, missionSlug)
-  const { missionStatuses, completeMission } = useTrailProgress(slug)
+  const { missionStatuses, completeMission, saveQuizResult } = useTrailProgress(slug)
 
   if (!trail || !mission) {
     notFound()
@@ -70,6 +71,16 @@ export default function MissionPage({ params }: Props) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           {mission.type === 'lesson' && (
             <LessonMission mission={mission} isCompleted={isCompleted} onComplete={handleComplete} />
+          )}
+          {mission.type === 'quiz' && (
+            <QuizMission
+              mission={mission}
+              isCompleted={isCompleted}
+              onComplete={(result) => {
+                saveQuizResult(missionSlug, result)
+                completeMission(missionSlug, result.xpEarned)
+              }}
+            />
           )}
         </motion.div>
 
