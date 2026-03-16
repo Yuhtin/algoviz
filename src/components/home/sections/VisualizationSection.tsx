@@ -19,7 +19,7 @@ export function VisualizationSection() {
         className="text-lg md:text-xl max-w-xl mx-auto"
         style={{ color: colors.textMuted }}
       >
-        Algoritmos ganham vida. Acompanhe a execução em tempo real.
+        Acompanhe cada troca, cada comparacao. Sem cortes, sem pulos.
       </p>
     </HomeSection>
   )

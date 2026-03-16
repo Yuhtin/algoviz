@@ -39,7 +39,7 @@ export function TrailsSection() {
               className="relative pl-12"
             >
               <div
-                className="absolute left-0 w-8 h-8 rounded-full flex items-center justify-center"
+                className="absolute left-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
                 style={{
                   backgroundColor:
                     index === 0
@@ -47,9 +47,10 @@ export function TrailsSection() {
                       : index === 1
                         ? colors.visited
                         : colors.warning,
+                  color: colors.bg,
                 }}
               >
-                <span className="text-sm">{trail.icon}</span>
+                {index + 1}
               </div>
 
               <Link href={`/trilhas/${trail.slug}`}>

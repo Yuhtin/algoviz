@@ -1,8 +1,8 @@
 # src/content/trails/javascript-web/trail.yml
 slug: javascript-web
 name: JavaScript Web
-description: Do zero ao deploy - aprenda programação web com JavaScript
-icon: "🚀"
+description: Do zero ao deploy - aprenda programacao web com JavaScript
+icon: "JS"
 difficulty: Iniciante
 tags:
   - javascript

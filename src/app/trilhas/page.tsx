@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { getAllTrails } from '@/lib/trails'
 import { useProgressStore } from '@/stores/progress-store'
+import { Navbar } from '@/components/layout/Navbar'
 import { colors } from '@/lib/colors'
 
 export default function TrailsPage() {
@@ -12,9 +13,10 @@ export default function TrailsPage() {
 
   return (
     <div
-      className="min-h-screen py-20 px-4"
+      className="min-h-screen pt-24 pb-20 px-4"
       style={{ backgroundColor: colors.bg }}
     >
+      <Navbar />
       <div className="max-w-4xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
@@ -32,7 +34,7 @@ export default function TrailsPage() {
           className="text-lg mb-12"
           style={{ color: colors.textMuted }}
         >
-          Escolha sua jornada e comece a aprender
+          Escolha por onde comecar
         </motion.p>
 
         <div className="space-y-6">
@@ -58,7 +60,12 @@ export default function TrailsPage() {
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4">
-                        <span className="text-4xl">{trail.icon}</span>
+                        <div
+                          className="w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold"
+                          style={{ backgroundColor: `${colors.accent}20`, color: colors.accent }}
+                        >
+                          {trail.name.charAt(0)}
+                        </div>
                         <div>
                           <h2
                             className="text-xl font-bold"

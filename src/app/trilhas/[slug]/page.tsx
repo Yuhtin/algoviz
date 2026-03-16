@@ -4,6 +4,7 @@ import { use } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useTrailProgress } from '@/hooks/useTrailProgress'
+import { Navbar } from '@/components/layout/Navbar'
 import { colors } from '@/lib/colors'
 import { notFound } from 'next/navigation'
 
@@ -11,11 +12,11 @@ interface Props {
   params: Promise<{ slug: string }>
 }
 
-const missionTypeIcons: Record<string, string> = {
-  lesson: '📖',
-  algorithm: '⚡',
-  external: '🔗',
-  quiz: '❓',
+const missionTypeLabels: Record<string, string> = {
+  lesson: 'Aula',
+  algorithm: 'Algoritmo',
+  external: 'Externo',
+  quiz: 'Quiz',
 }
 
 export default function TrailPage({ params }: Props) {
@@ -40,9 +41,10 @@ export default function TrailPage({ params }: Props) {
 
   return (
     <div
-      className="min-h-screen py-20 px-4"
+      className="min-h-screen pt-24 pb-20 px-4"
       style={{ backgroundColor: colors.bg }}
     >
+      <Navbar />
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <motion.div
@@ -59,7 +61,12 @@ export default function TrailPage({ params }: Props) {
           </Link>
 
           <div className="flex items-center gap-4 mb-4">
-            <span className="text-5xl">{trail.icon}</span>
+            <div
+              className="w-16 h-16 rounded-xl flex items-center justify-center text-2xl font-bold"
+              style={{ backgroundColor: `${colors.accent}20`, color: colors.accent }}
+            >
+              {trail.name.charAt(0)}
+            </div>
             <div>
               <h1
                 className="text-3xl font-bold"
@@ -115,7 +122,7 @@ export default function TrailPage({ params }: Props) {
               >
                 {/* Node */}
                 <div
-                  className="absolute left-0 w-10 h-10 rounded-full flex items-center justify-center border-2"
+                  className="absolute left-0 w-10 h-10 rounded-full flex items-center justify-center border-2 text-xs font-bold"
                   style={{
                     backgroundColor: isCompleted
                       ? colors.accent
@@ -127,14 +134,21 @@ export default function TrailPage({ params }: Props) {
                       : isUnlocked
                         ? colors.accent
                         : colors.border,
+                    color: isCompleted
+                      ? colors.bg
+                      : isUnlocked
+                        ? colors.accent
+                        : colors.border,
                   }}
                 >
                   {isCompleted ? (
-                    <span className="text-white">✓</span>
+                    <span>OK</span>
                   ) : isUnlocked ? (
-                    <span>{missionTypeIcons[mission.type]}</span>
+                    <span>{index + 1}</span>
                   ) : (
-                    <span style={{ color: colors.border }}>🔒</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C9.24 2 7 4.24 7 7v3H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2h-1V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v3H9V7c0-1.66 1.34-3 3-3z"/>
+                    </svg>
                   )}
                 </div>
 

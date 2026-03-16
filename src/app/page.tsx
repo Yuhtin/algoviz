@@ -4,6 +4,9 @@ import dynamic from 'next/dynamic'
 import { ScrollProgressProvider } from '@/components/home/ScrollProgress'
 import { HeroSection } from '@/components/home/sections/HeroSection'
 import { VisualizationSection } from '@/components/home/sections/VisualizationSection'
+import { FeaturesSection } from '@/components/home/sections/FeaturesSection'
+import { HowItWorksSection } from '@/components/home/sections/HowItWorksSection'
+import { AlgorithmsPreviewSection } from '@/components/home/sections/AlgorithmsPreviewSection'
 import { TrailsSection } from '@/components/home/sections/TrailsSection'
 import { CTASection } from '@/components/home/sections/CTASection'
 import { Navbar } from '@/components/layout/Navbar'
@@ -25,7 +28,7 @@ const SortingBars = dynamic(
 
 export default function Home() {
   return (
-    <ScrollProgressProvider totalScenes={4}>
+    <ScrollProgressProvider totalScenes={7}>
       <div style={{ backgroundColor: colors.bg }}>
         <Navbar />
 
@@ -39,6 +42,9 @@ export default function Home() {
         <main className="relative z-10">
           <HeroSection />
           <VisualizationSection />
+          <FeaturesSection />
+          <HowItWorksSection />
+          <AlgorithmsPreviewSection />
           <TrailsSection />
           <CTASection />
         </main>

@@ -26,7 +26,7 @@ export function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 0.5 }}
       >
-        Visualize cada passo. Aprenda fazendo.
+        Pare de decorar. Comece a ver o que acontece.
       </motion.p>
 
       <motion.div

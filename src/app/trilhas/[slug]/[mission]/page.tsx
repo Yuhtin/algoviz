@@ -10,6 +10,7 @@ import { LessonMission } from '@/components/missions/LessonMission'
 import { QuizMission } from '@/components/missions/QuizMission'
 import { ExternalMission } from '@/components/missions/ExternalMission'
 import { AlgorithmMission } from '@/components/missions/AlgorithmMission'
+import { Navbar } from '@/components/layout/Navbar'
 import { colors } from '@/lib/colors'
 
 interface Props {
@@ -34,16 +35,24 @@ export default function MissionPage({ params }: Props) {
   if (!isUnlocked) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: colors.bg }}>
+        <Navbar />
         <div className="text-center">
-          <span className="text-6xl mb-4 block">🔒</span>
-          <h1 className="text-2xl font-bold mb-2" style={{ color: colors.text }}>Missão Bloqueada</h1>
-          <p style={{ color: colors.textMuted }}>Complete as missões anteriores para desbloquear.</p>
+          <div
+            className="w-20 h-20 mx-auto mb-4 rounded-full flex items-center justify-center"
+            style={{ backgroundColor: colors.surface, border: `2px solid ${colors.border}` }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill={colors.border}>
+              <path d="M12 2C9.24 2 7 4.24 7 7v3H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2h-1V7c0-2.76-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3v3H9V7c0-1.66 1.34-3 3-3z"/>
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold mb-2" style={{ color: colors.text }}>Conteudo bloqueado</h1>
+          <p style={{ color: colors.textMuted }}>Complete as etapas anteriores primeiro.</p>
           <Link
             href={`/trilhas/${slug}`}
             className="mt-4 inline-block px-6 py-2 rounded-lg"
             style={{ backgroundColor: colors.accent, color: colors.bg }}
           >
-            Voltar à trilha
+            Voltar a trilha
           </Link>
         </div>
       </div>
@@ -55,7 +64,8 @@ export default function MissionPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen py-20 px-4" style={{ backgroundColor: colors.bg }}>
+    <div className="min-h-screen pt-24 pb-20 px-4" style={{ backgroundColor: colors.bg }}>
+      <Navbar />
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <Link href={`/trilhas/${slug}`} className="text-sm mb-4 inline-block hover:underline" style={{ color: colors.accent }}>
