@@ -8,6 +8,8 @@ import { getMission, getTrailBySlug, getNextMission } from '@/lib/trails'
 import { useTrailProgress } from '@/hooks/useTrailProgress'
 import { LessonMission } from '@/components/missions/LessonMission'
 import { QuizMission } from '@/components/missions/QuizMission'
+import { ExternalMission } from '@/components/missions/ExternalMission'
+import { AlgorithmMission } from '@/components/missions/AlgorithmMission'
 import { colors } from '@/lib/colors'
 
 interface Props {
@@ -80,6 +82,20 @@ export default function MissionPage({ params }: Props) {
                 saveQuizResult(missionSlug, result)
                 completeMission(missionSlug, result.xpEarned)
               }}
+            />
+          )}
+          {mission.type === 'external' && (
+            <ExternalMission
+              mission={mission}
+              isCompleted={isCompleted}
+              onComplete={handleComplete}
+            />
+          )}
+          {mission.type === 'algorithm' && (
+            <AlgorithmMission
+              mission={mission}
+              isCompleted={isCompleted}
+              onComplete={handleComplete}
             />
           )}
         </motion.div>
