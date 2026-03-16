@@ -1,0 +1,93 @@
+type: lesson
+slug: 08-flexbox
+name: Layout com Flexbox
+description: Crie layouts responsivos com Flexbox
+xp: 50
+content: |
+  # Flexbox
+
+  Flexbox é um sistema de layout poderoso para criar interfaces flexíveis e responsivas.
+
+  ## Conceito Básico
+
+  Flexbox organiza elementos em uma direção (linha ou coluna):
+
+  ```html
+  <div class="container">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+  </div>
+  ```
+
+  ```css
+  .container {
+    display: flex;  /* ativa flexbox */
+  }
+  ```
+
+  ## Direção
+
+  ```css
+  .container {
+    display: flex;
+    flex-direction: row;          /* horizontal (padrão) */
+    flex-direction: row-reverse;  /* horizontal invertido */
+    flex-direction: column;       /* vertical */
+    flex-direction: column-reverse; /* vertical invertido */
+  }
+  ```
+
+  ## Alinhamento Principal
+
+  ```css
+  .container {
+    display: flex;
+    justify-content: flex-start;    /* início */
+    justify-content: flex-end;      /* fim */
+    justify-content: center;        /* centro */
+    justify-content: space-between; /* espaçado */
+    justify-content: space-around;  /* com margens */
+  }
+  ```
+
+  ## Alinhamento Cruzado
+
+  ```css
+  .container {
+    display: flex;
+    align-items: flex-start;  /* topo */
+    align-items: flex-end;    /* base */
+    align-items: center;      /* centro */
+    align-items: stretch;     /* estica (padrão) */
+  }
+  ```
+
+  ## Propriedades dos Itens
+
+  ```css
+  .item {
+    flex-grow: 1;    /* cresce para ocupar espaço */
+    flex-shrink: 1;  /* encolhe se necessário */
+    flex-basis: 200px; /* tamanho base */
+
+    /* Atalho */
+    flex: 1 1 200px;
+  }
+  ```
+
+  ## Exemplo Prático
+
+  ```css
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  ```

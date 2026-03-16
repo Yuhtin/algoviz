@@ -1,0 +1,83 @@
+type: lesson
+slug: 09-dom
+name: Manipulação do DOM
+description: Controle elementos HTML com JavaScript
+xp: 50
+content: |
+  # Manipulação do DOM
+
+  O DOM (Document Object Model) permite JavaScript interagir com HTML e modificar a página dinamicamente.
+
+  ## Selecionando Elementos
+
+  ```javascript
+  // Por ID
+  let titulo = document.getElementById("titulo")
+
+  // Por classe
+  let itens = document.getElementsByClassName("item")
+
+  // Por seletor CSS
+  let primeiro = document.querySelector(".card")
+  let todos = document.querySelectorAll(".card")
+  ```
+
+  ## Modificando Conteúdo
+
+  ```javascript
+  let paragrafo = document.querySelector("p")
+
+  // Texto simples
+  paragrafo.textContent = "Novo texto"
+
+  // HTML
+  paragrafo.innerHTML = "<strong>Texto em negrito</strong>"
+  ```
+
+  ## Modificando Estilos
+
+  ```javascript
+  let caixa = document.querySelector(".caixa")
+
+  caixa.style.backgroundColor = "blue"
+  caixa.style.color = "white"
+  caixa.style.padding = "20px"
+  ```
+
+  ## Modificando Classes
+
+  ```javascript
+  let elemento = document.querySelector(".item")
+
+  elemento.classList.add("ativo")
+  elemento.classList.remove("inativo")
+  elemento.classList.toggle("selecionado")
+
+  if (elemento.classList.contains("ativo")) {
+    console.log("Está ativo!")
+  }
+  ```
+
+  ## Criando Elementos
+
+  ```javascript
+  // Criar novo elemento
+  let novoParagrafo = document.createElement("p")
+  novoParagrafo.textContent = "Parágrafo criado com JS"
+
+  // Adicionar ao DOM
+  document.body.appendChild(novoParagrafo)
+
+  // Remover elemento
+  let remover = document.querySelector(".deletar")
+  remover.remove()
+  ```
+
+  ## Modificando Atributos
+
+  ```javascript
+  let link = document.querySelector("a")
+  link.setAttribute("href", "https://google.com")
+  link.getAttribute("href")
+  link.removeAttribute("target")
+  ```

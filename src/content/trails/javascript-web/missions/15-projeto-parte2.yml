@@ -1,0 +1,117 @@
+type: lesson
+slug: 15-projeto-parte2
+name: Projeto Final - Parte 2
+description: Construa uma lista de tarefas - Lógica e Funcionalidade
+xp: 50
+content: |
+  # Projeto Final - Parte 2
+
+  Agora vamos implementar toda a lógica JavaScript da nossa lista de tarefas!
+
+  ## JavaScript Completo
+
+  ```javascript
+  // Estado da aplicação
+  let tarefas = JSON.parse(localStorage.getItem("tarefas")) || []
+  let filtroAtual = "todas"
+
+  // Elementos do DOM
+  let form = document.querySelector("#form-tarefa")
+  let input = document.querySelector("#input-tarefa")
+  let lista = document.querySelector("#lista-tarefas")
+  let botoesFiltro = document.querySelectorAll(".filtro")
+  let totalSpan = document.querySelector("#total")
+
+  // Adicionar tarefa
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    let novaTarefa = {
+      id: Date.now(),
+      texto: input.value,
+      concluida: false
+    }
+
+    tarefas.push(novaTarefa)
+    salvarTarefas()
+    renderizar()
+    input.value = ""
+  })
+
+  // Renderizar lista
+  function renderizar() {
+    let tarefasFiltradas = filtrarTarefas()
+
+    lista.innerHTML = ""
+
+    tarefasFiltradas.forEach(tarefa => {
+      let li = document.createElement("li")
+      li.className = tarefa.concluida ? "concluida" : ""
+
+      li.innerHTML = `
+        <input
+          type="checkbox"
+          ${tarefa.concluida ? "checked" : ""}
+          onchange="toggleTarefa(${tarefa.id})"
+        >
+        <span>${tarefa.texto}</span>
+        <button onclick="removerTarefa(${tarefa.id})">×</button>
+      `
+
+      lista.appendChild(li)
+    })
+
+    atualizarTotal()
+  }
+
+  // Toggle conclusão
+  function toggleTarefa(id) {
+    let tarefa = tarefas.find(t => t.id === id)
+    tarefa.concluida = !tarefa.concluida
+    salvarTarefas()
+    renderizar()
+  }
+
+  // Remover tarefa
+  function removerTarefa(id) {
+    tarefas = tarefas.filter(t => t.id !== id)
+    salvarTarefas()
+    renderizar()
+  }
+
+  // Filtros
+  botoesFiltro.forEach(botao => {
+    botao.addEventListener("click", () => {
+      botoesFiltro.forEach(b => b.classList.remove("ativo"))
+      botao.classList.add("ativo")
+      filtroAtual = botao.dataset.filtro
+      renderizar()
+    })
+  })
+
+  function filtrarTarefas() {
+    if (filtroAtual === "ativas") {
+      return tarefas.filter(t => !t.concluida)
+    }
+    if (filtroAtual === "concluidas") {
+      return tarefas.filter(t => t.concluida)
+    }
+    return tarefas
+  }
+
+  // Persistência
+  function salvarTarefas() {
+    localStorage.setItem("tarefas", JSON.stringify(tarefas))
+  }
+
+  function atualizarTotal() {
+    totalSpan.textContent = `${tarefas.length} tarefas`
+  }
+
+  // Inicializar
+  renderizar()
+  ```
+
+  ## Parabéns!
+
+  Você completou a trilha JavaScript Web! Agora sabe criar aplicações web completas.

@@ -1,0 +1,98 @@
+type: lesson
+slug: 12-async-apis
+name: Async e APIs
+description: Busque dados de APIs externas
+xp: 50
+content: |
+  # JavaScript Assíncrono e APIs
+
+  Aprenda a buscar dados de APIs e trabalhar com operações assíncronas.
+
+  ## O que é Assíncrono?
+
+  Código assíncrono não bloqueia a execução. JavaScript pode fazer outras coisas enquanto espera uma resposta.
+
+  ## Promises
+
+  ```javascript
+  let promessa = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Sucesso!")
+    }, 2000)
+  })
+
+  promessa.then(resultado => {
+    console.log(resultado)  // após 2 segundos
+  })
+  ```
+
+  ## async/await
+
+  Sintaxe moderna para trabalhar com promises:
+
+  ```javascript
+  async function buscarDados() {
+    let resultado = await promessa
+    console.log(resultado)
+  }
+
+  buscarDados()
+  ```
+
+  ## Fetch API
+
+  Buscar dados de uma API:
+
+  ```javascript
+  async function buscarUsuario() {
+    try {
+      let resposta = await fetch("https://api.github.com/users/octocat")
+      let dados = await resposta.json()
+      console.log(dados.name)
+    } catch (erro) {
+      console.error("Erro:", erro)
+    }
+  }
+
+  buscarUsuario()
+  ```
+
+  ## Exemplo Prático
+
+  ```javascript
+  async function carregarPosts() {
+    let lista = document.querySelector("#posts")
+
+    try {
+      let resposta = await fetch("https://jsonplaceholder.typicode.com/posts")
+      let posts = await resposta.json()
+
+      posts.slice(0, 5).forEach(post => {
+        let item = document.createElement("li")
+        item.textContent = post.title
+        lista.appendChild(item)
+      })
+    } catch (erro) {
+      console.error("Erro ao carregar:", erro)
+    }
+  }
+  ```
+
+  ## POST Request
+
+  Enviar dados para uma API:
+
+  ```javascript
+  async function criarPost(titulo, conteudo) {
+    let resposta = await fetch("https://api.exemplo.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ titulo, conteudo })
+    })
+
+    let resultado = await resposta.json()
+    return resultado
+  }
+  ```

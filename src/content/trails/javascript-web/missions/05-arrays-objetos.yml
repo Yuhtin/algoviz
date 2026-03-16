@@ -1,0 +1,76 @@
+type: lesson
+slug: 05-arrays-objetos
+name: Arrays e Objetos
+description: Trabalhe com estruturas de dados complexas
+xp: 50
+content: |
+  # Arrays e Objetos
+
+  Arrays e objetos são estruturas fundamentais para organizar dados em JavaScript.
+
+  ## Arrays
+
+  Listas ordenadas de valores:
+
+  ```javascript
+  let numeros = [1, 2, 3, 4, 5]
+  let nomes = ["Ana", "Bruno", "Carlos"]
+
+  console.log(numeros[0])  // 1 (primeiro elemento)
+  numeros.push(6)          // adiciona no final
+  numeros.pop()            // remove do final
+  ```
+
+  ## Métodos de Array
+
+  ```javascript
+  let frutas = ["maçã", "banana", "laranja"]
+
+  // map - transforma cada elemento
+  let maiusculas = frutas.map(f => f.toUpperCase())
+
+  // filter - filtra elementos
+  let comA = frutas.filter(f => f.includes("a"))
+
+  // reduce - reduz a um único valor
+  let nums = [1, 2, 3, 4]
+  let soma = nums.reduce((total, n) => total + n, 0)
+  ```
+
+  ## Objetos
+
+  Coleções de pares chave-valor:
+
+  ```javascript
+  let pessoa = {
+    nome: "Maria",
+    idade: 25,
+    cidade: "São Paulo"
+  }
+
+  console.log(pessoa.nome)      // "Maria"
+  console.log(pessoa["idade"])  // 25
+  pessoa.profissao = "dev"      // adiciona propriedade
+  ```
+
+  ## Métodos de Objetos
+
+  ```javascript
+  let usuario = {
+    nome: "João",
+    saudar: function() {
+      return `Olá, eu sou ${this.nome}`
+    }
+  }
+
+  console.log(usuario.saudar())  // "Olá, eu sou João"
+  ```
+
+  ## Desestruturação
+
+  Extrair valores facilmente:
+
+  ```javascript
+  let { nome, idade } = pessoa
+  let [primeiro, segundo] = frutas
+  ```
