@@ -1,0 +1,73 @@
+type: lesson
+slug: 02-condicionais
+name: Condicionais - if/else e switch
+description: Aprenda a fazer seu código tomar decisões
+xp: 50
+content: |
+  # Condicionais
+
+  Condicionais permitem que seu código tome decisões baseadas em condições.
+
+  ## if / else
+
+  ```javascript
+  let idade = 18
+
+  if (idade >= 18) {
+    console.log("Maior de idade")
+  } else {
+    console.log("Menor de idade")
+  }
+  ```
+
+  ## else if
+
+  Para múltiplas condições:
+
+  ```javascript
+  let nota = 75
+
+  if (nota >= 90) {
+    console.log("A")
+  } else if (nota >= 80) {
+    console.log("B")
+  } else if (nota >= 70) {
+    console.log("C")
+  } else {
+    console.log("F")
+  }
+  ```
+
+  ## switch
+
+  Útil quando comparamos uma variável com vários valores:
+
+  ```javascript
+  let dia = "segunda"
+
+  switch (dia) {
+    case "segunda":
+    case "terça":
+    case "quarta":
+    case "quinta":
+    case "sexta":
+      console.log("Dia útil")
+      break
+    case "sábado":
+    case "domingo":
+      console.log("Fim de semana!")
+      break
+    default:
+      console.log("Dia inválido")
+  }
+  ```
+
+  ## Operador Ternário
+
+  Atalho para if/else simples:
+
+  ```javascript
+  let idade = 20
+  let status = idade >= 18 ? "adulto" : "menor"
+  // status = "adulto"
+  ```

@@ -1,0 +1,29 @@
+# src/content/trails/javascript-web/trail.yml
+slug: javascript-web
+name: JavaScript Web
+description: Do zero ao deploy - aprenda programação web com JavaScript
+icon: "🚀"
+difficulty: Iniciante
+tags:
+  - javascript
+  - html
+  - css
+  - react
+  - web
+estimatedHours: 20
+missions:
+  - 01-logica-basica
+  - 02-condicionais
+  - 03-lacos
+  - 04-funcoes
+  - 05-arrays-objetos
+  - 06-html
+  - 07-css
+  - 08-flexbox
+  - 09-dom
+  - 10-eventos
+  - 11-formularios
+  - 12-async-apis
+  - 13-react
+  - 14-projeto-parte1
+  - 15-projeto-parte2
