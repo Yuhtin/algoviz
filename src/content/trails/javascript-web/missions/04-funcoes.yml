@@ -1,0 +1,72 @@
+type: lesson
+slug: 04-funcoes
+name: Funções
+description: Organize e reutilize seu código com funções
+xp: 50
+content: |
+  # Funções
+
+  Funções são blocos de código reutilizáveis. Essenciais para organizar programas complexos.
+
+  ## Declarando Funções
+
+  ```javascript
+  function saudar(nome) {
+    return "Olá, " + nome + "!"
+  }
+
+  let mensagem = saudar("Maria")
+  console.log(mensagem)  // "Olá, Maria!"
+  ```
+
+  ## Arrow Functions
+
+  Sintaxe moderna e concisa:
+
+  ```javascript
+  const soma = (a, b) => a + b
+  const dobro = x => x * 2
+
+  console.log(soma(5, 3))  // 8
+  console.log(dobro(4))    // 8
+  ```
+
+  ## Parâmetros Padrão
+
+  ```javascript
+  function cumprimentar(nome = "visitante") {
+    return `Bem-vindo, ${nome}!`
+  }
+
+  cumprimentar()          // "Bem-vindo, visitante!"
+  cumprimentar("João")    // "Bem-vindo, João!"
+  ```
+
+  ## Funções como Valores
+
+  Funções são valores, podemos passá-las como argumentos:
+
+  ```javascript
+  function executar(funcao, valor) {
+    return funcao(valor)
+  }
+
+  const triplo = x => x * 3
+  console.log(executar(triplo, 5))  // 15
+  ```
+
+  ## Escopo
+
+  Variáveis declaradas dentro de funções são locais:
+
+  ```javascript
+  let global = "fora"
+
+  function teste() {
+    let local = "dentro"
+    console.log(global)  // acessa variável externa
+  }
+
+  teste()
+  // console.log(local)  // Erro! local não existe aqui
+  ```

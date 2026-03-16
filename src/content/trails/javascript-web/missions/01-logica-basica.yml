@@ -1,0 +1,50 @@
+type: lesson
+slug: 01-logica-basica
+name: Lógica, Variáveis e Tipos de Dados
+description: Fundamentos da programação - aprenda a pensar como um programador
+xp: 50
+content: |
+  # Lógica de Programação
+
+  Programar é dar instruções precisas para o computador. Vamos começar entendendo os blocos fundamentais.
+
+  ## Variáveis
+
+  Variáveis são espaços na memória onde guardamos dados. Em JavaScript, declaramos assim:
+
+  ```javascript
+  let nome = "Maria"
+  let idade = 25
+  const PI = 3.14159
+  ```
+
+  - `let` - variável que pode mudar
+  - `const` - constante, não muda
+
+  ## Tipos de Dados
+
+  JavaScript tem tipos básicos:
+
+  - **String** - texto entre aspas: `"Olá mundo"`
+  - **Number** - números: `42`, `3.14`
+  - **Boolean** - verdadeiro/falso: `true`, `false`
+  - **Array** - lista: `[1, 2, 3]`
+  - **Object** - objeto: `{ nome: "João", idade: 30 }`
+
+  ## Operadores
+
+  ```javascript
+  // Matemáticos
+  let soma = 5 + 3      // 8
+  let mult = 4 * 2      // 8
+  let div = 10 / 2      // 5
+
+  // Comparação
+  5 > 3   // true
+  5 === 5 // true (igualdade estrita)
+  5 !== 3 // true (diferente)
+  ```
+
+  ## Próximos passos
+
+  Na próxima missão, vamos aprender a tomar decisões com condicionais!

@@ -1,0 +1,98 @@
+type: lesson
+slug: 14-projeto-parte1
+name: Projeto Final - Parte 1
+description: Construa uma lista de tarefas - Setup e Interface
+xp: 50
+content: |
+  # Projeto Final - Parte 1
+
+  Vamos construir uma aplicação completa de lista de tarefas usando tudo que aprendemos!
+
+  ## O que vamos construir
+
+  Uma to-do list com:
+  - Adicionar tarefas
+  - Marcar como concluída
+  - Remover tarefas
+  - Filtrar tarefas
+  - Persistir dados no localStorage
+
+  ## Estrutura HTML
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Minhas Tarefas</h1>
+
+      <form id="form-tarefa">
+        <input
+          type="text"
+          id="input-tarefa"
+          placeholder="Adicionar nova tarefa"
+          required
+        >
+        <button type="submit">Adicionar</button>
+      </form>
+
+      <div class="filtros">
+        <button class="filtro ativo" data-filtro="todas">Todas</button>
+        <button class="filtro" data-filtro="ativas">Ativas</button>
+        <button class="filtro" data-filtro="concluidas">Concluídas</button>
+      </div>
+
+      <ul id="lista-tarefas"></ul>
+
+      <div class="stats">
+        <span id="total">0 tarefas</span>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
+  ```
+
+  ## CSS Básico
+
+  ```css
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .container {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  ```
+
+  Na próxima missão, implementaremos toda a lógica JavaScript!

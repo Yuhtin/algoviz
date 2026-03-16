@@ -1,0 +1,98 @@
+type: lesson
+slug: 11-formularios
+name: Formulários e Validação
+description: Capture e valide dados de usuários
+xp: 50
+content: |
+  # Formulários e Validação
+
+  Formulários são essenciais para capturar dados de usuários. Vamos aprender a trabalhar com eles.
+
+  ## Estrutura Básica
+
+  ```html
+  <form id="meuForm">
+    <input type="text" id="nome" placeholder="Nome">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="senha" placeholder="Senha">
+    <button type="submit">Enviar</button>
+  </form>
+  ```
+
+  ## Capturando Envio
+
+  ```javascript
+  let form = document.querySelector("#meuForm")
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault()  // impede reload da página
+
+    let nome = document.querySelector("#nome").value
+    let email = document.querySelector("#email").value
+
+    console.log({ nome, email })
+  })
+  ```
+
+  ## Tipos de Input
+
+  ```html
+  <input type="text">      <!-- texto simples -->
+  <input type="email">     <!-- email -->
+  <input type="password">  <!-- senha -->
+  <input type="number">    <!-- número -->
+  <input type="date">      <!-- data -->
+  <input type="checkbox">  <!-- caixa de seleção -->
+  <input type="radio">     <!-- opção única -->
+  <textarea></textarea>    <!-- texto longo -->
+  <select>                 <!-- dropdown -->
+    <option value="1">Opção 1</option>
+  </select>
+  ```
+
+  ## Validação Simples
+
+  ```javascript
+  form.addEventListener("submit", (e) => {
+    e.preventDefault()
+
+    let nome = document.querySelector("#nome").value
+    let email = document.querySelector("#email").value
+
+    if (!nome) {
+      alert("Nome é obrigatório!")
+      return
+    }
+
+    if (!email.includes("@")) {
+      alert("Email inválido!")
+      return
+    }
+
+    console.log("Formulário válido!")
+  })
+  ```
+
+  ## Validação HTML5
+
+  ```html
+  <input type="text" required>
+  <input type="email" required>
+  <input type="text" minlength="3" maxlength="20">
+  <input type="number" min="0" max="100">
+  <input type="text" pattern="[A-Za-z]+">
+  ```
+
+  ## Feedback Visual
+
+  ```javascript
+  let input = document.querySelector("#email")
+
+  input.addEventListener("blur", () => {
+    if (!input.value.includes("@")) {
+      input.classList.add("erro")
+    } else {
+      input.classList.remove("erro")
+    }
+  })
+  ```

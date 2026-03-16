@@ -1,0 +1,72 @@
+# Quiz: Fundamentos de JavaScript
+type: quiz
+slug: quiz-fundamentos
+name: Quiz - Fundamentos de JavaScript
+description: Teste seus conhecimentos sobre lógica, variáveis, condicionais, laços e funções
+xp: 0  # XP calculado via xpPerQuestion + perfectBonus
+xpPerQuestion: 15
+perfectBonus: 50
+questions:
+  - question: "O que é uma variável em programação?"
+    options:
+      - "Um valor que nunca muda"
+      - "Um espaço na memória para armazenar dados"
+      - "Um tipo de função"
+      - "Uma operação matemática"
+    correct: 1
+
+  - question: "Qual palavra-chave declara uma constante em JavaScript?"
+    options:
+      - "var"
+      - "let"
+      - "const"
+      - "define"
+    correct: 2
+
+  - question: "Qual operador compara valor E tipo em JavaScript?"
+    options:
+      - "="
+      - "=="
+      - "==="
+      - "!="
+    correct: 2
+
+  - question: "O que o código 'if (x > 10) { ... }' verifica?"
+    options:
+      - "Se x é igual a 10"
+      - "Se x é menor que 10"
+      - "Se x é maior que 10"
+      - "Se x existe"
+    correct: 2
+
+  - question: "Qual laço é ideal quando você sabe quantas vezes repetir?"
+    options:
+      - "while"
+      - "do...while"
+      - "for"
+      - "switch"
+    correct: 2
+
+  - question: "O que 'return' faz em uma função?"
+    options:
+      - "Imprime um valor na tela"
+      - "Encerra a função e retorna um valor"
+      - "Cria uma nova variável"
+      - "Chama outra função"
+    correct: 1
+
+  - question: "Como acessar o terceiro elemento de um array?"
+    options:
+      - "array[3]"
+      - "array[2]"
+      - "array(3)"
+      - "array.third"
+    correct: 1
+
+  - question: "Qual método adiciona um elemento ao final de um array?"
+    options:
+      - "array.add()"
+      - "array.insert()"
+      - "array.push()"
+      - "array.append()"
+    correct: 2

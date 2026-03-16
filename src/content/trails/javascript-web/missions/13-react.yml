@@ -1,0 +1,117 @@
+type: lesson
+slug: 13-react
+name: Introdução ao React
+description: Crie interfaces modernas com React
+xp: 50
+content: |
+  # Introdução ao React
+
+  React é uma biblioteca JavaScript para construir interfaces de usuário componentizadas.
+
+  ## Componentes
+
+  Componentes são blocos reutilizáveis:
+
+  ```jsx
+  function Botao() {
+    return <button>Clique aqui</button>
+  }
+
+  function App() {
+    return (
+      <div>
+        <h1>Meu App</h1>
+        <Botao />
+      </div>
+    )
+  }
+  ```
+
+  ## JSX
+
+  JSX permite escrever HTML dentro de JavaScript:
+
+  ```jsx
+  function Saudacao({ nome }) {
+    return <h1>Olá, {nome}!</h1>
+  }
+
+  // Uso
+  <Saudacao nome="Maria" />
+  ```
+
+  ## Props
+
+  Passar dados entre componentes:
+
+  ```jsx
+  function Card({ titulo, descricao }) {
+    return (
+      <div className="card">
+        <h2>{titulo}</h2>
+        <p>{descricao}</p>
+      </div>
+    )
+  }
+
+  <Card titulo="React" descricao="Biblioteca para UI" />
+  ```
+
+  ## useState
+
+  Gerenciar estado do componente:
+
+  ```jsx
+  import { useState } from 'react'
+
+  function Contador() {
+    let [contador, setContador] = useState(0)
+
+    return (
+      <div>
+        <p>Contagem: {contador}</p>
+        <button onClick={() => setContador(contador + 1)}>
+          Incrementar
+        </button>
+      </div>
+    )
+  }
+  ```
+
+  ## useEffect
+
+  Executar código após renderização:
+
+  ```jsx
+  import { useState, useEffect } from 'react'
+
+  function Usuario() {
+    let [dados, setDados] = useState(null)
+
+    useEffect(() => {
+      fetch("https://api.github.com/users/octocat")
+        .then(res => res.json())
+        .then(data => setDados(data))
+    }, [])
+
+    if (!dados) return <p>Carregando...</p>
+
+    return <h1>{dados.name}</h1>
+  }
+  ```
+
+  ## Listas
+
+  ```jsx
+  function Lista() {
+    let itens = ["React", "JavaScript", "CSS"]
+
+    return (
+      <ul>
+        {itens.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    )
+  }
+  ```

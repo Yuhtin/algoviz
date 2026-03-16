@@ -1,0 +1,96 @@
+type: lesson
+slug: 07-css
+name: CSS Básico
+description: Estilize suas páginas com CSS
+xp: 50
+content: |
+  # CSS Básico
+
+  CSS (Cascading Style Sheets) controla a aparência visual das páginas web.
+
+  ## Adicionando CSS
+
+  ```html
+  <!-- Inline -->
+  <p style="color: blue;">Texto azul</p>
+
+  <!-- Tag style -->
+  <style>
+    p { color: blue; }
+  </style>
+
+  <!-- Arquivo externo -->
+  <link rel="stylesheet" href="estilos.css">
+  ```
+
+  ## Seletores
+
+  ```css
+  /* Elemento */
+  p {
+    color: black;
+  }
+
+  /* Classe */
+  .destaque {
+    background-color: yellow;
+  }
+
+  /* ID */
+  #titulo-principal {
+    font-size: 32px;
+  }
+
+  /* Múltiplos */
+  h1, h2, h3 {
+    font-family: Arial, sans-serif;
+  }
+  ```
+
+  ## Propriedades Comuns
+
+  ```css
+  .caixa {
+    /* Cores */
+    color: #333;
+    background-color: #f0f0f0;
+
+    /* Texto */
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+
+    /* Espaçamento */
+    margin: 20px;
+    padding: 10px;
+
+    /* Borda */
+    border: 2px solid blue;
+    border-radius: 8px;
+
+    /* Dimensões */
+    width: 300px;
+    height: 200px;
+  }
+  ```
+
+  ## Box Model
+
+  Todo elemento é uma caixa com:
+
+  ```css
+  .elemento {
+    width: 200px;       /* largura do conteúdo */
+    padding: 20px;      /* espaço interno */
+    border: 2px solid;  /* borda */
+    margin: 10px;       /* espaço externo */
+  }
+  ```
+
+  ## Display
+
+  ```css
+  .inline { display: inline; }
+  .block { display: block; }
+  .none { display: none; }  /* esconde */
+  ```

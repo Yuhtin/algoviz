@@ -21,17 +21,38 @@ export interface Badge {
   earnedAt: number
 }
 
+export interface QuizResult {
+  answers: number[]
+  score: number
+  perfectScore: boolean
+  xpEarned: number
+  completedAt: number
+}
+
+export interface TrailProgress {
+  startedAt: number
+  completedMissions: string[]
+  quizResults: Record<string, QuizResult>
+}
+
 interface ProgressState {
   xp: number
   level: number
   streak: Streak
   badges: Badge[]
   algorithms: Record<string, AlgorithmProgress>
+  trails: Record<string, TrailProgress>
 
   addXP: (amount: number) => void
   recordActivity: () => void
   addBadge: (badge: Omit<Badge, 'earnedAt'>) => void
   completeAlgorithm: (slug: string, xpEarned: number) => void
+  startTrail: (trailSlug: string) => void
+  completeMission: (trailSlug: string, missionSlug: string, xpAmount: number) => void
+  saveQuizResult: (trailSlug: string, missionSlug: string, result: Omit<QuizResult, 'completedAt'>) => void
+  isTrailStarted: (trailSlug: string) => boolean
+  isMissionCompleted: (trailSlug: string, missionSlug: string) => boolean
+  getCompletedMissionsCount: (trailSlug: string) => number
   reset: () => void
 }
 
@@ -61,6 +82,7 @@ const initialState = {
   },
   badges: [],
   algorithms: {},
+  trails: {},
 }
 
 export const useProgressStore = create<ProgressState>()(
@@ -153,6 +175,81 @@ export const useProgressStore = create<ProgressState>()(
         get().addXP(xpEarned)
       },
 
+      startTrail: (trailSlug) =>
+        set((state) => {
+          if (state.trails[trailSlug]) return state
+          return {
+            trails: {
+              ...state.trails,
+              [trailSlug]: {
+                startedAt: Date.now(),
+                completedMissions: [],
+                quizResults: {},
+              },
+            },
+          }
+        }),
+
+      completeMission: (trailSlug, missionSlug, xpAmount) =>
+        set((state) => {
+          const trail = state.trails[trailSlug] || {
+            startedAt: Date.now(),
+            completedMissions: [],
+            quizResults: {},
+          }
+
+          if (trail.completedMissions.includes(missionSlug)) {
+            return state // Already completed
+          }
+
+          const newXp = state.xp + xpAmount
+          return {
+            xp: newXp,
+            level: Math.floor(newXp / 100) + 1,
+            trails: {
+              ...state.trails,
+              [trailSlug]: {
+                ...trail,
+                completedMissions: [...trail.completedMissions, missionSlug],
+              },
+            },
+          }
+        }),
+
+      saveQuizResult: (trailSlug, missionSlug, result) =>
+        set((state) => {
+          const trail = state.trails[trailSlug]
+          if (!trail) return state
+
+          return {
+            trails: {
+              ...state.trails,
+              [trailSlug]: {
+                ...trail,
+                quizResults: {
+                  ...trail.quizResults,
+                  [missionSlug]: {
+                    ...result,
+                    completedAt: Date.now(),
+                  },
+                },
+              },
+            },
+          }
+        }),
+
+      isTrailStarted: (trailSlug) => !!get().trails[trailSlug],
+
+      isMissionCompleted: (trailSlug, missionSlug) => {
+        const trail = get().trails[trailSlug]
+        return trail?.completedMissions.includes(missionSlug) ?? false
+      },
+
+      getCompletedMissionsCount: (trailSlug) => {
+        const trail = get().trails[trailSlug]
+        return trail?.completedMissions.length ?? 0
+      },
+
       reset: () => set(initialState),
     }),
     {
@@ -163,6 +260,7 @@ export const useProgressStore = create<ProgressState>()(
         streak: state.streak,
         badges: state.badges,
         algorithms: state.algorithms,
+        trails: state.trails,
       }),
     }
   )

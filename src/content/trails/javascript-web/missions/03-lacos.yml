@@ -1,0 +1,69 @@
+type: lesson
+slug: 03-lacos
+name: Laços de Repetição
+description: Automatize tarefas repetitivas com loops
+xp: 50
+content: |
+  # Laços de Repetição
+
+  Laços permitem executar código múltiplas vezes. Essencial para processar listas e automatizar tarefas.
+
+  ## for
+
+  O laço mais comum para iterar um número específico de vezes:
+
+  ```javascript
+  for (let i = 0; i < 5; i++) {
+    console.log("Contagem:", i)
+  }
+  // Imprime: 0, 1, 2, 3, 4
+  ```
+
+  ## while
+
+  Executa enquanto a condição for verdadeira:
+
+  ```javascript
+  let contador = 0
+  while (contador < 3) {
+    console.log(contador)
+    contador++
+  }
+  // Imprime: 0, 1, 2
+  ```
+
+  ## do...while
+
+  Executa pelo menos uma vez, depois verifica a condição:
+
+  ```javascript
+  let numero = 0
+  do {
+    console.log(numero)
+    numero++
+  } while (numero < 3)
+  ```
+
+  ## for...of
+
+  Percorre elementos de um array:
+
+  ```javascript
+  let frutas = ["maçã", "banana", "laranja"]
+  for (let fruta of frutas) {
+    console.log(fruta)
+  }
+  ```
+
+  ## break e continue
+
+  - `break` - sai do laço
+  - `continue` - pula para próxima iteração
+
+  ```javascript
+  for (let i = 0; i < 10; i++) {
+    if (i === 5) break  // para no 5
+    if (i % 2 === 0) continue  // pula pares
+    console.log(i)  // imprime só ímpares
+  }
+  ```

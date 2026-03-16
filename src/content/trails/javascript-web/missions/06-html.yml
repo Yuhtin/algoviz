@@ -1,0 +1,81 @@
+type: lesson
+slug: 06-html
+name: HTML Essencial
+description: Estruture páginas web com HTML
+xp: 50
+content: |
+  # HTML Essencial
+
+  HTML é a linguagem de marcação que estrutura páginas web. Todo site começa com HTML.
+
+  ## Estrutura Básica
+
+  ```html
+  <!DOCTYPE html>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Página</title>
+  </head>
+  <body>
+    <h1>Olá, Mundo!</h1>
+    <p>Este é um parágrafo.</p>
+  </body>
+  </html>
+  ```
+
+  ## Tags Principais
+
+  ```html
+  <!-- Cabeçalhos -->
+  <h1>Título Principal</h1>
+  <h2>Subtítulo</h2>
+
+  <!-- Texto -->
+  <p>Parágrafo de texto.</p>
+  <strong>Texto em negrito</strong>
+  <em>Texto em itálico</em>
+
+  <!-- Links -->
+  <a href="https://google.com">Ir para Google</a>
+
+  <!-- Imagens -->
+  <img src="foto.jpg" alt="Descrição da imagem">
+  ```
+
+  ## Listas
+
+  ```html
+  <!-- Lista não ordenada -->
+  <ul>
+    <li>Item 1</li>
+    <li>Item 2</li>
+  </ul>
+
+  <!-- Lista ordenada -->
+  <ol>
+    <li>Primeiro</li>
+    <li>Segundo</li>
+  </ol>
+  ```
+
+  ## Divs e Spans
+
+  Containers para agrupar elementos:
+
+  ```html
+  <div class="container">
+    <h2>Seção</h2>
+    <p>Texto com <span class="destaque">palavra destacada</span>.</p>
+  </div>
+  ```
+
+  ## Semântica HTML5
+
+  ```html
+  <header>Cabeçalho do site</header>
+  <nav>Menu de navegação</nav>
+  <main>Conteúdo principal</main>
+  <footer>Rodapé</footer>
+  ```

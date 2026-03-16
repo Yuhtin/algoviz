@@ -1,0 +1,96 @@
+type: lesson
+slug: 10-eventos
+name: Eventos JavaScript
+description: Torne suas páginas interativas com eventos
+xp: 50
+content: |
+  # Eventos JavaScript
+
+  Eventos permitem que JavaScript reaja a ações do usuário, tornando páginas interativas.
+
+  ## Evento de Click
+
+  ```javascript
+  let botao = document.querySelector("button")
+
+  botao.addEventListener("click", function() {
+    alert("Botão clicado!")
+  })
+
+  // Com arrow function
+  botao.addEventListener("click", () => {
+    console.log("Clique!")
+  })
+  ```
+
+  ## Eventos Comuns
+
+  ```javascript
+  let input = document.querySelector("input")
+  let link = document.querySelector("a")
+
+  // Clique
+  botao.addEventListener("click", () => {})
+
+  // Duplo clique
+  elemento.addEventListener("dblclick", () => {})
+
+  // Mouse sobre elemento
+  elemento.addEventListener("mouseenter", () => {})
+  elemento.addEventListener("mouseleave", () => {})
+
+  // Teclado
+  input.addEventListener("keydown", () => {})
+  input.addEventListener("keyup", () => {})
+
+  // Input mudou
+  input.addEventListener("input", () => {})
+  input.addEventListener("change", () => {})
+  ```
+
+  ## Objeto Event
+
+  ```javascript
+  botao.addEventListener("click", function(event) {
+    console.log(event.target)  // elemento clicado
+    console.log(event.type)    // tipo do evento
+    event.preventDefault()     // previne ação padrão
+  })
+  ```
+
+  ## Exemplo Prático
+
+  ```javascript
+  // Contador de cliques
+  let contador = 0
+  let botao = document.querySelector("#btn-contar")
+  let display = document.querySelector("#contador")
+
+  botao.addEventListener("click", () => {
+    contador++
+    display.textContent = contador
+  })
+  ```
+
+  ## Removendo Event Listeners
+
+  ```javascript
+  function handleClick() {
+    console.log("Clicado!")
+  }
+
+  botao.addEventListener("click", handleClick)
+  botao.removeEventListener("click", handleClick)
+  ```
+
+  ## Event Delegation
+
+  Eficiente para múltiplos elementos:
+
+  ```javascript
+  document.querySelector(".lista").addEventListener("click", (e) => {
+    if (e.target.matches(".item")) {
+      console.log("Item clicado:", e.target.textContent)
+    }
+  })
+  ```
