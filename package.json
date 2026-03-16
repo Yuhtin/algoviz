@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate": "tsx scripts/generate-algorithms.ts",
+    "generate:algorithms": "tsx scripts/generate-algorithms.ts",
+    "generate:trails": "tsx scripts/generate-trails.ts",
+    "generate": "npm run generate:algorithms && npm run generate:trails",
     "dev": "npm run generate && next dev --turbopack",
     "build": "npm run generate && next build",
     "start": "next start",
