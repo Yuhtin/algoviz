@@ -11,8 +11,9 @@ interface GraphNodeProps {
   x: number
   y: number
   state: NodeState
-  distance: number
+  distance?: number
   isStart?: boolean
+  badge?: string
 }
 
 const stateStyles: Record<NodeState, { bg: string; border: string; glow: string }> = {
@@ -43,7 +44,7 @@ const stateStyles: Record<NodeState, { bg: string; border: string; glow: string 
   },
 }
 
-export function GraphNode({ id, x, y, state, distance, isStart }: GraphNodeProps) {
+export function GraphNode({ id, x, y, state, distance, isStart, badge }: GraphNodeProps) {
   const style = stateStyles[state]
   const isCurrent = state === 'current'
   const isVisited = state === 'visited'
@@ -102,34 +103,36 @@ export function GraphNode({ id, x, y, state, distance, isStart }: GraphNodeProps
         {id}
       </text>
 
-      {/* Distance badge - positioned below node */}
-      <motion.g
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        <rect
-          x={-16}
-          y={nodeRadius + 6}
-          width={32}
-          height={18}
-          rx={4}
-          fill={isVisited ? colors.accent : colors.surface}
-          stroke={isVisited ? colors.accent : colors.border}
-          strokeWidth={1}
-        />
-        <text
-          y={nodeRadius + 17}
-          textAnchor="middle"
-          fill={isVisited ? colors.bg : colors.textMuted}
-          fontSize={11}
-          fontWeight={600}
-          fontFamily="monospace"
-          style={{ userSelect: 'none' }}
+      {/* Distance/Badge - positioned below node (only if distance or badge provided) */}
+      {(distance !== undefined || badge) && (
+        <motion.g
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
         >
-          {distance === Infinity ? '∞' : distance}
-        </text>
-      </motion.g>
+          <rect
+            x={-16}
+            y={nodeRadius + 6}
+            width={32}
+            height={18}
+            rx={4}
+            fill={isVisited ? colors.accent : colors.surface}
+            stroke={isVisited ? colors.accent : colors.border}
+            strokeWidth={1}
+          />
+          <text
+            y={nodeRadius + 17}
+            textAnchor="middle"
+            fill={isVisited ? colors.bg : colors.textMuted}
+            fontSize={11}
+            fontWeight={600}
+            fontFamily="monospace"
+            style={{ userSelect: 'none' }}
+          >
+            {badge ?? (distance === Infinity ? '∞' : distance)}
+          </text>
+        </motion.g>
+      )}
 
       {/* Start indicator */}
       {isStart && (
