@@ -1,0 +1,272 @@
+slug: trie
+name: Trie (Prefix Tree)
+category: Strings
+description: Arvore de prefixos para busca eficiente de strings, autocomplete e verificacao de prefixos em O(m) onde m e o tamanho da palavra.
+difficulty: Difícil
+tags: [Arvore, Strings, Prefixo, Autocomplete, Dicionario]
+
+complexity:
+  time: O(m)
+  space: O(n * m)
+
+presets:
+  - label: Dicionario Simples
+    data:
+      operations:
+        - ["insert", "app"]
+        - ["insert", "apple"]
+        - ["insert", "apply"]
+        - ["insert", "apt"]
+        - ["search", "app"]
+        - ["search", "application"]
+        - ["startsWith", "app"]
+        - ["startsWith", "apl"]
+  - label: Autocomplete
+    data:
+      operations:
+        - ["insert", "car"]
+        - ["insert", "card"]
+        - ["insert", "care"]
+        - ["insert", "careful"]
+        - ["insert", "cat"]
+        - ["startsWith", "car"]
+        - ["startsWith", "cat"]
+        - ["search", "care"]
+  - label: Sistema de Busca
+    data:
+      operations:
+        - ["insert", "hello"]
+        - ["insert", "help"]
+        - ["insert", "heap"]
+        - ["insert", "world"]
+        - ["insert", "word"]
+        - ["search", "help"]
+        - ["search", "hell"]
+        - ["startsWith", "hel"]
+        - ["startsWith", "wor"]
+
+concepts:
+  class-def:
+    label: Classe TrieNode
+    explanation: Cada no tem um mapa de filhos (caractere -> no) e um flag indicando fim de palavra.
+  init-root:
+    label: Inicializar Raiz
+    explanation: Trie comeca com um no raiz vazio que representa o prefixo vazio.
+  insert-op:
+    label: Operacao Insert
+    explanation: Insere uma palavra caractere por caractere, criando nos conforme necessario.
+  traverse:
+    label: Travessia
+    explanation: Percorre a trie seguindo os caracteres da palavra.
+  create-node:
+    label: Criar No
+    explanation: Se o caractere nao existe, cria um novo no filho.
+  mark-end:
+    label: Marcar Fim
+    explanation: Marca o ultimo no como fim de palavra valida.
+  search-op:
+    label: Operacao Search
+    explanation: Busca uma palavra exata - deve existir e estar marcada como fim.
+  prefix-op:
+    label: Operacao StartsWith
+    explanation: Verifica se existe alguma palavra com o prefixo dado.
+  check-exists:
+    label: Verificar Existencia
+    explanation: Verifica se o caractere existe nos filhos do no atual.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      Trie (pronuncia-se "try") e uma arvore onde cada no representa um caractere.
+      O caminho da raiz ate um no forma um prefixo. Nos marcados como "fim de palavra"
+      indicam palavras validas no dicionario.
+
+      **Vantagens sobre hash table:**
+      - Busca de prefixos em O(m) - impossivel com hash
+      - Autocomplete natural - basta percorrer subarvore do prefixo
+      - Sem colisoes
+      - Ordenacao lexicografica gratis (DFS da esquerda para direita)
+
+      **Estrutura do no:**
+      - `children`: mapa de caractere para no filho (dict ou array de 26)
+      - `is_end`: boolean indicando se e fim de palavra valida
+
+      A complexidade e sempre O(m) onde m e o tamanho da string, independente
+      de quantas palavras existem na trie.
+    steps:
+      - Comece pela raiz (no vazio)
+      - Para cada caractere da palavra, va para o filho correspondente
+      - Se o filho nao existe e estamos inserindo, crie-o
+      - Ao final da insercao, marque o no como fim de palavra
+      - Para busca, verifique se chegou ao final E o no esta marcado
+
+  keyInsight: Cada no compartilha o prefixo de seus ancestrais. Palavras com prefixos comuns compartilham nos, economizando espaco e permitindo buscas por prefixo eficientes.
+
+  commonMistakes:
+    - Confundir search (palavra exata) com startsWith (prefixo)
+    - Esquecer de marcar is_end na insercao
+    - Nao tratar caracteres que nao existem na busca
+    - Usar array fixo de 26 quando precisa de unicode
+
+  bigO:
+    time:
+      notation: O(m)
+      explanation: m e o tamanho da string. Cada operacao percorre no maximo m nos.
+      proof: Insert, search e startsWith visitam exatamente m nos, um por caractere.
+    space:
+      notation: O(n * m)
+      explanation: No pior caso, n palavras de tamanho m sem prefixos comuns.
+    bestCase:
+      notation: O(m)
+      explanation: Sempre O(m) independente do numero de palavras.
+    worstCase:
+      notation: O(m)
+      explanation: Mesmo no pior caso, so percorremos m nos.
+
+  comparisons:
+    - name: Trie
+      slug: trie
+      time: O(m) por operacao
+      space: O(n * m)
+      bestFor: Autocomplete, busca por prefixo, dicionarios
+    - name: Hash Table
+      time: O(m) medio
+      space: O(n * m)
+      bestFor: Busca exata de strings
+    - name: BST de Strings
+      time: O(m * log n)
+      space: O(n * m)
+      bestFor: Strings ordenadas, range queries
+
+interview:
+  - id: trie-q1
+    question: Implemente uma Trie com insert, search e startsWith.
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft, Meta]
+    tip: Use um dicionario para filhos e um boolean para marcar fim de palavra.
+    rubric:
+      - point: Implementa insert corretamente
+        required: true
+      - point: Implementa search verificando is_end
+        required: true
+      - point: Implementa startsWith sem verificar is_end
+        required: true
+      - point: Codigo limpo e eficiente
+        required: false
+    idealAnswer: |
+      ```python
+      class TrieNode:
+          def __init__(self):
+              self.children = {}
+              self.is_end = False
+
+      class Trie:
+          def __init__(self):
+              self.root = TrieNode()
+
+          def insert(self, word):
+              node = self.root
+              for char in word:
+                  if char not in node.children:
+                      node.children[char] = TrieNode()
+                  node = node.children[char]
+              node.is_end = True
+
+          def search(self, word):
+              node = self._find_node(word)
+              return node is not None and node.is_end
+
+          def startsWith(self, prefix):
+              return self._find_node(prefix) is not None
+
+          def _find_node(self, s):
+              node = self.root
+              for char in s:
+                  if char not in node.children:
+                      return None
+                  node = node.children[char]
+              return node
+      ```
+
+  - id: trie-q2
+    question: Como implementar autocomplete usando Trie?
+    difficulty: medium
+    companies: [Google, Amazon, Uber]
+    tip: Encontre o no do prefixo, depois faca DFS para coletar todas as palavras.
+    followUp: Como retornar apenas as top-k sugestoes mais frequentes?
+    rubric:
+      - point: Navega ate o no do prefixo
+        required: true
+      - point: Faz DFS/BFS para coletar palavras completas
+        required: true
+      - point: Reconstroi as palavras corretamente
+        required: true
+      - point: Responde follow-up sobre top-k com frequencia
+        required: false
+    idealAnswer: |
+      ```python
+      def autocomplete(self, prefix):
+          node = self._find_node(prefix)
+          if not node:
+              return []
+
+          results = []
+          self._dfs(node, prefix, results)
+          return results
+
+      def _dfs(self, node, current, results):
+          if node.is_end:
+              results.append(current)
+          for char, child in node.children.items():
+              self._dfs(child, current + char, results)
+      ```
+
+      Para top-k por frequencia:
+      1. Armazene contador de frequencia em cada no is_end
+      2. Use min-heap de tamanho k durante DFS
+      3. Ou pre-compute top-k em cada no (space-time tradeoff)
+
+  - id: trie-q3
+    question: Projete um sistema de busca com suporte a wildcard (.) que casa com qualquer caractere.
+    difficulty: hard
+    companies: [Google, Meta, Apple]
+    tip: Quando encontrar '.', explore TODOS os filhos recursivamente.
+    rubric:
+      - point: Implementa busca normal para caracteres regulares
+        required: true
+      - point: Para '.', explora todos os filhos recursivamente
+        required: true
+      - point: Usa backtracking corretamente
+        required: true
+      - point: Analisa complexidade do pior caso
+        required: false
+    idealAnswer: |
+      ```python
+      def search_with_wildcard(self, word):
+          return self._search_helper(self.root, word, 0)
+
+      def _search_helper(self, node, word, index):
+          if index == len(word):
+              return node.is_end
+
+          char = word[index]
+
+          if char == '.':
+              # Tenta todos os filhos
+              for child in node.children.values():
+                  if self._search_helper(child, word, index + 1):
+                      return True
+              return False
+          else:
+              if char not in node.children:
+                  return False
+              return self._search_helper(
+                  node.children[char], word, index + 1
+              )
+      ```
+
+      Complexidade:
+      - Sem wildcard: O(m)
+      - Com wildcard: O(26^k * m) no pior caso, onde k e o numero de '.'
+      - Na pratica, muito mais rapido devido a estrutura da trie

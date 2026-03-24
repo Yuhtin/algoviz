@@ -1,0 +1,277 @@
+slug: lru-cache
+name: LRU Cache
+category: Hash
+description: Cache com politica Least Recently Used - remove o item menos recentemente usado quando cheio. Operacoes get e put em O(1).
+difficulty: Difícil
+tags: [Cache, Hash Table, Linked List, Design]
+
+complexity:
+  time: O(1)
+  space: O(capacity)
+
+presets:
+  - label: Cache Simples (cap=3)
+    data:
+      capacity: 3
+      operations:
+        - ["put", 1, "A"]
+        - ["put", 2, "B"]
+        - ["put", 3, "C"]
+        - ["get", 1]
+        - ["put", 4, "D"]
+        - ["get", 2]
+        - ["get", 3]
+  - label: Acesso Repetido (cap=2)
+    data:
+      capacity: 2
+      operations:
+        - ["put", 1, "X"]
+        - ["put", 2, "Y"]
+        - ["get", 1]
+        - ["put", 3, "Z"]
+        - ["get", 2]
+        - ["get", 1]
+        - ["put", 4, "W"]
+  - label: Atualizacao de Valor (cap=3)
+    data:
+      capacity: 3
+      operations:
+        - ["put", 1, "old"]
+        - ["put", 2, "B"]
+        - ["put", 3, "C"]
+        - ["put", 1, "new"]
+        - ["get", 2]
+        - ["put", 4, "D"]
+        - ["get", 1]
+        - ["get", 3]
+
+concepts:
+  class-def:
+    label: Estrutura do Cache
+    explanation: Combina hash table (acesso O(1)) com doubly linked list (ordenacao de uso O(1)).
+  node-def:
+    label: No da Lista
+    explanation: Cada no tem key, value, e ponteiros prev/next para navegacao bidirecional.
+  init-cache:
+    label: Inicializacao
+    explanation: Cria hash table vazia e lista com nos sentinela head/tail para simplificar operacoes.
+  get-op:
+    label: Operacao Get
+    explanation: Busca no hash, move para o inicio da lista (mais recente), retorna valor.
+  put-op:
+    label: Operacao Put
+    explanation: Se existe atualiza valor, senao insere novo. Move para inicio. Se excede capacidade, remove o ultimo.
+  move-to-front:
+    label: Mover para Frente
+    explanation: Remove o no da posicao atual e insere no inicio da lista.
+  remove-node:
+    label: Remover No
+    explanation: Ajusta ponteiros prev/next para remover no da lista em O(1).
+  add-to-front:
+    label: Adicionar na Frente
+    explanation: Insere no logo apos head sentinela, tornando-o o mais recentemente usado.
+  evict-lru:
+    label: Remover LRU
+    explanation: Remove o no antes do tail sentinela - o menos recentemente usado.
+  hash-lookup:
+    label: Busca no Hash
+    explanation: Hash table mapeia key diretamente para o no na lista, permitindo acesso O(1).
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      LRU Cache e uma estrutura que combina duas ideias:
+
+      **Hash Table**: para acesso O(1) por chave
+      **Doubly Linked List**: para manter ordem de uso e remocao O(1)
+
+      A lista mantem items ordenados por uso recente: mais recente na frente, menos
+      recente no final. O hash mapeia chaves diretamente para nos da lista.
+
+      **Operacoes:**
+      - **get(key)**: busca no hash, se existe move para frente e retorna valor
+      - **put(key, value)**: se existe atualiza e move para frente; senao cria no,
+        adiciona na frente, e se exceder capacidade remove o ultimo (LRU)
+
+      O truque dos nos sentinela (dummy head e tail) elimina casos especiais de
+      lista vazia ou um elemento, simplificando muito o codigo.
+    steps:
+      - Hash table mapeia key -> no da lista
+      - Lista duplamente encadeada mantem ordem de uso
+      - Get move o no acessado para o inicio
+      - Put adiciona no inicio e remove do final se necessario
+      - Sentinelas head/tail simplificam insercao/remocao
+
+  keyInsight: A combinacao de hash table + doubly linked list permite tanto acesso por chave quanto manutencao de ordem em O(1). Nenhuma estrutura sozinha consegue isso.
+
+  commonMistakes:
+    - Usar lista simples (remocao do meio seria O(n))
+    - Esquecer de atualizar o hash ao remover do cache
+    - Nao mover para frente no get (so conta como "usado" se mover)
+    - Esquecer de tratar atualizacao de valor existente
+
+  bigO:
+    time:
+      notation: O(1)
+      explanation: Todas operacoes sao O(1) - hash lookup e manipulacao de ponteiros.
+      proof: Hash table da acesso O(1) ao no, lista duplamente encadeada permite remocao e insercao O(1).
+    space:
+      notation: O(capacity)
+      explanation: Armazena no maximo capacity items no hash e na lista.
+    bestCase:
+      notation: O(1)
+      explanation: Sempre O(1) independente do estado do cache.
+    worstCase:
+      notation: O(1)
+      explanation: Mesmo com eviction, operacoes sao O(1).
+
+  comparisons:
+    - name: LRU Cache
+      slug: lru-cache
+      time: O(1) get/put
+      space: O(capacity)
+      bestFor: Cache de acesso frequente, memoria limitada
+    - name: LFU Cache
+      time: O(1) get/put
+      space: O(capacity)
+      bestFor: Quando frequencia importa mais que recencia
+    - name: FIFO Cache
+      time: O(1) get/put
+      space: O(capacity)
+      bestFor: Simplicidade, ordem de chegada
+
+interview:
+  - id: lru-q1
+    question: Projete e implemente um LRU Cache com get e put em O(1).
+    difficulty: hard
+    companies: [Google, Amazon, Microsoft, Meta, Apple]
+    tip: Pense em quais estruturas de dados permitem acesso e ordenacao em O(1).
+    rubric:
+      - point: Identifica necessidade de hash table + linked list
+        required: true
+      - point: Usa doubly linked list (nao singly)
+        required: true
+      - point: Implementa get movendo para frente
+        required: true
+      - point: Implementa put com eviction correta
+        required: true
+    idealAnswer: |
+      ```python
+      class Node:
+          def __init__(self, key=0, val=0):
+              self.key, self.val = key, val
+              self.prev = self.next = None
+
+      class LRUCache:
+          def __init__(self, capacity):
+              self.cap = capacity
+              self.cache = {}  # key -> node
+              self.head = Node()  # dummy head
+              self.tail = Node()  # dummy tail
+              self.head.next = self.tail
+              self.tail.prev = self.head
+
+          def _remove(self, node):
+              node.prev.next = node.next
+              node.next.prev = node.prev
+
+          def _add_front(self, node):
+              node.next = self.head.next
+              node.prev = self.head
+              self.head.next.prev = node
+              self.head.next = node
+
+          def get(self, key):
+              if key not in self.cache:
+                  return -1
+              node = self.cache[key]
+              self._remove(node)
+              self._add_front(node)
+              return node.val
+
+          def put(self, key, value):
+              if key in self.cache:
+                  self._remove(self.cache[key])
+              node = Node(key, value)
+              self.cache[key] = node
+              self._add_front(node)
+              if len(self.cache) > self.cap:
+                  lru = self.tail.prev
+                  self._remove(lru)
+                  del self.cache[lru.key]
+      ```
+
+  - id: lru-q2
+    question: Por que usar doubly linked list em vez de singly linked list?
+    difficulty: medium
+    companies: [Google, Amazon]
+    tip: Pense na complexidade de remover um no do meio da lista.
+    rubric:
+      - point: Explica que remocao do meio requer acesso ao no anterior
+        required: true
+      - point: Com singly list, encontrar anterior e O(n)
+        required: true
+      - point: Com doubly list, anterior e O(1) via prev pointer
+        required: true
+      - point: Menciona trade-off de memoria extra
+        required: false
+    idealAnswer: |
+      Para remover um no do meio da lista em O(1), precisamos ajustar o ponteiro
+      next do no ANTERIOR. Com singly linked list, para encontrar o anterior
+      precisariamos percorrer desde o inicio - O(n).
+
+      Com doubly linked list, cada no tem ponteiro para o anterior (prev), entao
+      a remocao e O(1):
+
+      ```python
+      def remove(node):
+          node.prev.next = node.next  # O(1)
+          node.next.prev = node.prev  # O(1)
+      ```
+
+      O trade-off e memoria extra para o ponteiro prev, mas em LRU Cache isso e
+      essencial para manter todas operacoes O(1).
+
+  - id: lru-q3
+    question: Como voce faria LRU Cache thread-safe?
+    difficulty: hard
+    companies: [Google, Meta, Uber]
+    tip: Considere granularidade do lock e possibilidade de estruturas lock-free.
+    followUp: Como minimizar contencao em sistema de alta concorrencia?
+    rubric:
+      - point: Menciona necessidade de sincronizacao para get e put
+        required: true
+      - point: Sugere lock global (mutex) como solucao simples
+        required: true
+      - point: Discute alternativas como read-write lock
+        required: false
+      - point: Menciona sharding ou estruturas concorrentes
+        required: false
+    idealAnswer: |
+      **Solucao simples - mutex global:**
+      ```python
+      import threading
+
+      class ThreadSafeLRU:
+          def __init__(self, capacity):
+              self.cache = LRUCache(capacity)
+              self.lock = threading.Lock()
+
+          def get(self, key):
+              with self.lock:
+                  return self.cache.get(key)
+
+          def put(self, key, value):
+              with self.lock:
+                  self.cache.put(key, value)
+      ```
+
+      **Otimizacoes para alta concorrencia:**
+      1. **Read-write lock**: permite multiplos gets simultaneos
+      2. **Sharding**: dividir em N caches menores por hash(key) % N
+      3. **Lock-free**: usar CAS (compare-and-swap) para atualizacoes atomicas
+      4. **Aproximacao**: atualizar ordem de uso de forma probabilistica
+
+      Na pratica, sharding e a abordagem mais comum em sistemas de producao
+      (ex: Memcached, Redis cluster).

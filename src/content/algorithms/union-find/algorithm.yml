@@ -1,0 +1,262 @@
+slug: union-find
+name: Union-Find (Disjoint Set)
+category: Grafos
+description: Estrutura de dados para rastrear elementos particionados em conjuntos disjuntos, com operacoes quase O(1) para unir conjuntos e verificar conectividade.
+difficulty: Difícil
+tags: [Estrutura de Dados, Conjuntos, Conectividade, Kruskal]
+
+complexity:
+  time: O(alpha(n))
+  space: O(n)
+
+presets:
+  - label: Rede Social
+    data:
+      nodes: ["Alice", "Bob", "Carol", "David", "Eve", "Frank"]
+      operations:
+        - ["union", "Alice", "Bob"]
+        - ["union", "Carol", "David"]
+        - ["find", "Alice", "Carol"]
+        - ["union", "Bob", "Carol"]
+        - ["find", "Alice", "David"]
+        - ["union", "Eve", "Frank"]
+        - ["find", "Alice", "Eve"]
+  - label: Ilhas em Grid
+    data:
+      nodes: ["0", "1", "2", "3", "4", "5", "6", "7", "8"]
+      operations:
+        - ["union", "0", "1"]
+        - ["union", "1", "2"]
+        - ["union", "3", "4"]
+        - ["union", "6", "7"]
+        - ["union", "7", "8"]
+        - ["find", "0", "8"]
+        - ["union", "2", "5"]
+        - ["union", "5", "8"]
+        - ["find", "0", "8"]
+  - label: Componentes Conexos
+    data:
+      nodes: ["A", "B", "C", "D", "E", "F", "G", "H"]
+      operations:
+        - ["union", "A", "B"]
+        - ["union", "C", "D"]
+        - ["union", "E", "F"]
+        - ["union", "G", "H"]
+        - ["union", "A", "C"]
+        - ["union", "E", "G"]
+        - ["find", "B", "D"]
+        - ["find", "A", "E"]
+        - ["union", "C", "G"]
+        - ["find", "A", "H"]
+
+concepts:
+  class-def:
+    label: Definicao da Classe
+    explanation: Estrutura que mantem parent (quem e o pai) e rank (altura da arvore) para cada elemento.
+  init-parent:
+    label: Inicializar Parent
+    explanation: Cada elemento comeca como seu proprio pai, formando conjuntos unitarios.
+  init-rank:
+    label: Inicializar Rank
+    explanation: Rank comeca em 0 para todos. Usado para manter arvores balanceadas.
+  find-op:
+    label: Operacao Find
+    explanation: Encontra o representante (raiz) do conjunto. Usa path compression para otimizar.
+  path-compression:
+    label: Path Compression
+    explanation: Ao buscar a raiz, faz todos os nos apontarem diretamente para ela, achatando a arvore.
+  union-op:
+    label: Operacao Union
+    explanation: Une dois conjuntos conectando suas raizes.
+  union-by-rank:
+    label: Union by Rank
+    explanation: Sempre anexa a arvore menor na maior para manter balanceamento.
+  connected:
+    label: Verificar Conexao
+    explanation: Dois elementos estao conectados se tem a mesma raiz.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      Union-Find (ou Disjoint Set Union - DSU) e uma estrutura de dados que mantem
+      uma colecao de conjuntos disjuntos. Ela suporta duas operacoes principais:
+
+      **Find**: descobre a qual conjunto um elemento pertence, retornando o
+      "representante" (raiz) do conjunto.
+
+      **Union**: une dois conjuntos em um so.
+
+      A magica esta em duas otimizacoes que tornam as operacoes quase O(1):
+
+      **Path Compression**: quando fazemos Find, fazemos todos os elementos no caminho
+      apontarem diretamente para a raiz, achatando a arvore para buscas futuras.
+
+      **Union by Rank**: sempre anexamos a arvore menor na maior, mantendo a altura
+      logaritmica.
+
+      Com ambas otimizacoes, a complexidade amortizada e O(α(n)), onde α e a funcao
+      inversa de Ackermann - cresce tao devagar que para todos os fins praticos e
+      constante (α(n) <= 4 para n ate 10^80).
+    steps:
+      - Inicialize cada elemento como seu proprio conjunto (parent[i] = i)
+      - Para Find, siga os ponteiros ate a raiz, comprimindo o caminho
+      - Para Union, encontre as raizes e conecte a menor na maior
+      - Para verificar conexao, compare as raizes
+
+  keyInsight: Path compression achata a arvore durante Find, e union by rank mantem arvores balanceadas. Juntos, tornam operacoes praticamente O(1).
+
+  commonMistakes:
+    - Esquecer path compression (Find fica O(n) no pior caso)
+    - Esquecer union by rank (arvores desequilibradas)
+    - Unir elementos em vez de raizes
+    - Nao inicializar parent corretamente
+
+  bigO:
+    time:
+      notation: O(alpha(n))
+      explanation: alpha(n) e a funcao inversa de Ackermann, praticamente constante.
+      proof: Com path compression e union by rank, qualquer sequencia de m operacoes em n elementos leva O(m * alpha(n)) tempo.
+    space:
+      notation: O(n)
+      explanation: Arrays parent e rank com n elementos.
+    bestCase:
+      notation: O(1)
+      explanation: Se o elemento ja aponta para a raiz.
+    worstCase:
+      notation: O(alpha(n))
+      explanation: Mesmo no pior caso, alpha(n) <= 4 para valores praticos.
+
+  comparisons:
+    - name: Union-Find
+      slug: union-find
+      time: O(alpha(n)) amortizado
+      space: O(n)
+      bestFor: Conectividade dinamica, Kruskal MST
+    - name: DFS/BFS
+      slug: dfs
+      time: O(V + E)
+      space: O(V)
+      bestFor: Travessia unica, caminho mais curto
+
+interview:
+  - id: uf-q1
+    question: Explique Union-Find e suas duas otimizacoes principais.
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft, Meta]
+    tip: Foque em por que cada otimizacao e necessaria e como funcionam juntas.
+    rubric:
+      - point: Explica as operacoes Find e Union
+        required: true
+      - point: Descreve path compression
+        required: true
+      - point: Descreve union by rank
+        required: true
+      - point: Menciona complexidade O(alpha(n))
+        required: false
+    idealAnswer: |
+      Union-Find e uma estrutura para gerenciar conjuntos disjuntos com duas operacoes:
+      - **Find(x)**: retorna o representante (raiz) do conjunto de x
+      - **Union(x, y)**: une os conjuntos de x e y
+
+      **Path Compression**: durante Find, fazemos todos os elementos no caminho
+      apontarem diretamente para a raiz. Isso achata a arvore para buscas futuras.
+
+      ```python
+      def find(self, x):
+          if self.parent[x] != x:
+              self.parent[x] = self.find(self.parent[x])  # compressao
+          return self.parent[x]
+      ```
+
+      **Union by Rank**: sempre anexamos a arvore de menor rank (altura) na de maior.
+      Isso evita arvores desequilibradas.
+
+      Com ambas otimizacoes, a complexidade amortizada e O(α(n)), onde α e a inversa
+      de Ackermann - praticamente O(1) para todos os valores praticos.
+
+  - id: uf-q2
+    question: Use Union-Find para contar o numero de componentes conexos em um grafo.
+    difficulty: medium
+    companies: [Google, Amazon, Uber, LinkedIn]
+    tip: Comece com n componentes e decremente a cada union bem-sucedido.
+    followUp: Como adaptar para grafos dinamicos onde arestas sao adicionadas?
+    rubric:
+      - point: Inicializa cada vertice como seu proprio componente
+        required: true
+      - point: Processa cada aresta com union
+        required: true
+      - point: Conta componentes corretamente (raizes distintas ou contador)
+        required: true
+      - point: Responde follow-up sobre grafos dinamicos
+        required: false
+    idealAnswer: |
+      ```python
+      def count_components(n, edges):
+          uf = UnionFind(n)
+          components = n  # Comeca com n componentes
+
+          for u, v in edges:
+              if uf.union(u, v):  # Retorna True se uniao aconteceu
+                  components -= 1
+
+          return components
+      ```
+
+      Para grafos dinamicos (arestas adicionadas ao longo do tempo), Union-Find e
+      perfeito pois cada union e O(α(n)). So precisamos processar novas arestas.
+
+      Alternativa: contar raizes distintas no final:
+      ```python
+      roots = set(uf.find(i) for i in range(n))
+      return len(roots)
+      ```
+
+  - id: uf-q3
+    question: Implemente Union-Find e use para detectar ciclos em um grafo nao-direcionado.
+    difficulty: hard
+    companies: [Google, Meta, Apple]
+    tip: Um ciclo existe quando tentamos unir dois elementos que ja estao no mesmo conjunto.
+    rubric:
+      - point: Implementa Union-Find com path compression
+        required: true
+      - point: Implementa union by rank
+        required: true
+      - point: Detecta ciclo quando find(u) == find(v) antes de union
+        required: true
+      - point: Implementacao limpa e eficiente
+        required: false
+    idealAnswer: |
+      ```python
+      class UnionFind:
+          def __init__(self, n):
+              self.parent = list(range(n))
+              self.rank = [0] * n
+
+          def find(self, x):
+              if self.parent[x] != x:
+                  self.parent[x] = self.find(self.parent[x])
+              return self.parent[x]
+
+          def union(self, x, y):
+              px, py = self.find(x), self.find(y)
+              if px == py:
+                  return False  # Ja conectados
+              if self.rank[px] < self.rank[py]:
+                  px, py = py, px
+              self.parent[py] = px
+              if self.rank[px] == self.rank[py]:
+                  self.rank[px] += 1
+              return True
+
+      def has_cycle(n, edges):
+          uf = UnionFind(n)
+          for u, v in edges:
+              if not uf.union(u, v):  # Ja estao conectados!
+                  return True
+          return False
+      ```
+
+      A deteccao funciona porque em um grafo aciclico, cada aresta conecta dois
+      componentes distintos. Se uma aresta conecta vertices no mesmo componente,
+      ela fecha um ciclo.
