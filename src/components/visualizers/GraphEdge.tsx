@@ -11,7 +11,7 @@ interface GraphEdgeProps {
   y1: number
   x2: number
   y2: number
-  weight: number
+  weight?: number
   state: EdgeState
 }
 
@@ -100,30 +100,34 @@ export function GraphEdge({ x1, y1, x2, y2, weight, state }: GraphEdgeProps) {
         transition={{ duration: 0.2 }}
       />
 
-      {/* Weight label background */}
-      <rect
-        x={midX + offsetX - 10}
-        y={midY + offsetY - 8}
-        width={20}
-        height={16}
-        rx={4}
-        fill={isActive ? style.stroke : colors.bg}
-        opacity={0.9}
-      />
+      {/* Weight label background (only if weight is provided) */}
+      {weight !== undefined && (
+        <rect
+          x={midX + offsetX - 10}
+          y={midY + offsetY - 8}
+          width={20}
+          height={16}
+          rx={4}
+          fill={isActive ? style.stroke : colors.bg}
+          opacity={0.9}
+        />
+      )}
 
-      {/* Weight label */}
-      <text
-        x={midX + offsetX}
-        y={midY + offsetY + 4}
-        textAnchor="middle"
-        fill={isActive ? colors.bg : colors.textMuted}
-        fontSize={10}
-        fontWeight={600}
-        fontFamily="monospace"
-        style={{ userSelect: 'none' }}
-      >
-        {weight}
-      </text>
+      {/* Weight label (only if weight is provided) */}
+      {weight !== undefined && (
+        <text
+          x={midX + offsetX}
+          y={midY + offsetY + 4}
+          textAnchor="middle"
+          fill={isActive ? colors.bg : colors.textMuted}
+          fontSize={10}
+          fontWeight={600}
+          fontFamily="monospace"
+          style={{ userSelect: 'none' }}
+        >
+          {weight}
+        </text>
+      )}
     </g>
   )
 }

@@ -7,6 +7,8 @@ import { AlgorithmFullPage } from '@/components/algorithm/AlgorithmFullPage'
 import { BubbleSortVisualizer } from '@/algorithms/bubble-sort/Visualizer'
 import { BucketSortVisualizer } from '@/algorithms/bucket-sort/Visualizer'
 import { DijkstraVisualizer } from '@/algorithms/dijkstra/Visualizer'
+import { DFSVisualizer } from '@/algorithms/dfs/Visualizer'
+import { BFSVisualizer } from '@/algorithms/bfs/Visualizer'
 import { SingleCycleVisualizer } from '@/algorithms/single-cycle/Visualizer'
 import { TwoSumVisualizer } from '@/algorithms/two-sum/Visualizer'
 
@@ -19,6 +21,8 @@ const visualizers: Record<string, React.ComponentType> = {
   'bubble-sort': BubbleSortVisualizer,
   'bucket-sort': BucketSortVisualizer,
   'dijkstra': DijkstraVisualizer,
+  'dfs': DFSVisualizer,
+  'bfs': BFSVisualizer,
   'single-cycle-check': SingleCycleVisualizer,
   'two-sum': TwoSumVisualizer,
 }
