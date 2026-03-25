@@ -1,16 +1,16 @@
 slug: topological-sort
 name: Topological Sort
 category: Grafos
-description: Ordena vertices de um grafo direcionado aciclico (DAG) de forma que para toda aresta u->v, u aparece antes de v.
+description: Ordena vértices de um grafo direcionado acíclico (DAG) de forma que para toda aresta u->v, u aparece antes de v.
 difficulty: Difícil
-tags: [Grafo, DAG, Ordenacao, DFS, Kahn]
+tags: [Grafo, DAG, Ordenação, DFS, Kahn]
 
 complexity:
   time: O(V + E)
   space: O(V)
 
 presets:
-  - label: Dependencias de Build
+  - label: Dependências de Build
     data:
       nodes: ["main", "utils", "config", "db", "api", "auth"]
       edges:
@@ -21,7 +21,7 @@ presets:
         - ["db", "config"]
         - ["auth", "config"]
         - ["utils", "config"]
-  - label: Curriculo de Cursos
+  - label: Currículo de Cursos
     data:
       nodes: ["Calc1", "Calc2", "Calc3", "Algebra", "Fisica1", "Fisica2", "Prog1", "Prog2"]
       edges:
@@ -32,7 +32,7 @@ presets:
         - ["Fisica1", "Fisica2"]
         - ["Prog1", "Prog2"]
         - ["Calc1", "Prog2"]
-  - label: Tasks com Dependencias
+  - label: Tasks com Dependências
     data:
       nodes: ["A", "B", "C", "D", "E", "F"]
       edges:
@@ -46,79 +46,79 @@ presets:
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Recebe um grafo direcionado como lista de adjacencia.
+    label: Definição
+    explanation: Recebe um grafo direcionado como lista de adjacência.
   init-indegree:
     label: Calcular Grau de Entrada
-    explanation: Conta quantas arestas chegam em cada vertice. Vertices com grau 0 nao tem dependencias.
+    explanation: Conta quantas arestas chegam em cada vértice. Vértices com grau 0 não têm dependências.
   init-queue:
     label: Inicializar Fila
-    explanation: Adiciona todos os vertices com grau de entrada 0 a fila - eles podem ser processados primeiro.
+    explanation: Adiciona todos os vértices com grau de entrada 0 à fila - eles podem ser processados primeiro.
   main-loop:
     label: Loop Principal
-    explanation: Processa vertices da fila enquanto houver vertices disponiveis.
+    explanation: Processa vértices da fila enquanto houver vértices disponíveis.
   dequeue:
     label: Desenfileirar
-    explanation: Remove o proximo vertice da fila e adiciona ao resultado.
+    explanation: Remove o próximo vértice da fila e adiciona ao resultado.
   process-neighbors:
     label: Processar Vizinhos
-    explanation: Para cada vizinho, decrementa seu grau de entrada pois uma dependencia foi satisfeita.
+    explanation: Para cada vizinho, decrementa seu grau de entrada pois uma dependência foi satisfeita.
   check-zero:
     label: Verificar Grau Zero
     explanation: Se o grau de entrada do vizinho chegou a zero, ele pode ser processado.
   check-cycle:
     label: Verificar Ciclo
-    explanation: Se o resultado tem menos vertices que o grafo, existe um ciclo.
+    explanation: Se o resultado tem menos vértices que o grafo, existe um ciclo.
   dfs-visit:
     label: Visitar DFS
-    explanation: Visita o vertice recursivamente, processando todos os vizinhos primeiro.
+    explanation: Visita o vértice recursivamente, processando todos os vizinhos primeiro.
   post-order:
-    label: Pos-Ordem
-    explanation: Adiciona o vertice ao resultado DEPOIS de processar todos os vizinhos.
+    label: Pós-Ordem
+    explanation: Adiciona o vértice ao resultado DEPOIS de processar todos os vizinhos.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      Topological Sort ordena vertices de um DAG (Directed Acyclic Graph) de forma que
-      todas as dependencias aparecem antes dos vertices que dependem delas. E como
+      Topological Sort ordena vértices de um DAG (Directed Acyclic Graph) de forma que
+      todas as dependências aparecem antes dos vértices que dependem delas. É como
       ordenar tarefas onde algumas precisam ser feitas antes de outras.
 
-      Existem duas abordagens classicas:
+      Existem duas abordagens clássicas:
 
-      **Algoritmo de Kahn (BFS):**
-      Comeca pelos vertices sem dependencias (grau de entrada = 0) e vai removendo-os
+      Algoritmo de Kahn (BFS):
+      Começa pelos vértices sem dependências (grau de entrada = 0) e vai removendo-os
       do grafo, atualizando os graus dos vizinhos. Quando um vizinho fica com grau 0,
       ele entra na fila.
 
-      **DFS com pos-ordem:**
-      Faz DFS normal, mas adiciona cada vertice ao resultado DEPOIS de visitar todos
+      DFS com pós-ordem:
+      Faz DFS normal, mas adiciona cada vértice ao resultado DEPOIS de visitar todos
       os vizinhos. No final, inverte o resultado.
 
-      Ambos detectam ciclos: Kahn verifica se processou todos os vertices; DFS usa
-      coloracao para detectar back edges.
+      Ambos detectam ciclos: Kahn verifica se processou todos os vértices; DFS usa
+      coloração para detectar back edges.
     steps:
-      - Calcule o grau de entrada de cada vertice
-      - Adicione vertices com grau 0 a uma fila
-      - Remova um vertice da fila e adicione ao resultado
+      - Calcule o grau de entrada de cada vértice
+      - Adicione vértices com grau 0 a uma fila
+      - Remova um vértice da fila e adicione ao resultado
       - Decremente o grau de entrada de todos os vizinhos
-      - Se algum vizinho ficar com grau 0, adicione a fila
-      - Repita ate a fila esvaziar
-      - Se sobrar vertices, o grafo tem ciclo
+      - Se algum vizinho ficar com grau 0, adicione à fila
+      - Repita até a fila esvaziar
+      - Se sobrar vértices, o grafo tem ciclo
 
-  keyInsight: "Vertices sem dependencias (grau de entrada 0) podem ser processados imediatamente. Ao processa-los, liberamos seus dependentes."
+  keyInsight: "Vértices sem dependências (grau de entrada 0) podem ser processados imediatamente. Ao processá-los, liberamos seus dependentes."
 
   commonMistakes:
-    - Nao verificar se o grafo tem ciclo (topological sort so existe para DAGs)
+    - Não verificar se o grafo tem ciclo (topological sort só existe para DAGs)
     - Esquecer de decrementar o grau de entrada dos vizinhos
-    - Confundir com ordenacao comum de arrays
-    - Assumir que existe apenas uma ordenacao valida (geralmente existem varias)
+    - Confundir com ordenação comum de arrays
+    - Assumir que existe apenas uma ordenação válida (geralmente existem várias)
 
   bigO:
     time:
       notation: O(V + E)
-      explanation: Cada vertice e processado uma vez, cada aresta e examinada uma vez.
-      proof: Calculamos grau de entrada em O(E), processamos cada vertice uma vez e cada aresta uma vez ao atualizar graus.
+      explanation: Cada vértice é processado uma vez, cada aresta é examinada uma vez.
+      proof: Calculamos grau de entrada em O(E), processamos cada vértice uma vez e cada aresta uma vez ao atualizar graus.
     space:
       notation: O(V)
       explanation: Armazenamos graus de entrada e a fila, ambos O(V).
@@ -127,7 +127,7 @@ theory:
       explanation: Sempre precisamos examinar todo o grafo.
     worstCase:
       notation: O(V + E)
-      explanation: Mesmo com ciclo, detectamos apos processar o grafo.
+      explanation: Mesmo com ciclo, detectamos após processar o grafo.
 
   comparisons:
     - name: Kahn (BFS)
@@ -135,61 +135,61 @@ theory:
       time: O(V + E)
       space: O(V)
       bestFor: Detectar ciclos facilmente, processar em paralelo
-    - name: DFS pos-ordem
+    - name: DFS pós-ordem
       slug: topological-sort
       time: O(V + E)
       space: O(V)
-      bestFor: Implementacao simples se ja tem DFS
+      bestFor: Implementação simples se já tem DFS
 
 interview:
   - id: topsort-q1
-    question: Explique topological sort e de um exemplo de aplicacao real.
+    question: Explique topological sort e dê um exemplo de aplicação real.
     difficulty: easy
     companies: [Google, Amazon, Microsoft, Meta]
-    tip: Pense em sistemas de build, curriculos de cursos, ou qualquer sistema com dependencias.
+    tip: Pense em sistemas de build, currículos de cursos, ou qualquer sistema com dependências.
     rubric:
-      - point: Define como ordenacao de DAG onde dependencias vem antes
+      - point: Define como ordenação de DAG onde dependências vêm antes
         required: true
-      - point: Da exemplo concreto (build system, cursos, tasks)
+      - point: Dá exemplo concreto (build system, cursos, tasks)
         required: true
-      - point: Menciona que so funciona para DAGs
+      - point: Menciona que só funciona para DAGs
         required: true
       - point: Explica pelo menos um algoritmo (Kahn ou DFS)
         required: false
     idealAnswer: |
-      Topological sort ordena vertices de um grafo direcionado aciclico (DAG) de forma
-      que para toda aresta u->v, u aparece antes de v na ordenacao.
+      Topological sort ordena vértices de um grafo direcionado acíclico (DAG) de forma
+      que para toda aresta u->v, u aparece antes de v na ordenação.
 
-      Aplicacoes reais:
-      - **Build systems (Make, Gradle)**: compilar dependencias antes do codigo principal
-      - **Curriculo de cursos**: Calculo 1 antes de Calculo 2
-      - **Package managers (npm, pip)**: instalar dependencias na ordem correta
-      - **Spreadsheets**: calcular celulas na ordem certa quando ha formulas
+      Aplicações reais:
+      - Build systems (Make, Gradle): compilar dependências antes do código principal
+      - Currículo de cursos: Cálculo 1 antes de Cálculo 2
+      - Package managers (npm, pip): instalar dependências na ordem correta
+      - Spreadsheets: calcular células na ordem certa quando há fórmulas
 
-      Dois algoritmos principais: Kahn (BFS com grau de entrada) e DFS com pos-ordem.
-      Complexidade O(V + E). Se o grafo tem ciclo, topological sort nao existe.
+      Dois algoritmos principais: Kahn (BFS com grau de entrada) e DFS com pós-ordem.
+      Complexidade O(V + E). Se o grafo tem ciclo, topological sort não existe.
 
   - id: topsort-q2
     question: Como detectar se um grafo direcionado tem ciclo usando topological sort?
     difficulty: medium
     companies: [Google, Amazon, Apple]
-    tip: Pense no que acontece com o algoritmo de Kahn quando ha ciclo.
-    followUp: Como encontrar os vertices que fazem parte do ciclo?
+    tip: Pense no que acontece com o algoritmo de Kahn quando há ciclo.
+    followUp: Como encontrar os vértices que fazem parte do ciclo?
     rubric:
-      - point: Explica que Kahn nao processa todos vertices se ha ciclo
+      - point: Explica que Kahn não processa todos vértices se há ciclo
         required: true
-      - point: Vertices no ciclo nunca tem grau 0
+      - point: Vértices no ciclo nunca têm grau 0
         required: true
-      - point: Alternativa com DFS usando tres cores
+      - point: Alternativa com DFS usando três cores
         required: false
-      - point: Responde follow-up sobre encontrar vertices do ciclo
+      - point: Responde follow-up sobre encontrar vértices do ciclo
         required: false
     idealAnswer: |
       Com o algoritmo de Kahn, detectamos ciclo verificando se processamos todos os
-      vertices. Se o resultado tem menos vertices que o grafo original, existe ciclo.
+      vértices. Se o resultado tem menos vértices que o grafo original, existe ciclo.
 
-      Por que funciona: vertices em um ciclo nunca terao grau de entrada 0, pois sempre
-      ha pelo menos uma aresta vindo de outro vertice do ciclo. Eles ficam "presos".
+      Por que funciona: vértices em um ciclo nunca terão grau de entrada 0, pois sempre
+      há pelo menos uma aresta vindo de outro vértice do ciclo. Eles ficam "presos".
 
       ```python
       def has_cycle(graph):
@@ -197,21 +197,21 @@ interview:
           return len(result) != len(graph)  # True se tem ciclo
       ```
 
-      Para encontrar vertices do ciclo: os vertices NAO incluidos no resultado de Kahn
-      sao exatamente os que participam de algum ciclo (ou dependem de um ciclo).
+      Para encontrar vértices do ciclo: os vértices NÃO incluídos no resultado de Kahn
+      são exatamente os que participam de algum ciclo (ou dependem de um ciclo).
 
-      Com DFS, use tres cores (branco/cinza/preto). Ciclo existe se encontrar vertice
-      cinza durante a busca (back edge para ancestral na arvore DFS atual).
+      Com DFS, use três cores (branco/cinza/preto). Ciclo existe se encontrar vértice
+      cinza durante a busca (back edge para ancestral na árvore DFS atual).
 
   - id: topsort-q3
-    question: Implemente topological sort. Qual algoritmo voce escolheria e por que?
+    question: Implemente topological sort. Qual algoritmo você escolheria e por quê?
     difficulty: hard
     companies: [Google, Meta, Uber]
-    tip: Kahn e melhor para paralelismo, DFS e mais simples se ja tem a estrutura.
+    tip: Kahn é melhor para paralelismo, DFS é mais simples se já tem a estrutura.
     rubric:
       - point: Implementa corretamente um dos algoritmos
         required: true
-      - point: Trata deteccao de ciclo
+      - point: Trata detecção de ciclo
         required: true
       - point: Justifica escolha do algoritmo
         required: true
@@ -219,7 +219,7 @@ interview:
         required: false
     idealAnswer: |
       Escolho Kahn para a maioria dos casos por ser mais intuitivo e permitir
-      paralelizacao (vertices com grau 0 podem ser processados simultaneamente).
+      paralelização (vértices com grau 0 podem ser processados simultaneamente).
 
       ```python
       from collections import deque
@@ -231,7 +231,7 @@ interview:
               for neighbor in graph[v]:
                   in_degree[neighbor] += 1
 
-          # Vertices sem dependencias
+          # Vértices sem dependências
           queue = deque([v for v in graph if in_degree[v] == 0])
           result = []
 
@@ -251,5 +251,5 @@ interview:
       ```
 
       Trade-offs:
-      - **Kahn**: melhor para paralelismo, deteccao de ciclo natural, mais memoria
-      - **DFS**: codigo mais curto se ja tem DFS, usa pilha de recursao
+      - Kahn: melhor para paralelismo, detecção de ciclo natural, mais memória
+      - DFS: código mais curto se já tem DFS, usa pilha de recursão

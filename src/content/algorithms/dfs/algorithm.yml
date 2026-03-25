@@ -1,16 +1,16 @@
 slug: dfs
 name: DFS (Depth-First Search)
 category: Grafos
-description: Algoritmo de busca em profundidade que explora o grafo indo o mais fundo possivel antes de retroceder.
+description: Algoritmo de busca em profundidade que explora o grafo indo o mais fundo possível antes de retroceder.
 difficulty: Média
-tags: [Grafo, Busca, Recursao, Stack]
+tags: [Grafo, Busca, Recursão, Stack]
 
 complexity:
   time: O(V + E)
   space: O(V)
 
 presets:
-  - label: Arvore Binaria
+  - label: Árvore Binária
     data:
       nodes: ["A", "B", "C", "D", "E", "F", "G"]
       edges:
@@ -43,91 +43,91 @@ presets:
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Recebe o grafo e o vertice inicial para comecar a busca.
+    label: Definição
+    explanation: Recebe o grafo e o vértice inicial para começar a busca.
   init-visited:
     label: Conjunto Visitados
-    explanation: Conjunto que rastreia quais vertices ja foram visitados para evitar ciclos infinitos.
+    explanation: Conjunto que rastreia quais vértices já foram visitados para evitar ciclos infinitos.
   base-case:
     label: Caso Base
-    explanation: Se o vertice ja foi visitado, retorna imediatamente para evitar loops.
+    explanation: Se o vértice já foi visitado, retorna imediatamente para evitar loops.
   mark-visited:
     label: Marcar Visitado
-    explanation: Marca o vertice atual como visitado antes de processar seus vizinhos.
+    explanation: Marca o vértice atual como visitado antes de processar seus vizinhos.
   process-node:
-    label: Processar Vertice
-    explanation: "Executa a logica desejada no vertice atual (ex: imprimir, adicionar a lista)."
+    label: Processar Vértice
+    explanation: "Executa a lógica desejada no vértice atual (ex: imprimir, adicionar à lista)."
   recurse:
-    label: Recursao
-    explanation: Chama DFS recursivamente para cada vizinho nao visitado, indo mais fundo no grafo.
+    label: Recursão
+    explanation: Chama DFS recursivamente para cada vizinho não visitado, indo mais fundo no grafo.
   stack-push:
     label: Empilhar
-    explanation: Adiciona o vertice inicial na pilha para comecar a busca iterativa.
+    explanation: Adiciona o vértice inicial na pilha para começar a busca iterativa.
   stack-pop:
     label: Desempilhar
-    explanation: Remove o vertice do topo da pilha para processar.
+    explanation: Remove o vértice do topo da pilha para processar.
   main-loop:
     label: Loop Principal
-    explanation: Continua enquanto houver vertices na pilha para processar.
+    explanation: Continua enquanto houver vértices na pilha para processar.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      DFS (Depth-First Search) explora um grafo indo o mais fundo possivel em cada ramo
-      antes de retroceder. Imagine explorar um labirinto: voce segue um corredor ate o fim,
+      DFS (Depth-First Search) explora um grafo indo o mais fundo possível em cada ramo
+      antes de retroceder. Imagine explorar um labirinto: você segue um corredor até o fim,
       depois volta e tenta outro caminho.
 
-      A ideia e simples: visite um vertice, marque como visitado, e recursivamente visite
-      todos os vizinhos nao visitados. Quando nao houver mais vizinhos para explorar,
-      retroceda (backtrack) para o vertice anterior.
+      A ideia é simples: visite um vértice, marque como visitado, e recursivamente visite
+      todos os vizinhos não visitados. Quando não houver mais vizinhos para explorar,
+      retroceda (backtrack) para o vértice anterior.
 
       DFS pode ser implementado de duas formas:
-      - **Recursivo**: usa a pilha de chamadas do sistema
-      - **Iterativo**: usa uma pilha explicita
+      - Recursivo: usa a pilha de chamadas do sistema
+      - Iterativo: usa uma pilha explícita
 
-      A versao recursiva e mais elegante, mas pode causar stack overflow em grafos muito
-      profundos. A versao iterativa e mais segura para grafos grandes.
+      A versão recursiva é mais elegante, mas pode causar stack overflow em grafos muito
+      profundos. A versão iterativa é mais segura para grafos grandes.
     steps:
-      - Comece pelo vertice inicial e marque como visitado
-      - Para cada vizinho nao visitado, va recursivamente mais fundo
+      - Comece pelo vértice inicial e marque como visitado
+      - Para cada vizinho não visitado, vá recursivamente mais fundo
       - Quando todos os vizinhos forem visitados, retroceda
-      - Continue ate visitar todos os vertices alcancaveis
+      - Continue até visitar todos os vértices alcançáveis
 
-  keyInsight: DFS usa uma pilha (implicita na recursao ou explicita) para lembrar de onde veio, permitindo explorar profundamente e depois retroceder.
+  keyInsight: DFS usa uma pilha (implícita na recursão ou explícita) para lembrar de onde veio, permitindo explorar profundamente e depois retroceder.
 
   commonMistakes:
-    - Esquecer de marcar vertices como visitados (causa loop infinito em grafos com ciclos)
-    - Confundir ordem de visitacao com ordem de finalizacao
-    - Nao tratar grafos desconexos (DFS so visita vertices alcancaveis do inicio)
-    - Usar recursao em grafos muito profundos sem considerar limite de pilha
+    - Esquecer de marcar vértices como visitados (causa loop infinito em grafos com ciclos)
+    - Confundir ordem de visitação com ordem de finalização
+    - Não tratar grafos desconexos (DFS só visita vértices alcançáveis do início)
+    - Usar recursão em grafos muito profundos sem considerar limite de pilha
 
   bigO:
     time:
       notation: O(V + E)
-      explanation: Cada vertice e visitado uma vez, e cada aresta e examinada uma vez.
-      proof: O conjunto visited garante que cada vertice entra no processamento apenas uma vez. Para cada vertice, iteramos sobre suas arestas adjacentes.
+      explanation: Cada vértice é visitado uma vez, e cada aresta é examinada uma vez.
+      proof: O conjunto visited garante que cada vértice entra no processamento apenas uma vez. Para cada vértice, iteramos sobre suas arestas adjacentes.
     space:
       notation: O(V)
-      explanation: No pior caso, a pilha de recursao pode ter todos os vertices (grafo linear).
+      explanation: No pior caso, a pilha de recursão pode ter todos os vértices (grafo linear).
     bestCase:
       notation: O(V + E)
       explanation: Mesmo no melhor caso, precisamos verificar todas as arestas.
     worstCase:
       notation: O(V + E)
-      explanation: Visitamos todos os vertices e examinamos todas as arestas.
+      explanation: Visitamos todos os vértices e examinamos todas as arestas.
 
   comparisons:
     - name: DFS
       slug: dfs
       time: O(V + E)
       space: O(V)
-      bestFor: Deteccao de ciclos, ordenacao topologica, componentes conexos
+      bestFor: Detecção de ciclos, ordenação topológica, componentes conexos
     - name: BFS
       slug: bfs
       time: O(V + E)
       space: O(V)
-      bestFor: Caminho mais curto em grafos sem peso, niveis de distancia
+      bestFor: Caminho mais curto em grafos sem peso, níveis de distância
     - name: Dijkstra
       slug: dijkstra
       time: O((V+E) log V)
@@ -136,60 +136,60 @@ theory:
 
 interview:
   - id: dfs-q1
-    question: Explique a diferenca entre DFS e BFS. Quando usar cada um?
+    question: Explique a diferença entre DFS e BFS. Quando usar cada um?
     difficulty: easy
     companies: [Google, Amazon, Microsoft, Meta]
     tip: Pense em termos de estrutura de dados (pilha vs fila) e tipo de problema.
     rubric:
       - point: Explica que DFS usa pilha e BFS usa fila
         required: true
-      - point: DFS vai fundo primeiro, BFS explora nivel por nivel
+      - point: DFS vai fundo primeiro, BFS explora nível por nível
         required: true
       - point: DFS para ciclos/topological sort, BFS para caminho mais curto sem peso
         required: true
       - point: Menciona complexidade igual O(V+E) para ambos
         required: false
     idealAnswer: |
-      DFS (Depth-First Search) explora o grafo indo o mais fundo possivel antes de retroceder,
-      usando uma pilha (implicita na recursao ou explicita). BFS (Breadth-First Search) explora
-      nivel por nivel, usando uma fila.
+      DFS (Depth-First Search) explora o grafo indo o mais fundo possível antes de retroceder,
+      usando uma pilha (implícita na recursão ou explícita). BFS (Breadth-First Search) explora
+      nível por nível, usando uma fila.
 
       Use DFS para:
       - Detectar ciclos em grafos
-      - Ordenacao topologica
+      - Ordenação topológica
       - Encontrar componentes fortemente conexos
       - Resolver labirintos (encontrar qualquer caminho)
 
       Use BFS para:
       - Caminho mais curto em grafos sem peso
-      - Encontrar todos os vertices a distancia k
-      - Verificar se grafo e bipartido
+      - Encontrar todos os vértices a distância k
+      - Verificar se grafo é bipartido
 
-      Ambos tem complexidade O(V + E), mas BFS usa mais memoria em grafos largos,
+      Ambos têm complexidade O(V + E), mas BFS usa mais memória em grafos largos,
       enquanto DFS pode ter problemas de stack overflow em grafos profundos.
 
   - id: dfs-q2
     question: Como detectar um ciclo em um grafo direcionado usando DFS?
     difficulty: medium
     companies: [Google, Amazon, Apple, Uber]
-    tip: Pense em tres estados para cada vertice, nao apenas dois.
-    followUp: E em um grafo nao-direcionado?
+    tip: Pense em três estados para cada vértice, não apenas dois.
+    followUp: E em um grafo não-direcionado?
     rubric:
-      - point: Menciona usar tres estados - nao visitado, em processamento, finalizado
+      - point: Menciona usar três estados - não visitado, em processamento, finalizado
         required: true
-      - point: Ciclo existe se encontrar vertice "em processamento" durante DFS
+      - point: Ciclo existe se encontrar vértice "em processamento" durante DFS
         required: true
-      - point: Explica a diferenca para grafos nao-direcionados
+      - point: Explica a diferença para grafos não-direcionados
         required: false
-      - point: Menciona que grafo nao-direcionado precisa ignorar aresta de volta ao pai
+      - point: Menciona que grafo não-direcionado precisa ignorar aresta de volta ao pai
         required: false
     idealAnswer: |
-      Para detectar ciclos em grafos direcionados, use tres estados:
-      - BRANCO (0): nao visitado
-      - CINZA (1): em processamento (na pilha de recursao atual)
+      Para detectar ciclos em grafos direcionados, use três estados:
+      - BRANCO (0): não visitado
+      - CINZA (1): em processamento (na pilha de recursão atual)
       - PRETO (2): finalizado
 
-      Durante o DFS, se encontrarmos um vertice CINZA, encontramos um ciclo (back edge).
+      Durante o DFS, se encontrarmos um vértice CINZA, encontramos um ciclo (back edge).
 
       ```python
       def has_cycle(graph):
@@ -208,29 +208,29 @@ interview:
           return any(dfs(v) for v in graph if color[v] == 0)
       ```
 
-      Para grafos NAO-direcionados, basta verificar se visitamos um vertice ja visitado
-      que nao seja o pai direto. A aresta para o pai nao conta como ciclo.
+      Para grafos NÃO-direcionados, basta verificar se visitamos um vértice já visitado
+      que não seja o pai direto. A aresta para o pai não conta como ciclo.
 
   - id: dfs-q3
-    question: Implemente ordenacao topologica usando DFS.
+    question: Implemente ordenação topológica usando DFS.
     difficulty: medium
     companies: [Google, Microsoft, LinkedIn, Uber]
-    tip: Pense em quando adicionar o vertice ao resultado - antes ou depois de processar vizinhos?
+    tip: Pense em quando adicionar o vértice ao resultado - antes ou depois de processar vizinhos?
     rubric:
-      - point: Explica que ordenacao topologica so funciona em DAGs
+      - point: Explica que ordenação topológica só funciona em DAGs
         required: true
-      - point: Adiciona vertice ao resultado DEPOIS de processar todos os vizinhos
+      - point: Adiciona vértice ao resultado DEPOIS de processar todos os vizinhos
         required: true
-      - point: Inverte o resultado no final (ou usa insercao no inicio)
+      - point: Inverte o resultado no final (ou usa inserção no início)
         required: true
-      - point: Menciona deteccao de ciclo como pre-requisito
+      - point: Menciona detecção de ciclo como pré-requisito
         required: false
     idealAnswer: |
-      Ordenacao topologica ordena vertices de um DAG tal que para toda aresta u->v,
-      u aparece antes de v. So funciona em grafos direcionados aciclicos (DAGs).
+      Ordenação topológica ordena vértices de um DAG tal que para toda aresta u->v,
+      u aparece antes de v. Só funciona em grafos direcionados acíclicos (DAGs).
 
-      A sacada e: adicione o vertice ao resultado DEPOIS de processar todos os vizinhos.
-      Isso garante que dependencias aparecem antes.
+      A sacada é: adicione o vértice ao resultado DEPOIS de processar todos os vizinhos.
+      Isso garante que dependências aparecem antes.
 
       ```python
       def topological_sort(graph):
@@ -251,5 +251,5 @@ interview:
           return result[::-1]  # inverte
       ```
 
-      Complexidade: O(V + E). Na pratica, combine com deteccao de ciclo para
-      validar que o grafo e realmente um DAG.
+      Complexidade: O(V + E). Na prática, combine com detecção de ciclo para
+      validar que o grafo é realmente um DAG.

@@ -220,7 +220,7 @@ export function AlgorithmFullPage({
               </ol>
             </Section>
 
-            <Section id="complexidade" title="Analise de Complexidade" variant="highlighted">
+            <Section id="complexidade" title="Análise de Complexidade" variant="highlighted">
               <BigOAnalysis
                 time={theory.bigO.time}
                 space={theory.bigO.space}
@@ -229,7 +229,7 @@ export function AlgorithmFullPage({
               />
             </Section>
 
-            <Section id="comparacoes" title="Comparacao com Outros Algoritmos">
+            <Section id="comparacoes" title="Comparação com Outros Algoritmos">
               <ComparisonTable
                 algorithms={theory.comparisons}
                 currentSlug={config.slug}

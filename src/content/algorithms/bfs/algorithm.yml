@@ -1,16 +1,16 @@
 slug: bfs
 name: BFS (Breadth-First Search)
 category: Grafos
-description: Algoritmo de busca em largura que explora o grafo nivel por nivel, encontrando o caminho mais curto em grafos sem peso.
+description: Algoritmo de busca em largura que explora o grafo nível por nível, encontrando o caminho mais curto em grafos sem peso.
 difficulty: Média
-tags: [Grafo, Busca, Fila, Caminho Minimo]
+tags: [Grafo, Busca, Fila, Caminho Mínimo]
 
 complexity:
   time: O(V + E)
   space: O(V)
 
 presets:
-  - label: Arvore Binaria
+  - label: Árvore Binária
     data:
       nodes: ["A", "B", "C", "D", "E", "F", "G"]
       edges:
@@ -51,77 +51,77 @@ presets:
 
 concepts:
   function-def:
-    label: Definicao
-    explanation: Recebe o grafo e o vertice inicial para comecar a busca.
+    label: Definição
+    explanation: Recebe o grafo e o vértice inicial para começar a busca.
   init-visited:
     label: Conjunto Visitados
-    explanation: Conjunto que rastreia quais vertices ja foram visitados para evitar processamento duplicado.
+    explanation: Conjunto que rastreia quais vértices já foram visitados para evitar processamento duplicado.
   init-queue:
     label: Inicializar Fila
-    explanation: Cria a fila e adiciona o vertice inicial. A fila garante processamento em ordem de nivel.
+    explanation: Cria a fila e adiciona o vértice inicial. A fila garante processamento em ordem de nível.
   main-loop:
     label: Loop Principal
-    explanation: Continua enquanto houver vertices na fila para processar.
+    explanation: Continua enquanto houver vértices na fila para processar.
   dequeue:
     label: Desenfileirar
-    explanation: "Remove o proximo vertice da frente da fila (FIFO - primeiro a entrar, primeiro a sair)."
+    explanation: "Remove o próximo vértice da frente da fila (FIFO - primeiro a entrar, primeiro a sair)."
   process-node:
-    label: Processar Vertice
-    explanation: "Executa a logica desejada no vertice atual (ex: verificar se e o destino)."
+    label: Processar Vértice
+    explanation: "Executa a lógica desejada no vértice atual (ex: verificar se é o destino)."
   check-visited:
     label: Verificar Visitado
-    explanation: Verifica se o vizinho ja foi visitado antes de adiciona-lo a fila.
+    explanation: Verifica se o vizinho já foi visitado antes de adicioná-lo à fila.
   enqueue:
     label: Enfileirar
-    explanation: Adiciona vizinhos nao visitados ao final da fila para processamento posterior.
+    explanation: Adiciona vizinhos não visitados ao final da fila para processamento posterior.
   mark-visited:
     label: Marcar Visitado
-    explanation: Marca o vizinho como visitado ao adiciona-lo a fila (importante para evitar duplicatas).
+    explanation: Marca o vizinho como visitado ao adicioná-lo à fila (importante para evitar duplicatas).
   track-distance:
-    label: Rastrear Distancia
-    explanation: Atualiza a distancia do vizinho como distancia atual + 1.
+    label: Rastrear Distância
+    explanation: Atualiza a distância do vizinho como distância atual + 1.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      BFS (Breadth-First Search) explora um grafo nivel por nivel, como ondas se espalhando
+      BFS (Breadth-First Search) explora um grafo nível por nível, como ondas se espalhando
       em um lago. Primeiro visita todos os vizinhos diretos, depois os vizinhos dos vizinhos,
       e assim por diante.
 
-      A chave do BFS e usar uma FILA (queue) em vez de pilha. A fila garante que vertices
+      A chave do BFS é usar uma FILA (queue) em vez de pilha. A fila garante que vértices
       descobertos primeiro sejam processados primeiro (FIFO). Isso naturalmente resulta
-      em exploracao por niveis de distancia.
+      em exploração por níveis de distância.
 
-      Por explorar nivel por nivel, BFS encontra automaticamente o caminho mais curto
-      (em numero de arestas) entre dois vertices em grafos sem peso. Esse e o motivo
-      pelo qual e usado em GPS para encontrar rotas e em jogos para pathfinding em grids.
+      Por explorar nível por nível, BFS encontra automaticamente o caminho mais curto
+      (em número de arestas) entre dois vértices em grafos sem peso. Esse é o motivo
+      pelo qual é usado em GPS para encontrar rotas e em jogos para pathfinding em grids.
     steps:
-      - Adicione o vertice inicial a fila e marque como visitado
-      - Remova o primeiro vertice da fila
-      - Processe o vertice (verifique se e o destino, etc.)
-      - Adicione todos os vizinhos nao visitados a fila
-      - Repita ate a fila esvaziar ou encontrar o destino
+      - Adicione o vértice inicial à fila e marque como visitado
+      - Remova o primeiro vértice da fila
+      - Processe o vértice (verifique se é o destino, etc.)
+      - Adicione todos os vizinhos não visitados à fila
+      - Repita até a fila esvaziar ou encontrar o destino
 
-  keyInsight: A fila FIFO garante que vertices mais proximos da origem sejam sempre processados antes dos mais distantes, resultando em exploracao por niveis e caminho minimo.
+  keyInsight: A fila FIFO garante que vértices mais próximos da origem sejam sempre processados antes dos mais distantes, resultando em exploração por níveis e caminho mínimo.
 
   commonMistakes:
     - Marcar como visitado ao REMOVER da fila (deve marcar ao ADICIONAR para evitar duplicatas)
     - Usar pilha em vez de fila (isso seria DFS)
     - Esquecer de tratar grafos desconexos
-    - Nao armazenar predecessores quando precisa reconstruir o caminho
+    - Não armazenar predecessores quando precisa reconstruir o caminho
 
   bigO:
     time:
       notation: O(V + E)
-      explanation: Cada vertice e enfileirado uma vez, e cada aresta e examinada uma vez.
-      proof: O conjunto visited garante que cada vertice entra na fila apenas uma vez. Para cada vertice desenfileirado, iteramos sobre suas arestas adjacentes.
+      explanation: Cada vértice é enfileirado uma vez, e cada aresta é examinada uma vez.
+      proof: O conjunto visited garante que cada vértice entra na fila apenas uma vez. Para cada vértice desenfileirado, iteramos sobre suas arestas adjacentes.
     space:
       notation: O(V)
-      explanation: A fila pode conter ate todos os vertices no pior caso (grafo estrela).
+      explanation: A fila pode conter até todos os vértices no pior caso (grafo estrela).
     bestCase:
       notation: O(1)
-      explanation: Se o destino e o proprio vertice inicial.
+      explanation: Se o destino é o próprio vértice inicial.
     worstCase:
       notation: O(V + E)
       explanation: Quando precisamos visitar todo o grafo.
@@ -131,12 +131,12 @@ theory:
       slug: bfs
       time: O(V + E)
       space: O(V)
-      bestFor: Caminho mais curto em grafos sem peso, niveis de distancia
+      bestFor: Caminho mais curto em grafos sem peso, níveis de distância
     - name: DFS
       slug: dfs
       time: O(V + E)
       space: O(V)
-      bestFor: Deteccao de ciclos, ordenacao topologica
+      bestFor: Detecção de ciclos, ordenação topológica
     - name: Dijkstra
       slug: dijkstra
       time: O((V+E) log V)
@@ -145,26 +145,26 @@ theory:
 
 interview:
   - id: bfs-q1
-    question: Como usar BFS para encontrar o caminho mais curto entre dois vertices?
+    question: Como usar BFS para encontrar o caminho mais curto entre dois vértices?
     difficulty: easy
     companies: [Google, Amazon, Microsoft, Meta]
-    tip: Voce precisa armazenar mais do que apenas vertices visitados.
+    tip: Você precisa armazenar mais do que apenas vértices visitados.
     rubric:
       - point: Explica que BFS encontra caminho mais curto em grafos sem peso
         required: true
       - point: Menciona usar array/dict de predecessores para reconstruir caminho
         required: true
-      - point: Descreve como fazer backtrack do destino ate origem
+      - point: Descreve como fazer backtrack do destino até origem
         required: true
-      - point: Menciona que pode armazenar distancias junto
+      - point: Menciona que pode armazenar distâncias junto
         required: false
     idealAnswer: |
       BFS naturalmente encontra o caminho mais curto em grafos sem peso porque explora
-      nivel por nivel. Para reconstruir o caminho:
+      nível por nível. Para reconstruir o caminho:
 
-      1. Mantenha um dicionario `predecessor` onde `predecessor[v] = u` significa
-         que chegamos em `v` a partir de `u`
-      2. Quando encontrar o destino, faca backtrack seguindo predecessores
+      1. Mantenha um dicionário predecessor onde predecessor[v] = u significa
+         que chegamos em v a partir de u
+      2. Quando encontrar o destino, faça backtrack seguindo predecessores
 
       ```python
       def bfs_shortest_path(graph, start, end):
@@ -193,32 +193,32 @@ interview:
                               current = predecessor[current]
                           return path[::-1]
 
-          return None  # Caminho nao existe
+          return None  # Caminho não existe
       ```
 
   - id: bfs-q2
-    question: Como encontrar todos os vertices a exatamente k arestas de distancia de um vertice origem?
+    question: Como encontrar todos os vértices a exatamente k arestas de distância de um vértice origem?
     difficulty: medium
     companies: [Google, LinkedIn, Uber]
-    tip: Pense em como BFS processa vertices por nivel.
-    followUp: E se voce precisasse de todos os vertices ate distancia k?
+    tip: Pense em como BFS processa vértices por nível.
+    followUp: E se você precisasse de todos os vértices até distância k?
     rubric:
-      - point: Usa BFS com rastreamento de nivel/distancia
+      - point: Usa BFS com rastreamento de nível/distância
         required: true
-      - point: Para quando atinge nivel k+1
+      - point: Para quando atinge nível k+1
         required: true
-      - point: Retorna apenas vertices do nivel k
+      - point: Retorna apenas vértices do nível k
         required: true
-      - point: Menciona otimizacao de parar cedo
+      - point: Menciona otimização de parar cedo
         required: false
     idealAnswer: |
-      BFS processa vertices nivel por nivel, entao basta rastrear a distancia de cada
-      vertice e coletar aqueles com distancia exata k:
+      BFS processa vértices nível por nível, então basta rastrear a distância de cada
+      vértice e coletar aqueles com distância exata k:
 
       ```python
       def vertices_at_distance_k(graph, start, k):
           visited = {start}
-          queue = deque([(start, 0)])  # (vertice, distancia)
+          queue = deque([(start, 0)])  # (vértice, distância)
           result = []
 
           while queue:
@@ -226,10 +226,10 @@ interview:
 
               if dist == k:
                   result.append(vertex)
-                  continue  # Nao precisa expandir alem de k
+                  continue  # Não precisa expandir além de k
 
               if dist > k:
-                  break  # Otimizacao: ja passou de k
+                  break  # Otimização: já passou de k
 
               for neighbor in graph[vertex]:
                   if neighbor not in visited:
@@ -239,25 +239,25 @@ interview:
           return result
       ```
 
-      Para "ate distancia k", basta coletar todos com `dist <= k` em vez de `dist == k`.
+      Para "até distância k", basta coletar todos com dist <= k em vez de dist == k.
 
   - id: bfs-q3
-    question: Como verificar se um grafo e bipartido usando BFS?
+    question: Como verificar se um grafo é bipartido usando BFS?
     difficulty: medium
     companies: [Google, Amazon, Apple]
-    tip: Pense em colorir vertices com duas cores alternadas.
+    tip: Pense em colorir vértices com duas cores alternadas.
     rubric:
       - point: Explica que grafo bipartido pode ser 2-colorido
         required: true
-      - point: Usa BFS atribuindo cores alternadas a cada nivel
+      - point: Usa BFS atribuindo cores alternadas a cada nível
         required: true
       - point: Detecta conflito quando vizinho tem mesma cor
         required: true
       - point: Trata grafos desconexos (roda BFS de cada componente)
         required: false
     idealAnswer: |
-      Um grafo e bipartido se seus vertices podem ser divididos em dois conjuntos onde
-      toda aresta conecta vertices de conjuntos diferentes. Isso equivale a poder
+      Um grafo é bipartido se seus vértices podem ser divididos em dois conjuntos onde
+      toda aresta conecta vértices de conjuntos diferentes. Isso equivale a poder
       colorir o grafo com 2 cores sem vizinhos da mesma cor.
 
       ```python
@@ -280,11 +280,11 @@ interview:
                           color[neighbor] = 1 - color[vertex]
                           queue.append(neighbor)
                       elif color[neighbor] == color[vertex]:
-                          # Conflito! Mesmo cor que vizinho
+                          # Conflito! Mesma cor que vizinho
                           return False
 
           return True
       ```
 
-      BFS naturalmente alterna entre niveis, entao vertices no mesmo nivel tem mesma
-      cor, e niveis adjacentes tem cores diferentes.
+      BFS naturalmente alterna entre níveis, então vértices no mesmo nível têm mesma
+      cor, e níveis adjacentes têm cores diferentes.

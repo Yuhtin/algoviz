@@ -1,16 +1,16 @@
 slug: trie
 name: Trie (Prefix Tree)
 category: Strings
-description: Arvore de prefixos para busca eficiente de strings, autocomplete e verificacao de prefixos em O(m) onde m e o tamanho da palavra.
+description: Árvore de prefixos para busca eficiente de strings, autocomplete e verificação de prefixos em O(m) onde m é o tamanho da palavra.
 difficulty: Difícil
-tags: [Arvore, Strings, Prefixo, Autocomplete, Dicionario]
+tags: [Árvore, Strings, Prefixo, Autocomplete, Dicionário]
 
 complexity:
   time: O(m)
   space: O(n * m)
 
 presets:
-  - label: Dicionario Simples
+  - label: Dicionário Simples
     data:
       operations:
         - ["insert", "app"]
@@ -48,90 +48,90 @@ presets:
 concepts:
   class-def:
     label: Classe TrieNode
-    explanation: Cada no tem um mapa de filhos (caractere -> no) e um flag indicando fim de palavra.
+    explanation: Cada nó tem um mapa de filhos (caractere para nó) e um flag indicando fim de palavra.
   init-root:
     label: Inicializar Raiz
-    explanation: Trie comeca com um no raiz vazio que representa o prefixo vazio.
+    explanation: Trie começa com um nó raiz vazio que representa o prefixo vazio.
   insert-op:
-    label: Operacao Insert
-    explanation: Insere uma palavra caractere por caractere, criando nos conforme necessario.
+    label: Operação Insert
+    explanation: Insere uma palavra caractere por caractere, criando nós conforme necessário.
   traverse:
     label: Travessia
     explanation: Percorre a trie seguindo os caracteres da palavra.
   create-node:
-    label: Criar No
-    explanation: Se o caractere nao existe, cria um novo no filho.
+    label: Criar Nó
+    explanation: Se o caractere não existe, cria um novo nó filho.
   mark-end:
     label: Marcar Fim
-    explanation: Marca o ultimo no como fim de palavra valida.
+    explanation: Marca o último nó como fim de palavra válida.
   search-op:
-    label: Operacao Search
+    label: Operação Search
     explanation: Busca uma palavra exata - deve existir e estar marcada como fim.
   prefix-op:
-    label: Operacao StartsWith
+    label: Operação StartsWith
     explanation: Verifica se existe alguma palavra com o prefixo dado.
   check-exists:
-    label: Verificar Existencia
-    explanation: Verifica se o caractere existe nos filhos do no atual.
+    label: Verificar Existência
+    explanation: Verifica se o caractere existe nos filhos do nó atual.
 
 theory:
   howItWorks:
     title: Como Funciona
     content: |
-      Trie (pronuncia-se "try") e uma arvore onde cada no representa um caractere.
-      O caminho da raiz ate um no forma um prefixo. Nos marcados como "fim de palavra"
-      indicam palavras validas no dicionario.
+      Trie (pronuncia-se "try") é uma árvore onde cada nó representa um caractere.
+      O caminho da raiz até um nó forma um prefixo. Nós marcados como "fim de palavra"
+      indicam palavras válidas no dicionário.
 
-      **Vantagens sobre hash table:**
-      - Busca de prefixos em O(m) - impossivel com hash
-      - Autocomplete natural - basta percorrer subarvore do prefixo
-      - Sem colisoes
-      - Ordenacao lexicografica gratis (DFS da esquerda para direita)
+      Vantagens sobre hash table:
+      - Busca de prefixos em O(m) - impossível com hash
+      - Autocomplete natural - basta percorrer subárvore do prefixo
+      - Sem colisões
+      - Ordenação lexicográfica grátis (DFS da esquerda para direita)
 
-      **Estrutura do no:**
-      - `children`: mapa de caractere para no filho (dict ou array de 26)
-      - `is_end`: boolean indicando se e fim de palavra valida
+      Estrutura do nó:
+      - children: mapa de caractere para nó filho (dict ou array de 26)
+      - is_end: boolean indicando se é fim de palavra válida
 
-      A complexidade e sempre O(m) onde m e o tamanho da string, independente
+      A complexidade é sempre O(m) onde m é o tamanho da string, independente
       de quantas palavras existem na trie.
     steps:
-      - Comece pela raiz (no vazio)
-      - Para cada caractere da palavra, va para o filho correspondente
-      - Se o filho nao existe e estamos inserindo, crie-o
-      - Ao final da insercao, marque o no como fim de palavra
-      - Para busca, verifique se chegou ao final E o no esta marcado
+      - Comece pela raiz (nó vazio)
+      - Para cada caractere da palavra, vá para o filho correspondente
+      - Se o filho não existe e estamos inserindo, crie-o
+      - Ao final da inserção, marque o nó como fim de palavra
+      - Para busca, verifique se chegou ao final E o nó está marcado
 
-  keyInsight: Cada no compartilha o prefixo de seus ancestrais. Palavras com prefixos comuns compartilham nos, economizando espaco e permitindo buscas por prefixo eficientes.
+  keyInsight: Cada nó compartilha o prefixo de seus ancestrais. Palavras com prefixos comuns compartilham nós, economizando espaço e permitindo buscas por prefixo eficientes.
 
   commonMistakes:
     - Confundir search (palavra exata) com startsWith (prefixo)
-    - Esquecer de marcar is_end na insercao
-    - Nao tratar caracteres que nao existem na busca
+    - Esquecer de marcar is_end na inserção
+    - Não tratar caracteres que não existem na busca
     - Usar array fixo de 26 quando precisa de unicode
 
   bigO:
     time:
       notation: O(m)
-      explanation: m e o tamanho da string. Cada operacao percorre no maximo m nos.
-      proof: Insert, search e startsWith visitam exatamente m nos, um por caractere.
+      explanation: m é o tamanho da string. Cada operação percorre no máximo m nós.
+      proof: Insert, search e startsWith visitam exatamente m nós, um por caractere.
     space:
       notation: O(n * m)
       explanation: No pior caso, n palavras de tamanho m sem prefixos comuns.
     bestCase:
       notation: O(m)
-      explanation: Sempre O(m) independente do numero de palavras.
+      explanation: Sempre O(m) independente do número de palavras.
     worstCase:
       notation: O(m)
-      explanation: Mesmo no pior caso, so percorremos m nos.
+      explanation: Mesmo no pior caso, só percorremos m nós.
 
   comparisons:
     - name: Trie
       slug: trie
-      time: O(m) por operacao
+      time: O(m) por operação
       space: O(n * m)
-      bestFor: Autocomplete, busca por prefixo, dicionarios
+      bestFor: Autocomplete, busca por prefixo, dicionários
     - name: Hash Table
-      time: O(m) medio
+      time: O(m) médio
       space: O(n * m)
       bestFor: Busca exata de strings
     - name: BST de Strings
@@ -144,7 +144,7 @@ interview:
     question: Implemente uma Trie com insert, search e startsWith.
     difficulty: medium
     companies: [Google, Amazon, Microsoft, Meta]
-    tip: Use um dicionario para filhos e um boolean para marcar fim de palavra.
+    tip: Use um dicionário para filhos e um boolean para marcar fim de palavra.
     rubric:
       - point: Implementa insert corretamente
         required: true
@@ -152,7 +152,7 @@ interview:
         required: true
       - point: Implementa startsWith sem verificar is_end
         required: true
-      - point: Codigo limpo e eficiente
+      - point: Código limpo e eficiente
         required: false
     idealAnswer: |
       ```python
@@ -193,16 +193,16 @@ interview:
     question: Como implementar autocomplete usando Trie?
     difficulty: medium
     companies: [Google, Amazon, Uber]
-    tip: Encontre o no do prefixo, depois faca DFS para coletar todas as palavras.
-    followUp: Como retornar apenas as top-k sugestoes mais frequentes?
+    tip: Encontre o nó do prefixo, depois faça DFS para coletar todas as palavras.
+    followUp: Como retornar apenas as top-k sugestões mais frequentes?
     rubric:
-      - point: Navega ate o no do prefixo
+      - point: Navega até o nó do prefixo
         required: true
       - point: Faz DFS/BFS para coletar palavras completas
         required: true
-      - point: Reconstroi as palavras corretamente
+      - point: Reconstrói as palavras corretamente
         required: true
-      - point: Responde follow-up sobre top-k com frequencia
+      - point: Responde follow-up sobre top-k com frequência
         required: false
     idealAnswer: |
       ```python
@@ -222,10 +222,10 @@ interview:
               self._dfs(child, current + char, results)
       ```
 
-      Para top-k por frequencia:
-      1. Armazene contador de frequencia em cada no is_end
+      Para top-k por frequência:
+      1. Armazene contador de frequência em cada nó is_end
       2. Use min-heap de tamanho k durante DFS
-      3. Ou pre-compute top-k em cada no (space-time tradeoff)
+      3. Ou pré-compute top-k em cada nó (space-time tradeoff)
 
   - id: trie-q3
     question: Projete um sistema de busca com suporte a wildcard (.) que casa com qualquer caractere.
@@ -268,5 +268,5 @@ interview:
 
       Complexidade:
       - Sem wildcard: O(m)
-      - Com wildcard: O(26^k * m) no pior caso, onde k e o numero de '.'
-      - Na pratica, muito mais rapido devido a estrutura da trie
+      - Com wildcard: O(26^k * m) no pior caso, onde k é o número de '.'
+      - Na prática, muito mais rápido devido à estrutura da trie
