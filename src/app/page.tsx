@@ -34,7 +34,7 @@ export default function Home() {
 
         {/* 3D Background */}
         <Scene>
-          <Particles count={300} />
+          <Particles count={200} />
           <SortingBars />
         </Scene>
 

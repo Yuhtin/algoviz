@@ -9,7 +9,7 @@ interface Props {
   count?: number
 }
 
-export function Particles({ count = 500 }: Props) {
+export function Particles({ count = 200 }: Props) {
   const mesh = useRef<THREE.Points>(null)
   const { progress } = useScrollProgress()
 
@@ -53,7 +53,7 @@ export function Particles({ count = 500 }: Props) {
 
     // Pulse size based on scroll
     const material = mesh.current.material as THREE.PointsMaterial
-    material.size = 0.05 + Math.sin(time * 2) * 0.02
+    material.size = 0.04 + Math.sin(time * 2) * 0.015
   })
 
   return (
@@ -69,10 +69,10 @@ export function Particles({ count = 500 }: Props) {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.05}
+        size={0.04}
         vertexColors
         transparent
-        opacity={0.8}
+        opacity={0.6}
         sizeAttenuation
         blending={THREE.AdditiveBlending}
       />
