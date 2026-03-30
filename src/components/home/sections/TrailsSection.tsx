@@ -3,24 +3,29 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { HomeSection } from '../HomeSection'
+import { HighlightText } from '../HighlightText'
 import { getAllTrails } from '@/lib/trails'
 import { colors } from '@/lib/colors'
 
 export function TrailsSection() {
   const trails = getAllTrails()
 
+  const levelColors = [colors.accent, colors.visited, colors.warning]
+  const levelLabels = ['Começar aqui', 'Próximo passo', 'Avançado']
+
   return (
     <HomeSection>
       <h2
-        className="text-4xl md:text-6xl font-bold mb-12"
-        style={{ color: colors.text }}
+        className="text-4xl md:text-6xl mb-12"
+        style={{ fontFamily: 'var(--font-serif)', color: colors.text }}
       >
         Siga sua
         <br />
-        <span style={{ color: colors.warning }}>trilha</span>
+        <HighlightText delay={0.3}>trilha</HighlightText>
       </h2>
 
       <div className="relative max-w-md mx-auto text-left">
+        {/* Connecting line */}
         <div
           className="absolute left-4 top-0 bottom-0 w-0.5"
           style={{
@@ -40,57 +45,36 @@ export function TrailsSection() {
             >
               <div
                 className="absolute left-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                style={{
-                  backgroundColor:
-                    index === 0
-                      ? colors.accent
-                      : index === 1
-                        ? colors.visited
-                        : colors.warning,
-                  color: colors.bg,
-                }}
+                style={{ backgroundColor: levelColors[index], color: colors.bg }}
               >
                 {index + 1}
               </div>
 
               <Link href={`/trilhas/${trail.slug}`}>
-                <div
-                  className="p-4 rounded-xl border transition-all hover:scale-105 cursor-pointer"
+                <motion.div
+                  whileHover={{ y: -4, boxShadow: `0 8px 30px ${levelColors[index]}22` }}
+                  className="p-4 rounded-xl transition-shadow"
                   style={{
                     backgroundColor: colors.surface,
-                    borderColor: colors.border,
+                    border: `1px solid ${colors.border}`,
                   }}
                 >
                   <div
                     className="text-xs uppercase tracking-wider mb-1"
-                    style={{
-                      color:
-                        index === 0
-                          ? colors.accent
-                          : index === 1
-                            ? colors.visited
-                            : colors.warning,
-                    }}
+                    style={{ color: levelColors[index] }}
                   >
-                    {index === 0
-                      ? 'Começar aqui'
-                      : index === 1
-                        ? 'Próximo passo'
-                        : 'Avançado'}
+                    {levelLabels[index]}
                   </div>
                   <h3
-                    className="text-lg font-bold"
-                    style={{ color: colors.text }}
+                    className="text-lg"
+                    style={{ fontFamily: 'var(--font-serif)', color: colors.text }}
                   >
                     {trail.name}
                   </h3>
-                  <p
-                    className="text-sm"
-                    style={{ color: colors.textMuted }}
-                  >
+                  <p className="text-sm" style={{ color: colors.textMuted }}>
                     {trail.missions.length} missões • {trail.difficulty}
                   </p>
-                </div>
+                </motion.div>
               </Link>
             </motion.div>
           ))}
