@@ -1,26 +1,30 @@
 'use client'
 
 import { HomeSection } from '../HomeSection'
+import { HighlightText } from '../HighlightText'
+import { CodeWindow } from '../CodeWindow'
 import { colors } from '@/lib/colors'
 
 export function VisualizationSection() {
   return (
-    <HomeSection>
+    <HomeSection height="auto" className="py-24">
       <h2
-        className="text-4xl md:text-6xl font-bold mb-6"
-        style={{ color: colors.text }}
+        className="text-4xl md:text-6xl mb-6"
+        style={{ fontFamily: 'var(--font-serif)', color: colors.text }}
       >
         Veja cada passo
         <br />
-        <span style={{ color: colors.visited }}>acontecer</span>
+        <HighlightText delay={0.3}>acontecer</HighlightText>
       </h2>
 
       <p
-        className="text-lg md:text-xl max-w-xl mx-auto"
+        className="text-lg md:text-xl max-w-xl mx-auto mb-12"
         style={{ color: colors.textMuted }}
       >
         Acompanhe cada troca, cada comparacao. Sem cortes, sem pulos.
       </p>
+
+      <CodeWindow />
     </HomeSection>
   )
 }

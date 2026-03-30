@@ -5,10 +5,10 @@ export const interview: InterviewData = {
   questions: [
     {
       id: 'bubble-sort-q1',
-      question: 'Explique como funciona o Bubble Sort e qual sua complexidade de tempo e espaco.',
+      question: 'Explique como funciona o Bubble Sort e qual sua complexidade de tempo e espaço.',
       difficulty: 'easy',
       companies: ['Google', 'Amazon', 'Microsoft'],
-      tip: 'Pense em como os elementos "borbulham" para suas posicoes corretas.',
+      tip: 'Pense em como os elementos "borbulham" para suas posições corretas.',
       rubric: [
         {
           id: 'r1',
@@ -17,17 +17,17 @@ export const interview: InterviewData = {
         },
         {
           id: 'r2',
-          point: 'Menciona que repete o processo ate que nenhuma troca seja necessaria',
+          point: 'Menciona que repete o processo até que nenhuma troca seja necessária',
           required: true,
         },
         {
           id: 'r3',
-          point: 'Complexidade de tempo: O(n^2) no pior e medio caso, O(n) no melhor caso (ja ordenado)',
+          point: 'Complexidade de tempo: O(n²) no pior e médio caso, O(n) no melhor caso (já ordenado)',
           required: true,
         },
         {
           id: 'r4',
-          point: 'Complexidade de espaco: O(1) - algoritmo in-place',
+          point: 'Complexidade de espaço: O(1) - algoritmo in-place',
           required: true,
         },
         {
@@ -36,24 +36,24 @@ export const interview: InterviewData = {
           required: false,
         },
       ],
-      idealAnswer: `O Bubble Sort funciona comparando pares de elementos adjacentes e trocando-os se estiverem na ordem errada. O processo e repetido do inicio ao fim do array multiplas vezes ate que nenhuma troca seja necessaria, indicando que o array esta ordenado.
+      idealAnswer: `O Bubble Sort funciona comparando pares de elementos adjacentes e trocando-os se estiverem na ordem errada. O processo é repetido do início ao fim do array múltiplas vezes até que nenhuma troca seja necessária, indicando que o array está ordenado.
 
-A cada passagem completa pelo array, o maior elemento nao ordenado "borbulha" para sua posicao correta no final. Por isso, a cada iteracao, podemos ignorar um elemento a mais no final.
+A cada passagem completa pelo array, o maior elemento não ordenado "borbulha" para sua posição correta no final. Por isso, a cada iteração, podemos ignorar um elemento a mais no final.
 
 Complexidade de tempo:
-- Pior caso: O(n^2) - quando o array esta em ordem reversa
-- Caso medio: O(n^2)
-- Melhor caso: O(n) - quando o array ja esta ordenado (com otimizacao de flag)
+- Pior caso: O(n²) - quando o array está em ordem reversa
+- Caso médio: O(n²)
+- Melhor caso: O(n) - quando o array já está ordenado (com otimização de flag)
 
-Complexidade de espaco: O(1) - e um algoritmo in-place, pois so usa variaveis auxiliares constantes para realizar as trocas.`,
+Complexidade de espaço: O(1) - é um algoritmo in-place, pois só usa variáveis auxiliares constantes para realizar as trocas.`,
     },
     {
       id: 'bubble-sort-q2',
-      question: 'Quais otimizacoes podem ser aplicadas ao Bubble Sort basico? Implemente uma versao otimizada.',
+      question: 'Quais otimizações podem ser aplicadas ao Bubble Sort básico? Implemente uma versão otimizada.',
       difficulty: 'medium',
       companies: ['Facebook', 'Apple', 'Bloomberg'],
-      tip: 'Considere como detectar quando o array ja esta ordenado e como reduzir comparacoes desnecessarias.',
-      followUp: 'Como a otimizacao afeta a complexidade no melhor caso?',
+      tip: 'Considere como detectar quando o array já está ordenado e como reduzir comparações desnecessárias.',
+      followUp: 'Como a otimização afeta a complexidade no melhor caso?',
       rubric: [
         {
           id: 'r1',
@@ -62,39 +62,39 @@ Complexidade de espaco: O(1) - e um algoritmo in-place, pois so usa variaveis au
         },
         {
           id: 'r2',
-          point: 'Reduz o limite do loop interno a cada passagem (ignora elementos ja ordenados)',
+          point: 'Reduz o limite do loop interno a cada passagem (ignora elementos já ordenados)',
           required: true,
         },
         {
           id: 'r3',
-          point: 'Implementacao correta com ambas otimizacoes',
+          point: 'Implementação correta com ambas otimizações',
           required: true,
         },
         {
           id: 'r4',
-          point: 'Explica que o melhor caso passa de O(n^2) para O(n) com a flag',
+          point: 'Explica que o melhor caso passa de O(n²) para O(n) com a flag',
           required: false,
         },
         {
           id: 'r5',
-          point: 'Menciona otimizacao adicional: rastrear ultima posicao de troca',
+          point: 'Menciona otimização adicional: rastrear última posição de troca',
           required: false,
         },
       ],
-      idealAnswer: `Duas otimizacoes principais podem ser aplicadas:
+      idealAnswer: `Duas otimizações principais podem ser aplicadas:
 
-1. **Flag de troca**: Se nenhuma troca ocorrer em uma passagem completa, o array ja esta ordenado e podemos terminar. Isso melhora o melhor caso para O(n).
+1. Flag de troca: Se nenhuma troca ocorrer em uma passagem completa, o array já está ordenado e podemos terminar. Isso melhora o melhor caso para O(n).
 
-2. **Reduzir limite do loop interno**: A cada passagem, o maior elemento vai para sua posicao final. Entao, podemos reduzir o numero de comparacoes a cada iteracao.
+2. Reduzir limite do loop interno: A cada passagem, o maior elemento vai para sua posição final. Então, podemos reduzir o número de comparações a cada iteração.
 
-Implementacao otimizada:
+Implementação otimizada:
 
 \`\`\`python
 def bubble_sort_optimized(arr):
     n = len(arr)
     for i in range(n):
         swapped = False
-        # Reduz limite: n-i-1 elementos ja estao ordenados
+        # Reduz limite: n-i-1 elementos já estão ordenados
         for j in range(n - i - 1):
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
@@ -105,78 +105,78 @@ def bubble_sort_optimized(arr):
     return arr
 \`\`\`
 
-Uma otimizacao adicional e rastrear a ultima posicao onde ocorreu uma troca. Todos os elementos apos essa posicao ja estao ordenados.`,
+Uma otimização adicional é rastrear a última posição onde ocorreu uma troca. Todos os elementos após essa posição já estão ordenados.`,
     },
     {
       id: 'bubble-sort-q3',
-      question: 'Compare Bubble Sort com outros algoritmos de ordenacao O(n^2) como Insertion Sort e Selection Sort. Quando voce escolheria cada um?',
+      question: 'Compare Bubble Sort com outros algoritmos de ordenação O(n²) como Insertion Sort e Selection Sort. Quando você escolheria cada um?',
       difficulty: 'hard',
       companies: ['Google', 'Microsoft', 'Uber'],
-      tip: 'Considere estabilidade, numero de trocas, e comportamento com dados parcialmente ordenados.',
-      followUp: 'Por que Insertion Sort e geralmente preferido na pratica sobre Bubble Sort?',
+      tip: 'Considere estabilidade, número de trocas, e comportamento com dados parcialmente ordenados.',
+      followUp: 'Por que Insertion Sort é geralmente preferido na prática sobre Bubble Sort?',
       rubric: [
         {
           id: 'r1',
-          point: 'Compara corretamente as complexidades de tempo dos tres algoritmos',
+          point: 'Compara corretamente as complexidades de tempo dos três algoritmos',
           required: true,
         },
         {
           id: 'r2',
-          point: 'Menciona que Insertion Sort e mais eficiente para dados parcialmente ordenados',
+          point: 'Menciona que Insertion Sort é mais eficiente para dados parcialmente ordenados',
           required: true,
         },
         {
           id: 'r3',
-          point: 'Explica estabilidade: Bubble e Insertion sao estaveis, Selection nao e',
+          point: 'Explica estabilidade: Bubble e Insertion são estáveis, Selection não é',
           required: true,
         },
         {
           id: 'r4',
-          point: 'Selection Sort minimiza numero de trocas (O(n)), util quando trocas sao caras',
+          point: 'Selection Sort minimiza número de trocas (O(n)), útil quando trocas são caras',
           required: true,
         },
         {
           id: 'r5',
-          point: 'Menciona que Insertion Sort e usado em algoritmos hibridos como Timsort',
+          point: 'Menciona que Insertion Sort é usado em algoritmos híbridos como Timsort',
           required: false,
         },
         {
           id: 'r6',
-          point: 'Discute comportamento de cache e localidade de referencia',
+          point: 'Discute comportamento de cache e localidade de referência',
           required: false,
         },
       ],
-      idealAnswer: `**Comparacao:**
+      idealAnswer: `Comparação:
 
 | Aspecto | Bubble Sort | Insertion Sort | Selection Sort |
 |---------|-------------|----------------|----------------|
-| Tempo (pior) | O(n^2) | O(n^2) | O(n^2) |
-| Tempo (melhor) | O(n)* | O(n) | O(n^2) |
-| Trocas (pior) | O(n^2) | O(n^2) | O(n) |
-| Estavel | Sim | Sim | Nao |
+| Tempo (pior) | O(n²) | O(n²) | O(n²) |
+| Tempo (melhor) | O(n)* | O(n) | O(n²) |
+| Trocas (pior) | O(n²) | O(n²) | O(n) |
+| Estável | Sim | Sim | Não |
 
-*Com otimizacao de flag
+*Com otimização de flag
 
-**Quando usar cada um:**
+Quando usar cada um:
 
-**Bubble Sort**: Raramente usado na pratica. Util apenas para fins educacionais ou datasets muito pequenos. Sua unica vantagem e a deteccao facil de array ja ordenado.
+Bubble Sort: Raramente usado na prática. Útil apenas para fins educacionais ou datasets muito pequenos. Sua única vantagem é a detecção fácil de array já ordenado.
 
-**Insertion Sort**: Melhor escolha para:
-- Dados quase ordenados (desempenho proximo a O(n))
+Insertion Sort: Melhor escolha para:
+- Dados quase ordenados (desempenho próximo a O(n))
 - Datasets pequenos (overhead baixo)
-- Ordenacao online (pode ordenar conforme dados chegam)
-- Usado em algoritmos hibridos (Timsort usa para subarrays pequenos)
+- Ordenação online (pode ordenar conforme dados chegam)
+- Usado em algoritmos híbridos (Timsort usa para subarrays pequenos)
 - Boa localidade de cache
 
-**Selection Sort**: Preferido quando:
-- Trocas sao muito caras (faz apenas O(n) trocas)
-- Memoria auxiliar e extremamente limitada
-- Nao precisa de estabilidade
+Selection Sort: Preferido quando:
+- Trocas são muito caras (faz apenas O(n) trocas)
+- Memória auxiliar é extremamente limitada
+- Não precisa de estabilidade
 
-Na pratica, Insertion Sort e quase sempre preferido sobre Bubble Sort porque:
-1. Faz menos comparacoes em dados parcialmente ordenados
-2. Melhor localidade de referencia
-3. Mais eficiente em termos de movimentacao de dados`,
+Na prática, Insertion Sort é quase sempre preferido sobre Bubble Sort porque:
+1. Faz menos comparações em dados parcialmente ordenados
+2. Melhor localidade de referência
+3. Mais eficiente em termos de movimentação de dados`,
     },
   ],
 }

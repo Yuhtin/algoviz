@@ -21,10 +21,6 @@ const Particles = dynamic(
   () => import('@/components/home/Particles').then((mod) => mod.Particles),
   { ssr: false }
 )
-const SortingBars = dynamic(
-  () => import('@/components/home/SortingBars').then((mod) => mod.SortingBars),
-  { ssr: false }
-)
 
 export default function Home() {
   return (
@@ -34,8 +30,7 @@ export default function Home() {
 
         {/* 3D Background */}
         <Scene>
-          <Particles count={300} />
-          <SortingBars />
+          <Particles count={200} />
         </Scene>
 
         {/* Scrollable content */}

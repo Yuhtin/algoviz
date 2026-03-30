@@ -1,0 +1,166 @@
+slug: selection-sort
+name: Selection Sort
+category: Ordenação
+description: Algoritmo de ordenação que encontra o menor elemento e o coloca na posição correta, repetindo para o restante do array.
+difficulty: Fácil
+tags: [Ordenação, Comparação, In-place]
+
+complexity:
+  time: O(n²)
+  space: O(1)
+
+presets:
+  - label: Desordenado
+    data: [5, 3, 8, 4, 2]
+  - label: Quase ordenado
+    data: [1, 2, 4, 3, 5]
+  - label: Invertido
+    data: [5, 4, 3, 2, 1]
+  - label: Já ordenado
+    data: [1, 2, 3, 4, 5]
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Recebe um array e ordena in-place, retornando o mesmo array modificado.
+  outer-loop:
+    label: Loop Externo
+    explanation: Itera por cada posição do array. A cada iteração, encontra o menor elemento no restante e o coloca na posição atual.
+  min-index:
+    label: Índice do Mínimo
+    explanation: Guarda o índice do menor elemento encontrado até agora na porção não ordenada.
+  inner-loop:
+    label: Loop Interno
+    explanation: Percorre a porção não ordenada do array procurando o menor elemento.
+  find-min:
+    label: Encontrar Mínimo
+    explanation: Compara cada elemento com o mínimo atual. Se for menor, atualiza o índice do mínimo.
+  swap:
+    label: Troca
+    explanation: Troca o elemento na posição atual com o menor elemento encontrado.
+  generic-function:
+    label: Generics
+    explanation: Função genérica que funciona com qualquer tipo comparável (Ord em Rust).
+  swap-method:
+    label: Método swap
+    explanation: Rust tem swap nativo em slices. Mais seguro que manipular índices manualmente.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O Selection Sort divide o array em duas partes: ordenada (à esquerda) e não ordenada
+      (à direita). A cada iteração, encontra o menor elemento na parte não ordenada e o
+      move para o final da parte ordenada.
+
+      A ideia é simples: selecione o menor, coloque no início. Selecione o segundo menor,
+      coloque na segunda posição. E assim por diante.
+
+      Comparado ao Bubble Sort, o Selection Sort faz menos trocas (no máximo n-1), mas
+      o mesmo número de comparações. Na prática, ambos são O(n²) e não são usados em
+      produção para grandes datasets.
+    steps:
+      - Começa na primeira posição
+      - Encontra o menor elemento no restante do array
+      - Troca com o elemento na posição atual
+      - Avança para a próxima posição
+      - Repete até percorrer todo o array
+      - A cada iteração, a parte ordenada cresce
+
+  keyInsight: O Selection Sort minimiza o número de trocas, fazendo no máximo n-1 trocas. Útil quando a operação de troca é cara.
+
+  commonMistakes:
+    - Começar o loop interno do índice 0 ao invés de i+1
+    - Esquecer de fazer a troca quando o mínimo não está na posição i
+    - Confundir com Insertion Sort (que insere ao invés de selecionar)
+
+  bigO:
+    time:
+      notation: O(n²)
+      explanation: Dois loops aninhados. O externo roda n vezes, o interno roda em média n/2.
+      proof: "Comparações: (n-1) + (n-2) + ... + 1 = n(n-1)/2 = O(n²)"
+    space:
+      notation: O(1)
+      explanation: Ordena in-place. Só usa variáveis auxiliares para índice e troca.
+    bestCase:
+      notation: O(n²)
+      explanation: Mesmo com array já ordenado, ainda precisa verificar todos os elementos para encontrar o mínimo.
+    worstCase:
+      notation: O(n²)
+      explanation: Sempre faz o mesmo número de comparações, independente da entrada.
+
+  comparisons:
+    - name: Selection Sort
+      slug: selection-sort
+      time: O(n²)
+      space: O(1)
+      stable: false
+      bestFor: Quando trocas são caras, arrays pequenos
+    - name: Bubble Sort
+      slug: bubble-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Arrays pequenos, fins didáticos
+    - name: Insertion Sort
+      slug: insertion-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Arrays pequenos, dados chegando em streaming
+    - name: Merge Sort
+      slug: merge-sort
+      time: O(n log n)
+      space: O(n)
+      stable: true
+      bestFor: Grandes datasets, quando estabilidade importa
+
+interview:
+  - id: selection-sort-q1
+    question: Explique o Selection Sort e sua complexidade de tempo e espaço.
+    difficulty: easy
+    companies: [Google, Amazon, Microsoft]
+    tip: Foque no comportamento de "selecionar o mínimo" a cada iteração.
+    rubric:
+      - point: Encontra o menor elemento e coloca na posição correta
+        required: true
+      - point: Divide o array em parte ordenada e não ordenada
+        required: true
+      - point: "Tempo: O(n²) em todos os casos"
+        required: true
+      - point: "Espaço: O(1) - algoritmo in-place"
+        required: true
+    idealAnswer: |
+      O Selection Sort divide o array em duas partes: ordenada (esquerda) e não ordenada (direita).
+      A cada iteração, encontra o menor elemento na parte não ordenada e o troca com o primeiro
+      elemento da parte não ordenada.
+
+      Tempo: O(n²) em todos os casos, pois sempre precisa percorrer a parte não ordenada.
+      Espaço: O(1) - ordena in-place, só usa variáveis auxiliares.
+
+      Vantagem: faz no máximo n-1 trocas, útil quando a operação de troca é custosa.
+      Desvantagem: não é estável e sempre faz n² comparações.
+
+  - id: selection-sort-q2
+    question: Qual a diferença entre Selection Sort e Insertion Sort?
+    difficulty: medium
+    companies: [Google, Facebook, Apple]
+    tip: Compare como cada um constrói a parte ordenada do array.
+    rubric:
+      - point: Selection Sort encontra o mínimo e troca
+        required: true
+      - point: Insertion Sort insere cada elemento na posição correta
+        required: true
+      - point: Selection Sort faz menos trocas
+        required: false
+      - point: Insertion Sort é estável, Selection Sort não é
+        required: false
+    idealAnswer: |
+      Selection Sort: encontra o menor elemento da parte não ordenada e o troca com a
+      posição atual. Sempre faz n² comparações.
+
+      Insertion Sort: pega cada elemento e o insere na posição correta da parte ordenada,
+      deslocando os maiores para a direita. Pode terminar cedo se o array já estiver ordenado.
+
+      Selection Sort faz menos trocas (no máximo n-1), mas não é estável.
+      Insertion Sort é estável e tem melhor caso O(n) para arrays quase ordenados.
