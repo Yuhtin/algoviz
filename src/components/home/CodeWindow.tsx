@@ -154,7 +154,7 @@ export function CodeWindow() {
               const isComparing = currentStep.comparing?.includes(i)
               const height = (value / maxValue) * 100
 
-              let barColor = colors.textMuted
+              let barColor: string = colors.textMuted
               if (isComparing && currentStep.swapping) {
                 barColor = colors.warning
               } else if (isComparing) {
