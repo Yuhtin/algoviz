@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { HomeSection } from '../HomeSection'
-import { FloatingIcons } from '../FloatingIcons'
 import { useProgressStore } from '@/stores/progress-store'
 import { colors } from '@/lib/colors'
 
@@ -12,11 +11,8 @@ export function CTASection() {
   const hasProgress = xp > 0
 
   return (
-    <HomeSection height="50vh" className="relative">
-      {/* Sparse floating icons */}
-      <FloatingIcons count={10} className="z-0 opacity-50" />
-
-      <div className="relative z-10">
+    <HomeSection height="50vh">
+      <div>
         <h2
           className="text-4xl md:text-5xl mb-6"
           style={{ fontFamily: 'var(--font-serif)', color: colors.text }}
