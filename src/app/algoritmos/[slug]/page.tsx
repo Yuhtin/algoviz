@@ -15,6 +15,7 @@ import { TopologicalSortVisualizer } from '@/algorithms/topological-sort/Visuali
 import { UnionFindVisualizer } from '@/algorithms/union-find/Visualizer'
 import { TrieVisualizer } from '@/algorithms/trie/Visualizer'
 import { LRUCacheVisualizer } from '@/algorithms/lru-cache/Visualizer'
+import { SelectionSortVisualizer } from '@/algorithms/selection-sort/Visualizer'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -33,6 +34,7 @@ const visualizers: Record<string, React.ComponentType> = {
   'union-find': UnionFindVisualizer,
   'trie': TrieVisualizer,
   'lru-cache': LRUCacheVisualizer,
+  'selection-sort': SelectionSortVisualizer,
 }
 
 export async function generateStaticParams() {
