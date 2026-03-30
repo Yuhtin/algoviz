@@ -1,19 +1,18 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { HomeSection } from '../HomeSection'
 import { FloatingIcons } from '../FloatingIcons'
 import { HighlightText } from '../HighlightText'
 import { colors } from '@/lib/colors'
 
 export function HeroSection() {
   return (
-    <HomeSection className="relative">
-      {/* Floating icons background */}
-      <FloatingIcons count={30} className="z-0" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Floating icons - positioned relative to full section */}
+      <FloatingIcons count={32} className="z-0" />
 
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-10 text-center px-4">
         <motion.h1
           className="text-5xl md:text-7xl mb-6"
           style={{ fontFamily: 'var(--font-serif)', color: colors.text }}
@@ -56,6 +55,6 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
       </div>
-    </HomeSection>
+    </section>
   )
 }
