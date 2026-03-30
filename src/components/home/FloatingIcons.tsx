@@ -87,47 +87,70 @@ interface FloatingIconProps {
 }
 
 function FloatingIcon({ icon, position, size, opacity, animation, delay }: FloatingIconProps) {
+  // Use deterministic random based on position for consistent animations
+  const seed = position.x + position.y
+  const randomOffset = (seed % 10) / 10
+
   const getAnimateProps = () => {
     const base = { opacity, scale: 1 }
 
     if (animation === 'float') {
+      // Much more dramatic movement
       return {
         ...base,
-        y: [0, -10, 0],
-        rotate: [-3, 3, -3],
+        y: [0, -25 - randomOffset * 15, 0],
+        x: [0, 10 + randomOffset * 10, 0],
+        rotate: [-8, 8, -8],
+        scale: [1, 1.05, 1],
       }
     }
 
     if (animation === 'pulse') {
       return {
         ...base,
-        opacity: [opacity, opacity * 1.5, opacity],
+        opacity: [opacity, Math.min(opacity * 2, 0.6), opacity],
+        scale: [1, 1.1, 1],
       }
     }
 
-    // parallax - handled by scroll, just return base
-    return base
+    // parallax - gentle drift
+    return {
+      ...base,
+      y: [0, -15, 0],
+      rotate: [-5, 5, -5],
+    }
   }
 
   const getTransition = () => {
-    const base = { delay, duration: 0.5 }
+    const base = { delay, duration: 0.8 }
 
     if (animation === 'float') {
+      const duration = 4 + randomOffset * 3
       return {
         ...base,
-        y: { duration: 3 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut' as const },
-        rotate: { duration: 4 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut' as const },
+        y: { duration, repeat: Infinity, ease: 'easeInOut' as const },
+        x: { duration: duration * 1.3, repeat: Infinity, ease: 'easeInOut' as const },
+        rotate: { duration: duration * 1.5, repeat: Infinity, ease: 'easeInOut' as const },
+        scale: { duration: duration * 0.8, repeat: Infinity, ease: 'easeInOut' as const },
       }
     }
 
     if (animation === 'pulse') {
+      const duration = 3 + randomOffset * 2
       return {
         ...base,
-        opacity: { duration: 2 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut' as const },
+        opacity: { duration, repeat: Infinity, ease: 'easeInOut' as const },
+        scale: { duration: duration * 1.2, repeat: Infinity, ease: 'easeInOut' as const },
       }
     }
 
-    return base
+    // parallax
+    const duration = 5 + randomOffset * 3
+    return {
+      ...base,
+      y: { duration, repeat: Infinity, ease: 'easeInOut' as const },
+      rotate: { duration: duration * 1.2, repeat: Infinity, ease: 'easeInOut' as const },
+    }
   }
 
   const renderContent = () => {
@@ -188,7 +211,7 @@ interface Props {
   className?: string
 }
 
-export function FloatingIcons({ count = 25, className = '' }: Props) {
+export function FloatingIcons({ count = 18, className = '' }: Props) {
   const icons = useMemo(() => {
     const allIcons = [
       ...ICONS.languages,
@@ -197,23 +220,45 @@ export function FloatingIcons({ count = 25, className = '' }: Props) {
       ...ICONS.shapes,
     ]
 
-    const animations: AnimationType[] = ['float', 'float', 'parallax', 'parallax', 'pulse']
+    const animations: AnimationType[] = ['float', 'float', 'float', 'parallax', 'pulse']
+
+    // Create a grid-based distribution to avoid clustering
+    const cols = Math.ceil(Math.sqrt(count * 1.5))
+    const rows = Math.ceil(count / cols)
+    const cellWidth = 100 / cols
+    const cellHeight = 100 / rows
 
     return Array.from({ length: count }, (_, i) => {
       const icon = allIcons[i % allIcons.length]
-      const animation = animations[Math.floor(Math.random() * animations.length)]
+      const animation = animations[i % animations.length] // Deterministic animation assignment
+
+      // Grid position with randomness within cell
+      const col = i % cols
+      const row = Math.floor(i / cols)
+
+      // Position with jitter within grid cell, avoiding center area
+      let x = col * cellWidth + (cellWidth * 0.2) + (Math.random() * cellWidth * 0.6)
+      let y = row * cellHeight + (cellHeight * 0.2) + (Math.random() * cellHeight * 0.6)
+
+      // Push icons away from center (where text is)
+      const centerX = 50
+      const centerY = 45
+      const distFromCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2)
+      if (distFromCenter < 25) {
+        // Push outward from center
+        const angle = Math.atan2(y - centerY, x - centerX)
+        x = centerX + Math.cos(angle) * 30
+        y = centerY + Math.sin(angle) * 30
+      }
 
       return {
         id: i,
         icon,
-        position: {
-          x: 5 + Math.random() * 90,
-          y: 5 + Math.random() * 90,
-        },
-        size: 16 + Math.random() * 12,
-        opacity: 0.2 + Math.random() * 0.3,
+        position: { x, y },
+        size: 18 + (i % 5) * 4, // 18-34px, deterministic variety
+        opacity: 0.15 + (i % 4) * 0.1, // 0.15-0.45, subtle but visible
         animation,
-        delay: Math.random() * 0.5,
+        delay: (i % 8) * 0.15, // Staggered entrance
       }
     })
   }, [count])
