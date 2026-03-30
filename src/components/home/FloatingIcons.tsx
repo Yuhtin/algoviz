@@ -239,37 +239,37 @@ export function FloatingIcons({ count = 24, className = '' }: Props) {
       const jitterY = (Math.random() - 0.5) * 15
 
       switch (zone) {
-        case 0: // Top-left corner
-          x = 5 + Math.random() * 15 + jitterX
+        case 0: // Top-left area
+          x = 8 + Math.random() * 22 + jitterX
+          y = 8 + Math.random() * 25 + jitterY
+          break
+        case 1: // Top-right area
+          x = 70 + Math.random() * 22 + jitterX
+          y = 8 + Math.random() * 25 + jitterY
+          break
+        case 2: // Bottom-left area
+          x = 8 + Math.random() * 22 + jitterX
+          y = 65 + Math.random() * 28 + jitterY
+          break
+        case 3: // Bottom-right area
+          x = 70 + Math.random() * 22 + jitterX
+          y = 65 + Math.random() * 28 + jitterY
+          break
+        case 4: // Left side
+          x = 5 + Math.random() * 18 + jitterX
+          y = 30 + Math.random() * 35 + jitterY
+          break
+        case 5: // Right side
+          x = 77 + Math.random() * 18 + jitterX
+          y = 30 + Math.random() * 35 + jitterY
+          break
+        case 6: // Top area
+          x = 30 + Math.random() * 40 + jitterX
           y = 5 + Math.random() * 20 + jitterY
           break
-        case 1: // Top-right corner
-          x = 80 + Math.random() * 15 + jitterX
-          y = 5 + Math.random() * 20 + jitterY
-          break
-        case 2: // Bottom-left corner
-          x = 5 + Math.random() * 15 + jitterX
-          y = 70 + Math.random() * 25 + jitterY
-          break
-        case 3: // Bottom-right corner
-          x = 80 + Math.random() * 15 + jitterX
-          y = 70 + Math.random() * 25 + jitterY
-          break
-        case 4: // Left edge
-          x = 2 + Math.random() * 12 + jitterX
-          y = 25 + Math.random() * 40 + jitterY
-          break
-        case 5: // Right edge
-          x = 86 + Math.random() * 12 + jitterX
-          y = 25 + Math.random() * 40 + jitterY
-          break
-        case 6: // Top edge
-          x = 25 + Math.random() * 50 + jitterX
-          y = 2 + Math.random() * 15 + jitterY
-          break
-        case 7: // Bottom edge
-          x = 25 + Math.random() * 50 + jitterX
-          y = 80 + Math.random() * 18 + jitterY
+        case 7: // Bottom area
+          x = 30 + Math.random() * 40 + jitterX
+          y = 75 + Math.random() * 20 + jitterY
           break
         default:
           x = Math.random() * 100
