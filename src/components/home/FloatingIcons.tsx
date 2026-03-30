@@ -98,10 +98,10 @@ function FloatingIcon({ icon, position, size, opacity, animation, delay }: Float
       // Much more dramatic movement
       return {
         ...base,
-        y: [0, -25 - randomOffset * 15, 0],
-        x: [0, 10 + randomOffset * 10, 0],
-        rotate: [-8, 8, -8],
-        scale: [1, 1.05, 1],
+        y: [0, -35 - randomOffset * 20, 0],
+        x: [0, 15 + randomOffset * 15, 0],
+        rotate: [-12, 12, -12],
+        scale: [1, 1.08, 1],
       }
     }
 
@@ -113,11 +113,12 @@ function FloatingIcon({ icon, position, size, opacity, animation, delay }: Float
       }
     }
 
-    // parallax - gentle drift
+    // parallax - more noticeable drift
     return {
       ...base,
-      y: [0, -15, 0],
-      rotate: [-5, 5, -5],
+      y: [0, -25, 0],
+      x: [0, 8, 0],
+      rotate: [-8, 8, -8],
     }
   }
 
@@ -149,6 +150,7 @@ function FloatingIcon({ icon, position, size, opacity, animation, delay }: Float
     return {
       ...base,
       y: { duration, repeat: Infinity, ease: 'easeInOut' as const },
+      x: { duration: duration * 1.4, repeat: Infinity, ease: 'easeInOut' as const },
       rotate: { duration: duration * 1.2, repeat: Infinity, ease: 'easeInOut' as const },
     }
   }
@@ -211,7 +213,7 @@ interface Props {
   className?: string
 }
 
-export function FloatingIcons({ count = 18, className = '' }: Props) {
+export function FloatingIcons({ count = 24, className = '' }: Props) {
   const icons = useMemo(() => {
     const allIcons = [
       ...ICONS.languages,
@@ -222,43 +224,70 @@ export function FloatingIcons({ count = 18, className = '' }: Props) {
 
     const animations: AnimationType[] = ['float', 'float', 'float', 'parallax', 'pulse']
 
-    // Create a grid-based distribution to avoid clustering
-    const cols = Math.ceil(Math.sqrt(count * 1.5))
-    const rows = Math.ceil(count / cols)
-    const cellWidth = 100 / cols
-    const cellHeight = 100 / rows
-
+    // Distribute icons around the edges and corners, avoiding center
+    // Use polar-like distribution to place icons in a ring around the hero
     return Array.from({ length: count }, (_, i) => {
       const icon = allIcons[i % allIcons.length]
-      const animation = animations[i % animations.length] // Deterministic animation assignment
+      const animation = animations[i % animations.length]
 
-      // Grid position with randomness within cell
-      const col = i % cols
-      const row = Math.floor(i / cols)
+      // Distribute icons in zones: corners, edges, and outer areas
+      const zone = i % 8 // 8 zones around the perimeter
 
-      // Position with jitter within grid cell, avoiding center area
-      let x = col * cellWidth + (cellWidth * 0.2) + (Math.random() * cellWidth * 0.6)
-      let y = row * cellHeight + (cellHeight * 0.2) + (Math.random() * cellHeight * 0.6)
+      let x: number
+      let y: number
+      const jitterX = (Math.random() - 0.5) * 15
+      const jitterY = (Math.random() - 0.5) * 15
 
-      // Push icons away from center (where text is)
-      const centerX = 50
-      const centerY = 45
-      const distFromCenter = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2)
-      if (distFromCenter < 25) {
-        // Push outward from center
-        const angle = Math.atan2(y - centerY, x - centerX)
-        x = centerX + Math.cos(angle) * 30
-        y = centerY + Math.sin(angle) * 30
+      switch (zone) {
+        case 0: // Top-left corner
+          x = 5 + Math.random() * 15 + jitterX
+          y = 5 + Math.random() * 20 + jitterY
+          break
+        case 1: // Top-right corner
+          x = 80 + Math.random() * 15 + jitterX
+          y = 5 + Math.random() * 20 + jitterY
+          break
+        case 2: // Bottom-left corner
+          x = 5 + Math.random() * 15 + jitterX
+          y = 70 + Math.random() * 25 + jitterY
+          break
+        case 3: // Bottom-right corner
+          x = 80 + Math.random() * 15 + jitterX
+          y = 70 + Math.random() * 25 + jitterY
+          break
+        case 4: // Left edge
+          x = 2 + Math.random() * 12 + jitterX
+          y = 25 + Math.random() * 40 + jitterY
+          break
+        case 5: // Right edge
+          x = 86 + Math.random() * 12 + jitterX
+          y = 25 + Math.random() * 40 + jitterY
+          break
+        case 6: // Top edge
+          x = 25 + Math.random() * 50 + jitterX
+          y = 2 + Math.random() * 15 + jitterY
+          break
+        case 7: // Bottom edge
+          x = 25 + Math.random() * 50 + jitterX
+          y = 80 + Math.random() * 18 + jitterY
+          break
+        default:
+          x = Math.random() * 100
+          y = Math.random() * 100
       }
+
+      // Clamp to viewport
+      x = Math.max(2, Math.min(98, x))
+      y = Math.max(2, Math.min(98, y))
 
       return {
         id: i,
         icon,
         position: { x, y },
-        size: 18 + (i % 5) * 4, // 18-34px, deterministic variety
-        opacity: 0.15 + (i % 4) * 0.1, // 0.15-0.45, subtle but visible
+        size: 22 + (i % 5) * 6, // 22-46px, bigger icons
+        opacity: 0.2 + (i % 4) * 0.12, // 0.2-0.56, more visible
         animation,
-        delay: (i % 8) * 0.15, // Staggered entrance
+        delay: (i % 8) * 0.12, // Staggered entrance
       }
     })
   }, [count])
