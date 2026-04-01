@@ -1,0 +1,173 @@
+slug: quick-sort
+name: Quick Sort
+category: Ordenação
+description: Algoritmo de ordenação eficiente que usa a estratégia dividir para conquistar, escolhendo um pivô e particionando o array.
+difficulty: Média
+tags: [Ordenação, Dividir e Conquistar, Recursivo]
+
+complexity:
+  time: O(n log n)
+  space: O(log n)
+
+presets:
+  - label: Desordenado
+    data: [5, 3, 8, 4, 2, 7, 1, 6]
+  - label: Quase ordenado
+    data: [1, 2, 4, 3, 5, 6, 8, 7]
+  - label: Invertido
+    data: [8, 7, 6, 5, 4, 3, 2, 1]
+  - label: Já ordenado
+    data: [1, 2, 3, 4, 5, 6, 7, 8]
+  - label: Repetidos
+    data: [3, 5, 3, 8, 5, 2, 3, 1]
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Função principal que recebe o array e os índices de início e fim da partição.
+  base-case:
+    label: Caso Base
+    explanation: Se a partição tem 0 ou 1 elemento, já está ordenada. Condição de parada da recursão.
+  partition:
+    label: Partição
+    explanation: Rearranja os elementos de forma que todos menores que o pivô fiquem à esquerda e maiores à direita.
+  pivot:
+    label: Pivô
+    explanation: Elemento escolhido como referência para particionar o array. Aqui usamos o último elemento.
+  comparison:
+    label: Comparação
+    explanation: Compara cada elemento com o pivô para decidir se deve ir para o lado esquerdo.
+  swap:
+    label: Troca
+    explanation: Troca elementos de posição para colocá-los no lado correto do pivô.
+  pivot-placement:
+    label: Posicionamento do Pivô
+    explanation: Coloca o pivô na sua posição final correta no array ordenado.
+  recursive-calls:
+    label: Chamadas Recursivas
+    explanation: Aplica o Quick Sort recursivamente nas duas metades do array, excluindo o pivô.
+  generic-function:
+    label: Generics
+    explanation: Função genérica que funciona com qualquer tipo comparável (Ord em Rust).
+  slice-partition:
+    label: Partição com Slices
+    explanation: Em Rust, usa slices para particionar sem precisar de índices explícitos.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O Quick Sort é um algoritmo de ordenação que usa a estratégia dividir para conquistar.
+      Ele escolhe um elemento como pivô e particiona o array em dois subarrays: elementos
+      menores que o pivô e elementos maiores.
+
+      O processo é recursivo: após particionar, aplica o mesmo procedimento em cada subarray.
+      Quando todos os subarrays têm tamanho 0 ou 1, o array está ordenado.
+
+      Na prática, o Quick Sort é um dos algoritmos de ordenação mais rápidos, superando
+      o Merge Sort em muitos casos por ter melhor localidade de cache e menor overhead de
+      memória.
+    steps:
+      - Escolhe um pivô (geralmente o último elemento)
+      - Percorre o array comparando cada elemento com o pivô
+      - Elementos menores vão para a esquerda do pivô
+      - Elementos maiores ficam à direita
+      - O pivô é colocado na sua posição final
+      - Repete recursivamente para cada lado
+
+  keyInsight: O pivô sempre termina na posição correta após a partição. A cada chamada recursiva, pelo menos um elemento (o pivô) é colocado na posição definitiva.
+
+  commonMistakes:
+    - Escolher sempre o primeiro elemento como pivô em arrays já ordenados (pior caso)
+    - Não tratar corretamente partições de tamanho 0 ou 1
+    - Confundir os índices durante a partição
+    - Esquecer de incluir a troca final do pivô
+
+  bigO:
+    time:
+      notation: O(n log n)
+      explanation: Em média, cada partição divide o array pela metade, gerando log n níveis de recursão, cada um processando n elementos.
+      proof: "T(n) = 2T(n/2) + O(n). Pelo Teorema Mestre: O(n log n)"
+    space:
+      notation: O(log n)
+      explanation: Espaço usado pela pilha de recursão. No caso médio, a profundidade é log n.
+    bestCase:
+      notation: O(n log n)
+      explanation: Quando o pivô sempre divide o array em duas metades iguais.
+    worstCase:
+      notation: O(n²)
+      explanation: Quando o pivô é sempre o menor ou maior elemento (array já ordenado com pivô fixo).
+
+  comparisons:
+    - name: Quick Sort
+      slug: quick-sort
+      time: O(n log n)
+      space: O(log n)
+      stable: false
+      bestFor: Uso geral, melhor performance média
+    - name: Merge Sort
+      slug: merge-sort
+      time: O(n log n)
+      space: O(n)
+      stable: true
+      bestFor: Quando estabilidade é necessária
+    - name: Bubble Sort
+      slug: bubble-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Fins didáticos
+    - name: Selection Sort
+      slug: selection-sort
+      time: O(n²)
+      space: O(1)
+      stable: false
+      bestFor: Quando trocas são caras
+
+interview:
+  - id: quick-sort-q1
+    question: Explique o Quick Sort e sua complexidade.
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft, Meta]
+    tip: Foque no processo de partição e na escolha do pivô.
+    rubric:
+      - point: Usa dividir para conquistar com pivô e partição
+        required: true
+      - point: "Tempo médio: O(n log n), pior caso: O(n²)"
+        required: true
+      - point: "Espaço: O(log n) pela pilha de recursão"
+        required: true
+      - point: Não é estável
+        required: false
+    idealAnswer: |
+      O Quick Sort escolhe um pivô e particiona o array em elementos menores e maiores que o pivô.
+      O pivô é colocado na posição final e o processo se repete recursivamente.
+
+      Tempo médio: O(n log n) - cada nível processa n elementos e há log n níveis.
+      Pior caso: O(n²) - quando o pivô é sempre o extremo (array já ordenado).
+      Espaço: O(log n) pela pilha de recursão.
+
+      Não é estável, mas na prática é mais rápido que Merge Sort por melhor localidade de cache.
+
+  - id: quick-sort-q2
+    question: Como evitar o pior caso O(n²) do Quick Sort?
+    difficulty: medium
+    companies: [Google, Meta, Apple]
+    tip: Pense em diferentes estratégias de escolha do pivô.
+    rubric:
+      - point: Pivô aleatório (randomized quicksort)
+        required: true
+      - point: Mediana de três
+        required: false
+      - point: O pior caso acontece com pivô extremo
+        required: true
+    idealAnswer: |
+      O pior caso acontece quando o pivô é sempre o menor ou maior elemento, criando
+      partições desbalanceadas de tamanho 0 e n-1.
+
+      Estratégias para evitar:
+      1. Pivô aleatório: escolher um elemento aleatório como pivô
+      2. Mediana de três: usar a mediana do primeiro, meio e último elemento
+      3. Introsorte: mudar para Heap Sort quando a profundidade de recursão excede log n
+
+      Com pivô aleatório, a probabilidade do pior caso é extremamente baixa.

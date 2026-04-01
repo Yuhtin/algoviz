@@ -1,0 +1,158 @@
+slug: counting-sort
+name: Counting Sort
+category: Ordenação
+description: Algoritmo de ordenação não comparativo que conta a frequência de cada elemento para determinar suas posições no array ordenado.
+difficulty: Média
+tags: [Ordenação, Não Comparativo, Linear]
+
+complexity:
+  time: O(n + k)
+  space: O(n + k)
+
+presets:
+  - label: Desordenado
+    data: [4, 2, 7, 1, 3, 5, 2, 4, 3, 1]
+  - label: Poucos valores
+    data: [3, 1, 2, 3, 1, 2, 1, 3, 2, 1]
+  - label: Valores grandes
+    data: [8, 3, 9, 1, 5, 7, 2, 6, 4, 8]
+  - label: Já ordenado
+    data: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Recebe um array de inteiros não negativos e retorna o array ordenado.
+  find-max:
+    label: Encontrar Máximo
+    explanation: Determina o valor máximo do array para definir o tamanho do array de contagem.
+  count-array:
+    label: Array de Contagem
+    explanation: Cria um array onde cada posição armazena quantas vezes o valor correspondente aparece.
+  counting:
+    label: Contagem
+    explanation: Percorre o array original e incrementa o contador para cada valor encontrado.
+  cumulative:
+    label: Soma Acumulada
+    explanation: Transforma o array de contagem em soma acumulada. Cada posição indica onde o último elemento daquele valor deve ficar.
+  output:
+    label: Array de Saída
+    explanation: Constrói o array ordenado usando as posições indicadas pelo array de contagem acumulada.
+  placement:
+    label: Posicionamento
+    explanation: Coloca cada elemento na posição correta e decrementa o contador.
+  generic-function:
+    label: Tipo usize
+    explanation: Em Rust, usa usize para garantir que os valores são não negativos e podem ser usados como índices.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O Counting Sort não compara elementos entre si. Em vez disso, conta quantas vezes
+      cada valor aparece e usa essa informação para posicionar os elementos diretamente.
+
+      Funciona em três fases: contagem (conta ocorrências), acumulação (calcula posições
+      finais) e posicionamento (coloca cada elemento na posição correta).
+
+      É extremamente eficiente quando o intervalo de valores (k) é pequeno em relação
+      ao tamanho do array (n). Porém, não funciona bem com valores muito grandes ou
+      números negativos sem adaptação.
+    steps:
+      - Encontra o valor máximo do array
+      - Cria um array de contagem de tamanho max+1
+      - Conta a frequência de cada valor
+      - Calcula a soma acumulada das contagens
+      - Percorre o array original de trás para frente
+      - Coloca cada elemento na posição indicada pela contagem
+
+  keyInsight: "O Counting Sort é O(n + k) porque não compara elementos. Quando k = O(n), é linear. É a base para o Radix Sort."
+
+  commonMistakes:
+    - Esquecer de percorrer de trás para frente (perde estabilidade)
+    - Não calcular a soma acumulada corretamente
+    - Usar com valores negativos sem adaptar o algoritmo
+
+  bigO:
+    time:
+      notation: O(n + k)
+      explanation: "n é o tamanho do array, k é o valor máximo. Percorre o array duas vezes e o array de contagem uma vez."
+    space:
+      notation: O(n + k)
+      explanation: Precisa do array de contagem de tamanho k+1 e do array de saída de tamanho n.
+    bestCase:
+      notation: O(n + k)
+      explanation: Sempre o mesmo, independente da entrada.
+    worstCase:
+      notation: O(n + k)
+      explanation: Quando k é muito grande comparado a n, o espaço e tempo são dominados por k.
+
+  comparisons:
+    - name: Counting Sort
+      slug: counting-sort
+      time: O(n + k)
+      space: O(n + k)
+      stable: true
+      bestFor: Inteiros com intervalo pequeno
+    - name: Bubble Sort
+      slug: bubble-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Fins didáticos
+    - name: Quick Sort
+      slug: quick-sort
+      time: O(n log n)
+      space: O(log n)
+      stable: false
+      bestFor: Uso geral
+    - name: Merge Sort
+      slug: merge-sort
+      time: O(n log n)
+      space: O(n)
+      stable: true
+      bestFor: Grandes datasets
+
+interview:
+  - id: counting-sort-q1
+    question: Explique o Counting Sort e quando ele é mais eficiente que algoritmos comparativos.
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft]
+    tip: "Foque na diferença entre algoritmos comparativos (Ω(n log n)) e não comparativos."
+    rubric:
+      - point: Conta ocorrências de cada valor ao invés de comparar
+        required: true
+      - point: "Tempo: O(n + k), eficiente quando k = O(n)"
+        required: true
+      - point: "Espaço: O(n + k)"
+        required: true
+      - point: É estável e base para Radix Sort
+        required: false
+    idealAnswer: |
+      O Counting Sort conta a frequência de cada valor e usa a soma acumulada das
+      contagens para posicionar elementos diretamente, sem comparações.
+
+      Tempo: O(n + k) onde k é o valor máximo. Quando k = O(n), é linear.
+      Espaço: O(n + k) para o array de contagem e saída.
+
+      É mais eficiente que algoritmos comparativos (limite inferior Ω(n log n)) quando
+      o intervalo de valores é pequeno. É estável e serve como base para o Radix Sort.
+
+  - id: counting-sort-q2
+    question: Quais as limitações do Counting Sort?
+    difficulty: easy
+    companies: [Google, Meta]
+    tip: Pense nos tipos de dados e intervalos de valores.
+    rubric:
+      - point: Não funciona com números negativos sem adaptação
+        required: true
+      - point: Ineficiente quando k é muito grande
+        required: true
+      - point: Só funciona com inteiros
+        required: false
+    idealAnswer: |
+      Limitações:
+      1. Só funciona com inteiros (ou valores que podem ser mapeados para inteiros)
+      2. Não funciona com negativos sem adaptação (somar offset ao valor mínimo)
+      3. Ineficiente quando k >> n (array de contagem muito grande)
+      4. Usa O(n + k) de memória, mais que algoritmos in-place

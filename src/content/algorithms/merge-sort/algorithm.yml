@@ -1,0 +1,166 @@
+slug: merge-sort
+name: Merge Sort
+category: Ordenação
+description: Algoritmo de ordenação estável que usa dividir para conquistar, dividindo o array ao meio e intercalando as metades ordenadas.
+difficulty: Média
+tags: [Ordenação, Dividir e Conquistar, Estável]
+
+complexity:
+  time: O(n log n)
+  space: O(n)
+
+presets:
+  - label: Desordenado
+    data: [5, 3, 8, 4, 2, 7, 1, 6]
+  - label: Quase ordenado
+    data: [1, 2, 4, 3, 5, 6, 8, 7]
+  - label: Invertido
+    data: [8, 7, 6, 5, 4, 3, 2, 1]
+  - label: Já ordenado
+    data: [1, 2, 3, 4, 5, 6, 7, 8]
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Função principal que recebe o array e o divide recursivamente até subarrays unitários.
+  base-case:
+    label: Caso Base
+    explanation: Se o array tem 0 ou 1 elemento, já está ordenado. Retorna sem fazer nada.
+  split:
+    label: Divisão
+    explanation: Divide o array ao meio, criando dois subarrays de tamanho aproximadamente igual.
+  recursive-calls:
+    label: Chamadas Recursivas
+    explanation: Aplica o Merge Sort em cada metade do array antes de intercalar.
+  merge:
+    label: Intercalação
+    explanation: Combina dois subarrays ordenados em um único array ordenado, comparando elemento a elemento.
+  left-copy:
+    label: Cópia da Esquerda
+    explanation: Quando o elemento da esquerda é menor ou igual, ele vai para o array resultado.
+  right-copy:
+    label: Cópia da Direita
+    explanation: Quando o elemento da direita é menor, ele vai para o array resultado.
+  remaining:
+    label: Elementos Restantes
+    explanation: Após um dos subarrays acabar, copia os elementos restantes do outro.
+  generic-function:
+    label: Generics
+    explanation: Função genérica que funciona com qualquer tipo comparável e clonável (Ord + Clone em Rust).
+  vec-alloc:
+    label: Alocação de Vetores
+    explanation: Em Rust, cria vetores temporários para as metades esquerda e direita.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O Merge Sort divide o array ao meio repetidamente até ter subarrays de um elemento.
+      Depois, intercala (merge) esses subarrays de volta, mantendo a ordem.
+
+      O processo de intercalação compara os elementos dos dois subarrays ordenados e
+      constrói o resultado elemento por elemento, sempre escolhendo o menor disponível.
+
+      É um algoritmo estável (preserva a ordem relativa de elementos iguais) e tem
+      complexidade garantida O(n log n), mas usa O(n) de espaço adicional.
+    steps:
+      - Divide o array ao meio
+      - Aplica Merge Sort recursivamente em cada metade
+      - Quando chega em subarrays de 1 elemento, começa a intercalar
+      - A intercalação compara elementos das duas metades
+      - Sempre escolhe o menor para o resultado
+      - Copia elementos restantes quando uma metade acaba
+
+  keyInsight: O Merge Sort garante O(n log n) em todos os casos porque sempre divide ao meio. A intercalação de dois arrays ordenados é O(n), e temos log n níveis de recursão.
+
+  commonMistakes:
+    - Esquecer de copiar os elementos restantes após o loop principal do merge
+    - Não criar cópias dos subarrays antes da intercalação
+    - Confundir os índices durante a intercalação
+
+  bigO:
+    time:
+      notation: O(n log n)
+      explanation: Sempre divide ao meio (log n níveis) e intercala n elementos em cada nível.
+      proof: "T(n) = 2T(n/2) + O(n). Pelo Teorema Mestre: O(n log n)"
+    space:
+      notation: O(n)
+      explanation: Precisa de arrays temporários para a intercalação.
+    bestCase:
+      notation: O(n log n)
+      explanation: Mesmo com array já ordenado, ainda divide e intercala.
+    worstCase:
+      notation: O(n log n)
+      explanation: Complexidade garantida, independente da entrada.
+
+  comparisons:
+    - name: Merge Sort
+      slug: merge-sort
+      time: O(n log n)
+      space: O(n)
+      stable: true
+      bestFor: Grandes datasets, estabilidade necessária
+    - name: Quick Sort
+      slug: quick-sort
+      time: O(n log n)
+      space: O(log n)
+      stable: false
+      bestFor: Uso geral, melhor performance média
+    - name: Bubble Sort
+      slug: bubble-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Fins didáticos
+    - name: Selection Sort
+      slug: selection-sort
+      time: O(n²)
+      space: O(1)
+      stable: false
+      bestFor: Quando trocas são caras
+
+interview:
+  - id: merge-sort-q1
+    question: Explique o Merge Sort e por que ele é estável.
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft, Meta]
+    tip: Foque na intercalação e como ela preserva a ordem de elementos iguais.
+    rubric:
+      - point: Divide ao meio recursivamente e intercala
+        required: true
+      - point: "Tempo: O(n log n) garantido"
+        required: true
+      - point: "Espaço: O(n)"
+        required: true
+      - point: Estável porque na intercalação, elementos iguais da esquerda vêm primeiro
+        required: true
+    idealAnswer: |
+      O Merge Sort divide o array ao meio repetidamente até subarrays unitários, depois
+      intercala mantendo a ordem. Na intercalação, quando dois elementos são iguais,
+      o da esquerda é escolhido primeiro, preservando a ordem relativa original.
+
+      Tempo: O(n log n) garantido - sempre divide ao meio e intercala linearmente.
+      Espaço: O(n) - precisa de arrays temporários para intercalação.
+
+  - id: merge-sort-q2
+    question: Quando usar Merge Sort ao invés de Quick Sort?
+    difficulty: medium
+    companies: [Google, Apple, Bloomberg]
+    tip: Considere estabilidade, garantia de performance e uso de memória.
+    rubric:
+      - point: Merge Sort é estável, Quick Sort não
+        required: true
+      - point: Merge Sort tem O(n log n) garantido, Quick Sort pode ser O(n²)
+        required: true
+      - point: Merge Sort usa mais memória O(n)
+        required: false
+    idealAnswer: |
+      Use Merge Sort quando:
+      1. Estabilidade é necessária (manter ordem de elementos iguais)
+      2. Performance previsível é importante (O(n log n) garantido)
+      3. Ordenando linked lists (merge sort é mais eficiente sem acesso aleatório)
+
+      Use Quick Sort quando:
+      1. Memória é limitada (O(log n) vs O(n))
+      2. Performance média importa mais que pior caso
+      3. Boa localidade de cache é importante

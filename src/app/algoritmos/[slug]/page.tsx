@@ -16,6 +16,10 @@ import { UnionFindVisualizer } from '@/algorithms/union-find/Visualizer'
 import { TrieVisualizer } from '@/algorithms/trie/Visualizer'
 import { LRUCacheVisualizer } from '@/algorithms/lru-cache/Visualizer'
 import { SelectionSortVisualizer } from '@/algorithms/selection-sort/Visualizer'
+import { QuickSortVisualizer } from '@/algorithms/quick-sort/Visualizer'
+import { MergeSortVisualizer } from '@/algorithms/merge-sort/Visualizer'
+import { CountingSortVisualizer } from '@/algorithms/counting-sort/Visualizer'
+import { InsertionSortVisualizer } from '@/algorithms/insertion-sort/Visualizer'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -35,6 +39,10 @@ const visualizers: Record<string, React.ComponentType> = {
   'trie': TrieVisualizer,
   'lru-cache': LRUCacheVisualizer,
   'selection-sort': SelectionSortVisualizer,
+  'quick-sort': QuickSortVisualizer,
+  'merge-sort': MergeSortVisualizer,
+  'counting-sort': CountingSortVisualizer,
+  'insertion-sort': InsertionSortVisualizer,
 }
 
 export async function generateStaticParams() {

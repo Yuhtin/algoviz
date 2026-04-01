@@ -1,0 +1,163 @@
+slug: insertion-sort
+name: Insertion Sort
+category: Ordenação
+description: Algoritmo de ordenação que insere cada elemento na posição correta da parte já ordenada do array, como organizar cartas na mão.
+difficulty: Fácil
+tags: [Ordenação, Comparação, Estável, In-place]
+
+complexity:
+  time: O(n²)
+  space: O(1)
+
+presets:
+  - label: Desordenado
+    data: [5, 3, 8, 4, 2, 7, 1, 6]
+  - label: Quase ordenado
+    data: [1, 2, 4, 3, 5, 6, 8, 7]
+  - label: Invertido
+    data: [8, 7, 6, 5, 4, 3, 2, 1]
+  - label: Já ordenado
+    data: [1, 2, 3, 4, 5, 6, 7, 8]
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Recebe um array e ordena in-place, inserindo cada elemento na posição correta.
+  outer-loop:
+    label: Loop Externo
+    explanation: Começa do segundo elemento. A cada iteração, pega o próximo elemento não ordenado.
+  key:
+    label: Elemento Chave
+    explanation: O elemento atual que será inserido na posição correta da parte ordenada.
+  inner-loop:
+    label: Loop Interno
+    explanation: Percorre a parte ordenada de trás para frente, deslocando elementos maiores para a direita.
+  shift:
+    label: Deslocamento
+    explanation: Move elementos maiores que a chave uma posição para a direita para abrir espaço.
+  insert:
+    label: Inserção
+    explanation: Coloca a chave na posição correta após deslocar os elementos maiores.
+  generic-function:
+    label: Generics
+    explanation: Função genérica que funciona com qualquer tipo comparável (Ord em Rust).
+  while-loop:
+    label: Loop While
+    explanation: Em Rust, usa while ao invés de for para percorrer a parte ordenada de trás para frente.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O Insertion Sort funciona como organizar cartas na mão. Pega uma carta por vez
+      e a insere na posição correta entre as cartas já organizadas.
+
+      Começa considerando o primeiro elemento como já ordenado. Para cada elemento
+      seguinte, compara com os anteriores e desloca os maiores para a direita até
+      encontrar a posição correta para inserir.
+
+      É eficiente para arrays pequenos ou quase ordenados, e é usado na prática como
+      parte de algoritmos híbridos como o TimSort (Python) e IntroSort (C++).
+    steps:
+      - O primeiro elemento é considerado ordenado
+      - Pega o próximo elemento (chave)
+      - Compara com os elementos da parte ordenada, de trás para frente
+      - Desloca elementos maiores uma posição para a direita
+      - Insere a chave na posição correta
+      - Repete para todos os elementos
+
+  keyInsight: O Insertion Sort é adaptativo. Para arrays quase ordenados, tem performance próxima de O(n). É o algoritmo mais eficiente para arrays pequenos (< 10-20 elementos).
+
+  commonMistakes:
+    - Começar o loop externo do índice 0 ao invés de 1
+    - Esquecer de salvar o elemento chave antes de deslocar
+    - Deslocar para o lado errado (para a esquerda ao invés da direita)
+
+  bigO:
+    time:
+      notation: O(n²)
+      explanation: No pior caso, cada elemento é comparado com todos os anteriores.
+      proof: "Comparações: 1 + 2 + ... + (n-1) = n(n-1)/2 = O(n²)"
+    space:
+      notation: O(1)
+      explanation: Ordena in-place. Só usa uma variável auxiliar para a chave.
+    bestCase:
+      notation: O(n)
+      explanation: Array já ordenado. O loop interno não executa nenhuma iteração.
+    worstCase:
+      notation: O(n²)
+      explanation: Array invertido. Cada elemento é deslocado para o início.
+
+  comparisons:
+    - name: Insertion Sort
+      slug: insertion-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Arrays pequenos, dados quase ordenados
+    - name: Selection Sort
+      slug: selection-sort
+      time: O(n²)
+      space: O(1)
+      stable: false
+      bestFor: Quando trocas são caras
+    - name: Bubble Sort
+      slug: bubble-sort
+      time: O(n²)
+      space: O(1)
+      stable: true
+      bestFor: Fins didáticos
+    - name: Merge Sort
+      slug: merge-sort
+      time: O(n log n)
+      space: O(n)
+      stable: true
+      bestFor: Grandes datasets
+
+interview:
+  - id: insertion-sort-q1
+    question: Explique o Insertion Sort e quando ele é a melhor escolha.
+    difficulty: easy
+    companies: [Google, Amazon, Microsoft]
+    tip: Compare com outros algoritmos O(n²) e mencione o melhor caso O(n).
+    rubric:
+      - point: Insere cada elemento na posição correta da parte ordenada
+        required: true
+      - point: "Melhor caso O(n) para arrays quase ordenados"
+        required: true
+      - point: "Espaço O(1), ordena in-place"
+        required: true
+      - point: É estável
+        required: false
+    idealAnswer: |
+      O Insertion Sort pega cada elemento e o insere na posição correta da parte já
+      ordenada, deslocando os maiores para a direita.
+
+      Melhor caso: O(n) para arrays já ordenados (loop interno não executa).
+      Pior/médio caso: O(n²).
+      Espaço: O(1) - ordena in-place.
+
+      É a melhor escolha para arrays pequenos (< 20 elementos) ou quase ordenados.
+      Usado em algoritmos híbridos como TimSort e IntroSort.
+
+  - id: insertion-sort-q2
+    question: Qual a diferença entre Insertion Sort e Selection Sort?
+    difficulty: medium
+    companies: [Google, Meta, Apple]
+    tip: Compare como cada um constrói a parte ordenada.
+    rubric:
+      - point: Insertion Sort insere na posição correta, Selection Sort seleciona o mínimo
+        required: true
+      - point: Insertion Sort é estável, Selection Sort não
+        required: true
+      - point: Insertion Sort tem melhor caso O(n), Selection Sort é sempre O(n²)
+        required: true
+    idealAnswer: |
+      Insertion Sort: insere cada elemento na posição correta deslocando os maiores.
+      A parte ordenada pode mudar a cada inserção. Melhor caso O(n).
+
+      Selection Sort: encontra o mínimo da parte não ordenada e troca com a posição atual.
+      Sempre faz n² comparações. Faz menos trocas (no máximo n-1).
+
+      Insertion Sort é estável e adaptativo (O(n) para quase ordenados).
+      Selection Sort não é estável mas faz menos trocas.
