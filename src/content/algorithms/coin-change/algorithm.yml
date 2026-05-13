@@ -1,0 +1,189 @@
+slug: coin-change
+name: Coin Change
+category: Programação Dinâmica
+description: Dado um conjunto de moedas e um valor alvo, encontre o número mínimo de moedas necessárias para somar o valor. Clássico problema de DP bottom-up.
+difficulty: Média
+tags: [DP, Bottom-up, Otimização, Combinatória]
+
+complexity:
+  time: O(n × m)
+  space: O(n)
+
+presets:
+  - label: Clássico (6)
+    data:
+      coins: [1, 3, 4]
+      amount: 6
+  - label: Moedas BR (11)
+    data:
+      coins: [1, 5, 10, 25]
+      amount: 11
+  - label: Difícil (7)
+    data:
+      coins: [2, 5]
+      amount: 7
+  - label: Impossível (3)
+    data:
+      coins: [2, 4]
+      amount: 3
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Recebe lista de moedas e valor alvo. Retorna o mínimo de moedas, ou -1 se impossível.
+  init-dp:
+    label: Inicialização do DP
+    explanation: dp[i] guarda o mínimo de moedas para formar o valor i. Inicializa com infinito (impossível) exceto dp[0] = 0.
+  outer-loop:
+    label: Loop de Valores
+    explanation: Itera de 1 até amount, computando cada subproblema dp[j] a partir dos menores já resolvidos.
+  inner-loop:
+    label: Loop de Moedas
+    explanation: Para cada valor j, testa cada moeda disponível como última moeda da combinação.
+  recurrence:
+    label: Recorrência
+    explanation: "dp[j] = min(dp[j], dp[j - coin] + 1). Tomamos a moeda e somamos 1 ao subproblema dp[j - coin]."
+  validity-check:
+    label: Validade
+    explanation: Só consideramos a moeda se coin ≤ j (caso contrário não cabe) e se dp[j - coin] já foi resolvido.
+  return-result:
+    label: Resultado
+    explanation: Retorna dp[amount], ou -1 se ficou infinito (não há combinação possível).
+  generic-function:
+    label: Função Rust
+    explanation: Versão Rust usando i32 com Option para representar "infinito" via None.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      Coin Change é o exemplo canônico de Programação Dinâmica bottom-up. A ideia
+      central: para resolver o valor j, basta saber a resposta dos valores menores.
+
+      Se dp[j] = mínimo de moedas para formar j, então para cada moeda c disponível,
+      uma forma de chegar em j é usar c como última moeda, vindo de j - c. Logo:
+
+          dp[j] = min(dp[j - c] + 1)  para toda moeda c ≤ j
+
+      Resolvemos dp[0], dp[1], ..., dp[amount] em ordem crescente. Quando chegamos
+      em dp[amount], já temos a resposta. Cada subproblema é resolvido uma única vez
+      e reutilizado — daí o ganho sobre a recursão pura.
+
+      Para reconstruir a combinação de moedas (não só o tamanho), guardamos em
+      choice[j] qual moeda foi usada para atingir dp[j], e fazemos backtrack a
+      partir de amount.
+    steps:
+      - Inicializa dp[0] = 0 e dp[1..n] = infinito
+      - Para cada valor j de 1 até amount
+      - Para cada moeda c disponível
+      - Se c ≤ j, calcula candidato = dp[j-c] + 1
+      - Atualiza dp[j] se o candidato é melhor
+      - Faz backtrack a partir de dp[amount] para reconstruir as moedas
+
+  keyInsight: A estrutura "subproblemas sobrepostos" é o que diferencia DP de divide-and-conquer. Mesmos subvalores são usados várias vezes — memoizá-los transforma uma recursão exponencial em algoritmo polinomial.
+
+  commonMistakes:
+    - Inicializar dp[0] com infinito (deve ser 0 — zero moedas para formar zero)
+    - Iterar moedas no loop externo e valores no interno (funciona, mas confunde com o problema de combinações distintas)
+    - Esquecer de checar se dp[j-c] é alcançável antes de somar 1
+    - Confundir com a versão "número de formas" (que conta combinações ao invés do mínimo)
+
+  bigO:
+    time:
+      notation: O(n × m)
+      explanation: n = valor alvo, m = número de moedas. Cada par (j, c) é processado uma vez.
+      proof: "Total de operações: amount × |coins| = n × m"
+    space:
+      notation: O(n)
+      explanation: Array dp de tamanho amount + 1. Se reconstruirmos a combinação, mais um array choice de mesmo tamanho.
+    bestCase:
+      notation: O(n × m)
+      explanation: DP bottom-up sempre preenche toda a tabela — não há atalho.
+    worstCase:
+      notation: O(n × m)
+      explanation: Mesma complexidade em qualquer entrada.
+
+  comparisons:
+    - name: Coin Change (DP)
+      slug: coin-change
+      time: O(n × m)
+      space: O(n)
+      bestFor: Encontrar o mínimo garantido
+    - name: Coin Change (Recursão Pura)
+      time: O(m^n)
+      space: O(n)
+      bestFor: Didático — mostra a explosão exponencial sem DP
+    - name: Coin Change (Guloso)
+      time: O(n log n)
+      space: O(1)
+      bestFor: Só funciona para certos sistemas de moedas (como o brasileiro/euro)
+
+interview:
+  - id: coin-change-q1
+    question: Qual a diferença entre a solução gulosa e a de DP para Coin Change?
+    difficulty: medium
+    companies: [Google, Amazon, Meta]
+    tip: Pense em sistemas onde o guloso falha — moedas como [1, 3, 4] para valor 6.
+    rubric:
+      - point: Guloso pega sempre a maior moeda que cabe
+        required: true
+      - point: Guloso falha para sistemas de moedas não canônicos
+        required: true
+      - point: DP garante o mínimo testando todas as opções de última moeda
+        required: true
+      - point: Mencionar que moedas BR/EUR/USD são canônicas (guloso funciona)
+        required: false
+    idealAnswer: |
+      O algoritmo guloso pega a maior moeda que cabe no valor restante. Funciona para
+      sistemas canônicos (BR, EUR, USD) mas falha em casos como coins=[1,3,4], amount=6:
+      o guloso pega 4+1+1 (3 moedas), mas o ótimo é 3+3 (2 moedas).
+
+      A DP testa cada moeda como "última moeda" de cada subvalor. Como dp[j] depende
+      apenas dos dp[k] menores, podemos construir a solução de baixo pra cima e
+      garantir o mínimo global.
+
+  - id: coin-change-q2
+    question: Como você reconstruiria a combinação de moedas, não só a contagem?
+    difficulty: medium
+    companies: [Google, Microsoft]
+    tip: Pense no que você precisa lembrar durante o preenchimento da tabela.
+    rubric:
+      - point: Guardar a moeda escolhida em choice[j] quando atualizar dp[j]
+        required: true
+      - point: Backtrack partindo de amount, subtraindo choice[j] a cada passo
+        required: true
+      - point: Mencionar complexidade adicional O(n) de espaço
+        required: false
+    idealAnswer: |
+      Durante o preenchimento, sempre que dp[j] é atualizado com a moeda c, guardamos
+      choice[j] = c. Após terminar, fazemos backtrack:
+
+          j = amount
+          while j > 0:
+              moedas.append(choice[j])
+              j -= choice[j]
+
+      Custo extra: O(n) de espaço para o array choice, mesmo tempo total.
+
+  - id: coin-change-q3
+    question: Como adaptaria esse problema para contar o número de combinações distintas?
+    difficulty: hard
+    companies: [Google, Stripe]
+    tip: A ordem dos loops importa muito nessa variação.
+    rubric:
+      - point: dp[j] = número de combinações que somam j
+        required: true
+      - point: Inicializar dp[0] = 1 (uma forma de formar zero — não usar moeda)
+        required: true
+      - point: Loop externo nas moedas, interno nos valores — evita contar permutações
+        required: true
+    idealAnswer: |
+      Mudamos a recorrência: dp[j] += dp[j - c]. E invertemos os loops — moedas por
+      fora, valores por dentro. Isso garante que cada combinação seja contada uma vez,
+      sem permutar a ordem das moedas.
+
+          dp = [0] * (amount + 1)
+          dp[0] = 1
+          for c in coins:
+              for j in range(c, amount + 1):
+                  dp[j] += dp[j - c]

@@ -2,7 +2,7 @@
 // Uses auto-generated algorithms from YAML files
 import { algorithms as generatedAlgorithms } from '@/generated/algorithms'
 
-export const categories = ['Arrays', 'Ordenação', 'Busca', 'Grafos', 'Árvores', 'Hash', 'Strings'] as const
+export const categories = ['Arrays', 'Ordenação', 'Busca', 'Grafos', 'Árvores', 'Hash', 'Strings', 'Programação Dinâmica'] as const
 export type Category = (typeof categories)[number]
 
 export const categoryInfo: Record<Category, { name: string; icon: string; description: string }> = {
@@ -13,6 +13,7 @@ export const categoryInfo: Record<Category, { name: string; icon: string; descri
   Árvores: { name: 'Árvores', icon: '△', description: 'Árvores binárias e balanceadas' },
   Hash: { name: 'Hash', icon: '#', description: 'Tabelas hash e hashing' },
   Strings: { name: 'Strings', icon: 'Aa', description: 'Manipulação de strings' },
+  'Programação Dinâmica': { name: 'Programação Dinâmica', icon: '⊞', description: 'Subproblemas sobrepostos e memoização' },
 }
 
 // Re-export generated algorithms

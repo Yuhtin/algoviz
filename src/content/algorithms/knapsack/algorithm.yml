@@ -1,0 +1,225 @@
+slug: knapsack
+name: 0/1 Knapsack
+category: Programação Dinâmica
+description: Dada uma lista de itens com peso e valor, e uma mochila com capacidade limitada, escolha quais itens levar para maximizar o valor total. Cada item só pode ser pego uma vez.
+difficulty: Média
+tags: [DP, 2D, Otimização, Mochila, Backtrack]
+
+complexity:
+  time: O(n × W)
+  space: O(n × W)
+
+presets:
+  - label: Clássico
+    data:
+      capacity: 7
+      items:
+        - name: Joia
+          icon: 💎
+          weight: 4
+          value: 3
+        - name: Livro
+          icon: 📚
+          weight: 2
+          value: 4
+        - name: Laptop
+          icon: 💻
+          weight: 3
+          value: 5
+  - label: Tudo cabe
+    data:
+      capacity: 12
+      items:
+        - name: Garrafa
+          icon: 🍶
+          weight: 2
+          value: 2
+        - name: Sanduíche
+          icon: 🥪
+          weight: 3
+          value: 4
+        - name: Câmera
+          icon: 📷
+          weight: 3
+          value: 5
+        - name: Mapa
+          icon: 🗺
+          weight: 1
+          value: 1
+  - label: Decisão difícil
+    data:
+      capacity: 10
+      items:
+        - name: Relógio
+          icon: ⌚
+          weight: 5
+          value: 7
+        - name: Pintura
+          icon: 🖼
+          weight: 6
+          value: 8
+        - name: Estátua
+          icon: 🗿
+          weight: 4
+          value: 6
+        - name: Anel
+          icon: 💍
+          weight: 3
+          value: 5
+
+concepts:
+  function-def:
+    label: Definição
+    explanation: Recebe pesos, valores e capacidade. Retorna o valor máximo possível e os itens escolhidos.
+  init-dp:
+    label: Inicialização do DP
+    explanation: dp[i][w] = melhor valor usando os primeiros i itens com capacidade w. Linha 0 e coluna 0 começam zeradas.
+  outer-loop:
+    label: Loop de Itens
+    explanation: Percorre cada item, decidindo se vale a pena incluí-lo na mochila.
+  inner-loop:
+    label: Loop de Capacidades
+    explanation: Para cada item, testa todas as capacidades de 0 até W, computando o melhor valor.
+  weight-check:
+    label: Cabe na mochila?
+    explanation: Se o peso do item é maior que w, não dá pra pegar — herda o valor da linha anterior.
+  decision:
+    label: Decisão Take vs Skip
+    explanation: "Compara: ignorar item (dp[i-1][w]) ou levar (dp[i-1][w - peso] + valor). Pega o máximo."
+  backtrack:
+    label: Backtrack
+    explanation: A partir de dp[n][W], se dp[i][w] ≠ dp[i-1][w], o item i foi escolhido. Subtrai peso e segue.
+  generic-function:
+    label: Função Rust
+    explanation: Versão Rust usando Vec<Vec<i32>> e iteração com índices explícitos.
+
+theory:
+  howItWorks:
+    title: Como Funciona
+    content: |
+      O problema da mochila 0/1 é um dos exemplos canônicos de DP em duas dimensões.
+      Em cada célula dp[i][w], guardamos o melhor valor possível usando apenas os
+      primeiros i itens com capacidade w disponível.
+
+      Para cada item i e capacidade w, fazemos uma decisão binária:
+        - skip:  dp[i-1][w]                        (ignora o item)
+        - take:  dp[i-1][w - weight[i]] + value[i] (pega o item, se couber)
+
+      A recorrência: dp[i][w] = max(skip, take).
+
+      Construímos a tabela de cima pra baixo, da esquerda pra direita. Quando
+      chegamos em dp[n][W], temos a resposta. Para descobrir QUAIS itens foram
+      escolhidos, percorremos a tabela de volta: se dp[i][w] ≠ dp[i-1][w], o item
+      i entrou na solução, então subtraímos seu peso e seguimos.
+
+      A versão fracionária (Fractional Knapsack) tem solução gulosa O(n log n),
+      mas a 0/1 não — daí a necessidade de DP.
+    steps:
+      - Inicializa dp[0][*] = 0 e dp[*][0] = 0
+      - Para cada item i de 1 até n
+      - Para cada capacidade w de 0 até W
+      - Se peso[i] > w, copia dp[i-1][w] (não cabe)
+      - Caso contrário, dp[i][w] = max(skip, take)
+      - Faz backtrack a partir de dp[n][W] para reconstruir os itens escolhidos
+
+  keyInsight: A "ordem dos itens" no array não importa para o valor final, mas a indexação por linha permite a recorrência. dp[i][w] sempre olha para a linha anterior — isso permite até reduzir espaço para O(W) com cuidado.
+
+  commonMistakes:
+    - Confundir índice base 0 dos arrays com índice 1-based do dp (peso[i-1] no Python)
+    - Esquecer de checar se o peso cabe antes de calcular o valor "take"
+    - Misturar 0/1 (cada item uma vez) com Unbounded Knapsack (uso ilimitado)
+    - Tentar reduzir para O(W) sem inverter o loop interno — quebra a invariante
+
+  bigO:
+    time:
+      notation: O(n × W)
+      explanation: n itens × W+1 capacidades. Cada célula é computada em O(1).
+      proof: "Tabela tem (n+1) × (W+1) células, cada uma O(1) → O(n × W)"
+    space:
+      notation: O(n × W)
+      explanation: Tabela 2D completa. Pode ser reduzida a O(W) iterando capacidade decrescente.
+    bestCase:
+      notation: O(n × W)
+      explanation: DP sempre preenche toda a tabela.
+    worstCase:
+      notation: O(n × W)
+      explanation: Mesma complexidade em qualquer entrada — independente dos valores.
+
+  comparisons:
+    - name: 0/1 Knapsack (DP)
+      slug: knapsack
+      time: O(n × W)
+      space: O(n × W)
+      bestFor: Capacidade pequena/moderada, itens indivisíveis
+    - name: Fractional Knapsack (Guloso)
+      time: O(n log n)
+      space: O(1)
+      bestFor: Quando itens podem ser fracionados (ouro em pó, líquidos)
+    - name: 0/1 Knapsack (Branch & Bound)
+      time: Exponencial pior caso
+      space: O(n)
+      bestFor: Capacidade muito grande (W pseudo-polinomial)
+
+interview:
+  - id: knapsack-q1
+    question: Por que o 0/1 Knapsack precisa de DP e o Fractional não?
+    difficulty: medium
+    companies: [Google, Amazon, Microsoft]
+    tip: Pense na propriedade gulosa — qual critério funciona em um e não no outro?
+    rubric:
+      - point: No Fractional, pegar maior valor/peso primeiro é ótimo (pode fracionar)
+        required: true
+      - point: No 0/1 a escolha binária quebra a propriedade gulosa
+        required: true
+      - point: Contra-exemplo concreto onde guloso falha no 0/1
+        required: true
+    idealAnswer: |
+      No Fractional, podemos fracionar itens, então o guloso (maior valor/peso) é
+      sempre ótimo: enchemos com o melhor até saturar e fracionamos a sobra.
+
+      No 0/1, a decisão é binária. Um item pode ter melhor razão valor/peso, mas
+      ocupar a mochila inteira deixando espaço inútil. Exemplo: capacidade 6,
+      items (peso=5, valor=10) e (peso=3, valor=6, p=3, v=5). Guloso pega o
+      primeiro (razão 2) sobrando 1 → valor 10. Mas pegar os dois últimos
+      (peso 6, valor 11) é melhor.
+
+  - id: knapsack-q2
+    question: Como você reduziria o espaço de O(n×W) para O(W)?
+    difficulty: hard
+    companies: [Google, Stripe, Meta]
+    tip: Note que dp[i] só depende de dp[i-1]. Em que ordem você precisa atualizar para não sobrescrever um valor ainda necessário?
+    rubric:
+      - point: Manter só duas linhas (ou uma) já que dp[i] depende de dp[i-1]
+        required: true
+      - point: Para usar só 1 linha, iterar w de W até peso[i] (decrescente)
+        required: true
+      - point: Explicar por que a ordem decrescente preserva a invariante
+        required: true
+    idealAnswer: |
+      Como dp[i][w] só lê valores da linha i-1, podemos manter apenas duas linhas
+      alternadas — ou uma única linha, iterando w de W até peso[i] (decrescente).
+
+      A iteração decrescente garante que dp[w - peso[i]] ainda contém o valor da
+      linha anterior quando o lemos. Se fôssemos crescentes, sobrescreveríamos o
+      dp[w - peso[i]] antes de usá-lo, e estaríamos efetivamente pegando o item
+      múltiplas vezes (Unbounded Knapsack).
+
+  - id: knapsack-q3
+    question: A complexidade O(n × W) é polinomial?
+    difficulty: hard
+    companies: [Google, Two Sigma]
+    tip: Pense no tamanho da entrada em bits para representar W.
+    rubric:
+      - point: É pseudo-polinomial, não polinomial real
+        required: true
+      - point: W é um valor numérico, mas seu tamanho em bits é log(W)
+        required: true
+      - point: Knapsack é NP-difícil — não há polinomial real conhecido
+        required: false
+    idealAnswer: |
+      Não. É pseudo-polinomial. O input tem tamanho proporcional a log(W) (bits
+      pra representar a capacidade), mas o algoritmo roda em O(n × W) — exponencial
+      no tamanho da representação binária da entrada.
+
+      Knapsack é NP-difícil, então não esperamos algoritmo polinomial real. A DP
+      é eficiente apenas quando W é pequeno em magnitude.

@@ -3,7 +3,7 @@ import type { CodeFile } from './code'
 import type { InterviewData } from './interview'
 
 export type Difficulty = 'Fácil' | 'Média' | 'Difícil'
-export type Category = 'Ordenação' | 'Busca' | 'Grafos' | 'Arrays' | 'Strings' | 'Linked Lists' | 'Árvores' | 'Hash'
+export type Category = 'Ordenação' | 'Busca' | 'Grafos' | 'Arrays' | 'Strings' | 'Linked Lists' | 'Árvores' | 'Hash' | 'Programação Dinâmica'
 
 export interface Complexity {
   time: string

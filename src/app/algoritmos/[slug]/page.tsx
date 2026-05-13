@@ -20,6 +20,8 @@ import { QuickSortVisualizer } from '@/algorithms/quick-sort/Visualizer'
 import { MergeSortVisualizer } from '@/algorithms/merge-sort/Visualizer'
 import { CountingSortVisualizer } from '@/algorithms/counting-sort/Visualizer'
 import { InsertionSortVisualizer } from '@/algorithms/insertion-sort/Visualizer'
+import { CoinChangeVisualizer } from '@/algorithms/coin-change/Visualizer'
+import { KnapsackVisualizer } from '@/algorithms/knapsack/Visualizer'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -43,6 +45,8 @@ const visualizers: Record<string, React.ComponentType> = {
   'merge-sort': MergeSortVisualizer,
   'counting-sort': CountingSortVisualizer,
   'insertion-sort': InsertionSortVisualizer,
+  'coin-change': CoinChangeVisualizer,
+  'knapsack': KnapsackVisualizer,
 }
 
 export async function generateStaticParams() {
