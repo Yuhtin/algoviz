@@ -7,17 +7,11 @@ import { colors } from '@/lib/colors'
 export interface DPStage {
   id: 'state' | 'base' | 'recurrence' | 'order' | 'reconstruction'
   title: string
-  /** Pergunta-guia que o programador deve se fazer nessa etapa */
   question: string
-  /** Resposta aplicada ao algoritmo, em parágrafos curtos */
   answer: ReactNode
-  /** Fórmula ou expressão central destacada (opcional) */
   formula?: string
-  /** Linha(s) de código que essa etapa vira na implementação */
   codeSnippet?: string
-  /** Linguagem do código snippet, default 'python' */
   codeLanguage?: 'python' | 'rust'
-  /** Mini-diagrama inline (opcional) */
   diagram?: ReactNode
 }
 
@@ -61,141 +55,146 @@ export function DPDesignFlow({ algorithmName, stages }: DPDesignFlowProps) {
           >
             Pensamento DP
           </span>
-          <h3
-            className="text-lg font-bold"
-            style={{ color: colors.text }}
-          >
+          <h3 className="text-lg font-bold" style={{ color: colors.text }}>
             Como pensar em {algorithmName} como DP
           </h3>
         </div>
-        <span
-          className="text-xs font-mono"
-          style={{ color: colors.textMuted }}
-        >
+        <span className="text-xs font-mono" style={{ color: colors.textMuted }}>
           etapa {active + 1} / {stages.length}
         </span>
       </div>
 
-      {/* Stepper */}
-      <div
-        className="px-6 py-4 flex items-center gap-2 overflow-x-auto"
-        style={{ borderBottom: `1px solid ${colors.border}` }}
-      >
-        {stages.map((s, idx) => {
-          const m = STAGE_META[s.id]
-          const isActive = idx === active
-          const isPassed = idx < active
-          return (
-            <div key={s.id} className="flex items-center gap-2 flex-shrink-0">
+      <div className="grid grid-cols-1 md:grid-cols-[200px_1fr]">
+        {/* LEFT: vertical sidebar with stepper */}
+        <nav
+          className="px-3 py-4 flex flex-col gap-1"
+          style={{
+            background: colors.surfaceLight,
+            borderRight: `1px solid ${colors.border}`,
+          }}
+          aria-label="Etapas do pensamento DP"
+        >
+          {stages.map((s, idx) => {
+            const m = STAGE_META[s.id]
+            const isActive = idx === active
+            const isPassed = idx < active
+            return (
               <button
+                key={s.id}
                 onClick={() => setActive(idx)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all"
+                className="flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all"
                 style={{
-                  borderColor: isActive ? m.color : colors.border,
-                  background: isActive
-                    ? `${m.color}15`
-                    : isPassed
-                    ? `${colors.accent}08`
-                    : 'transparent',
-                  color: isActive ? m.color : isPassed ? colors.text : colors.textMuted,
+                  background: isActive ? `${m.color}15` : 'transparent',
+                  border: isActive
+                    ? `1px solid ${m.color}55`
+                    : `1px solid transparent`,
                 }}
               >
                 <span
-                  className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold font-mono"
+                  className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold font-mono flex-shrink-0"
                   style={{
-                    background: isActive ? m.color : isPassed ? colors.accent : colors.border,
+                    background: isActive
+                      ? m.color
+                      : isPassed
+                      ? colors.accent
+                      : colors.border,
                     color: isActive || isPassed ? '#0a1210' : colors.textMuted,
                   }}
                 >
-                  {m.number}
+                  {isPassed ? '✓' : m.number}
                 </span>
-                <span className="text-xs font-medium whitespace-nowrap">
-                  {s.title}
-                </span>
+                <div className="flex flex-col min-w-0 flex-1">
+                  <span
+                    className="text-[10px] uppercase tracking-wider"
+                    style={{
+                      color: isActive ? m.color : colors.textMuted,
+                    }}
+                  >
+                    Etapa {m.number}
+                  </span>
+                  <span
+                    className="text-xs font-semibold truncate"
+                    style={{
+                      color: isActive
+                        ? m.color
+                        : isPassed
+                        ? colors.text
+                        : colors.textMuted,
+                    }}
+                  >
+                    {s.title}
+                  </span>
+                </div>
               </button>
-              {idx < stages.length - 1 && (
-                <span style={{ color: colors.border }}>→</span>
-              )}
-            </div>
-          )
-        })}
-      </div>
+            )
+          })}
+        </nav>
 
-      {/* Stage content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={stage.id}
-          initial={{ opacity: 0, x: 16 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -16 }}
-          transition={{ duration: 0.25 }}
-          className="px-6 md:px-8 py-6"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
-            {/* LEFT: explanation */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <span
-                  className="text-2xl"
-                  style={{ color: meta.color }}
-                >
-                  {meta.icon}
-                </span>
-                <h4
-                  className="text-base font-bold"
-                  style={{ color: meta.color }}
-                >
-                  {stage.title}
-                </h4>
-              </div>
-
-              <div
-                className="rounded-lg px-4 py-3"
-                style={{
-                  background: `${meta.color}10`,
-                  border: `1px solid ${meta.color}33`,
-                }}
+        {/* RIGHT: stage content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={stage.id}
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22 }}
+            className="px-6 md:px-8 py-6 space-y-5 min-w-0"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-2xl" style={{ color: meta.color }}>
+                {meta.icon}
+              </span>
+              <h4
+                className="text-base font-bold"
+                style={{ color: meta.color }}
               >
-                <div
-                  className="text-[10px] uppercase tracking-widest mb-1"
-                  style={{ color: colors.textMuted }}
-                >
-                  Pergunta-guia
-                </div>
-                <div
-                  className="text-sm italic"
-                  style={{ color: colors.text }}
-                >
-                  &ldquo;{stage.question}&rdquo;
-                </div>
-              </div>
+                {stage.title}
+              </h4>
+            </div>
 
-              <div
-                className="text-sm leading-relaxed"
+            <div
+              className="rounded-lg px-4 py-3 flex items-start gap-3 flex-wrap"
+              style={{
+                background: `${meta.color}10`,
+                border: `1px solid ${meta.color}33`,
+              }}
+            >
+              <span
+                className="text-[10px] uppercase tracking-widest font-mono mt-0.5 flex-shrink-0"
+                style={{ color: meta.color }}
+              >
+                Pergunta-guia
+              </span>
+              <span
+                className="text-sm italic flex-1 min-w-[200px]"
                 style={{ color: colors.text }}
               >
-                {stage.answer}
-              </div>
-
-              {stage.formula && (
-                <div
-                  className="rounded-lg px-4 py-3 font-mono text-sm"
-                  style={{
-                    background: colors.code,
-                    border: `1px solid ${meta.color}55`,
-                    color: meta.color,
-                  }}
-                >
-                  {stage.formula}
-                </div>
-              )}
-
-              {stage.diagram && (
-                <div className="pt-2">{stage.diagram}</div>
-              )}
+                &ldquo;{stage.question}&rdquo;
+              </span>
             </div>
 
-            {/* RIGHT: code translation */}
+            <div
+              className="text-sm leading-relaxed"
+              style={{ color: colors.text }}
+            >
+              {stage.answer}
+            </div>
+
+            {stage.formula && (
+              <div
+                className="rounded-lg px-4 py-3 font-mono text-sm break-words"
+                style={{
+                  background: colors.code,
+                  border: `1px solid ${meta.color}55`,
+                  color: meta.color,
+                }}
+              >
+                {stage.formula}
+              </div>
+            )}
+
+            {stage.diagram && <div className="pt-1">{stage.diagram}</div>}
+
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <span
@@ -229,55 +228,42 @@ export function DPDesignFlow({ algorithmName, stages }: DPDesignFlowProps) {
                 )}
               </div>
             </div>
-          </div>
 
-          <div
-            className="flex items-center justify-between mt-6 pt-4"
-            style={{ borderTop: `1px solid ${colors.border}` }}
-          >
-            <button
-              onClick={goPrev}
-              disabled={active === 0}
-              className="text-xs px-3 py-1.5 rounded-md border disabled:opacity-30 transition-all"
-              style={{
-                borderColor: colors.border,
-                color: colors.text,
-                background: 'transparent',
-              }}
+            <div
+              className="flex items-center justify-between pt-4"
+              style={{ borderTop: `1px solid ${colors.border}` }}
             >
-              ← {active > 0 ? stages[active - 1].title : ''}
-            </button>
-            <span className="flex items-center gap-1">
-              {stages.map((_, idx) => (
-                <span
-                  key={idx}
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{
-                    background:
-                      idx === active
-                        ? meta.color
-                        : idx < active
-                        ? colors.accent
-                        : colors.border,
-                  }}
-                />
-              ))}
-            </span>
-            <button
-              onClick={goNext}
-              disabled={active === stages.length - 1}
-              className="text-xs px-3 py-1.5 rounded-md border disabled:opacity-30 transition-all"
-              style={{
-                borderColor: meta.color,
-                background: `${meta.color}15`,
-                color: meta.color,
-              }}
-            >
-              {active < stages.length - 1 ? stages[active + 1].title : 'fim'} →
-            </button>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+              <button
+                onClick={goPrev}
+                disabled={active === 0}
+                className="text-xs px-3 py-1.5 rounded-md border disabled:opacity-30 transition-all"
+                style={{
+                  borderColor: colors.border,
+                  color: colors.text,
+                  background: 'transparent',
+                }}
+              >
+                ← {active > 0 ? stages[active - 1].title : ''}
+              </button>
+              <button
+                onClick={goNext}
+                disabled={active === stages.length - 1}
+                className="text-xs px-3 py-1.5 rounded-md border disabled:opacity-30 transition-all"
+                style={{
+                  borderColor: meta.color,
+                  background: `${meta.color}15`,
+                  color: meta.color,
+                }}
+              >
+                {active < stages.length - 1
+                  ? stages[active + 1].title
+                  : 'fim'}{' '}
+                →
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </div>
   )
 }
@@ -314,7 +300,7 @@ function CodeBlock({ code, highlight }: { code: string; highlight: string }) {
                 fontWeight: isHighlight ? 600 : 400,
               }}
             >
-              {displayLine || ' '}
+              {displayLine || ' '}
             </span>
           </div>
         )
